@@ -1,0 +1,1420 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ff5a1f">
+<title>מחולל אימוני קליסתניקס</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f5f9; --card:#ffffff; --card-2:#f8f9fc; --text:#131722; --muted:#6b7280; --line:#e6e8ef;
+  --accent:#ff5a1f; --accent-2:#ff9a3d; --accent-soft:#fff0e8; --accent-text:#fff;
+  --ok:#16a34a; --ok-soft:#dcfce7;
+  --sil:#e4e7ef; --m-base:#cdd2dd; --m-pri:#ef3b3b; --m-sec:#f9a8a8;
+  --shadow:0 1px 2px rgba(16,24,40,.04),0 6px 20px rgba(16,24,40,.06);
+  --radius:18px;
+  --nav-h:64px;
+  color-scheme:light;
+}
+:root[data-theme="dark"]{
+  --bg:#0d1016; --card:#161a23; --card-2:#1c212c; --text:#eef0f6; --muted:#98a1b3; --line:#262c39;
+  --accent:#ff6a2b; --accent-2:#ffa24d; --accent-soft:#2b1a11; --accent-text:#fff;
+  --ok:#22c55e; --ok-soft:#0f2a1a;
+  --sil:#252b38; --m-base:#353d4d; --m-pri:#ff4747; --m-sec:#c47a7d;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35);
+  color-scheme:dark;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0}
+body{
+  font-family:"Heebo",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  background:var(--bg); color:var(--text); line-height:1.5; font-size:16px;
+  transition:background .3s,color .3s;
+  padding-bottom:calc(var(--nav-h) + env(safe-area-inset-bottom) + 24px);
+}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+h1,h2,h3,p{margin:0}
+.wrap{max-width:680px;margin:0 auto;padding:0 16px}
+
+/* Header */
+.app-head{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.app-head .wrap{display:flex;align-items:center;gap:10px;height:60px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;flex:1;min-width:0}
+.logo-mark{width:34px;height:34px;border-radius:11px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;color:#fff;flex:none;box-shadow:0 4px 12px color-mix(in srgb,var(--accent) 40%,transparent)}
+.logo span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.streak{display:flex;align-items:center;gap:4px;padding:6px 12px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font-weight:700;font-size:14px}
+.icon-btn{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--card);border:1px solid var(--line);transition:transform .15s}
+.icon-btn:active{transform:scale(.92)}
+.icon-btn svg{width:20px;height:20px}
+
+/* Cards / sections */
+.section{margin-top:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px}
+.card + .card{margin-top:12px}
+.sec-title{font-size:13px;font-weight:700;color:var(--muted);margin:0 2px 8px;letter-spacing:.2px}
+.h2{font-size:20px;font-weight:800}
+
+/* Settings */
+.field{margin-bottom:16px}
+.field:last-of-type{margin-bottom:6px}
+.label{font-weight:700;font-size:15px;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.label small{font-weight:400;color:var(--muted);font-size:12px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips.grid-2{display:grid;grid-template-columns:1fr 1fr}
+.chips.grid-4{display:grid;grid-template-columns:repeat(4,1fr)}
+.chip{padding:10px 12px;border-radius:12px;background:var(--card-2);border:1.5px solid var(--line);font-weight:600;font-size:14px;transition:all .18s;text-align:center;line-height:1.25}
+.chip small{display:block;font-weight:400;font-size:11.5px;color:var(--muted);margin-top:2px}
+.chip.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.chip.on small{color:color-mix(in srgb,var(--accent) 75%,var(--text))}
+.chip:active{transform:scale(.96)}
+.gen-btn{width:100%;margin-top:14px;padding:16px;border-radius:16px;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;font-weight:800;font-size:18px;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 8px 20px color-mix(in srgb,var(--accent) 35%,transparent);transition:transform .15s}
+.gen-btn:active{transform:scale(.98)}
+.gen-btn svg{width:22px;height:22px}
+.gen-btn.spin svg{animation:spin .6s ease}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Workout header */
+.wk-head{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 16px}
+.wk-top{display:flex;align-items:flex-start;gap:10px}
+.wk-title{flex:1;min-width:0}
+.wk-title h2{font-size:18px;font-weight:800}
+.meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.pill{font-size:12px;padding:3px 9px;border-radius:999px;background:var(--card-2);border:1px solid var(--line);color:var(--muted);font-weight:500}
+.fav-btn.on svg{fill:#ffb020;stroke:#ffb020}
+.progress{position:sticky;top:60px;z-index:20;margin-top:8px;display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
+.bar{flex:1;height:10px;border-radius:99px;background:var(--card-2);border:1px solid var(--line);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:99px;transition:width .45s cubic-bezier(.2,.8,.2,1)}
+.pct{font-weight:800;font-size:14px;min-width:42px;text-align:left}
+.wk-actions{display:flex;gap:8px;margin-top:12px}
+.btn{padding:10px 14px;border-radius:12px;font-weight:700;font-size:14px;background:var(--card-2);border:1px solid var(--line);display:inline-flex;align-items:center;gap:6px;justify-content:center;transition:transform .15s}
+.btn:active{transform:scale(.96)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.ghost{background:transparent}
+.btn.danger{color:#e11d48}
+.btn svg{width:16px;height:16px}
+.wk-actions .btn{flex:1}
+
+/* Phase blocks */
+.phase{display:flex;align-items:center;gap:8px;margin:22px 2px 10px;font-weight:800;font-size:16px}
+.phase .em{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;background:var(--accent-soft);font-size:16px}
+.phase small{font-weight:500;color:var(--muted);font-size:13px;margin-inline-start:auto}
+.check-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px dashed var(--line);cursor:pointer;user-select:none}
+.check-row:last-child{border-bottom:0;padding-bottom:2px}
+.check-row:first-child{padding-top:2px}
+.cbox{width:28px;height:28px;border-radius:9px;border:2px solid var(--line);display:grid;place-items:center;flex:none;transition:all .2s}
+.cbox svg{width:16px;height:16px;stroke:#fff;opacity:0;transform:scale(.4);transition:all .2s}
+.check-row.done .cbox{background:var(--ok);border-color:var(--ok)}
+.check-row.done .cbox svg{opacity:1;transform:scale(1)}
+.check-row.done .cr-name{text-decoration:line-through;color:var(--muted)}
+.cr-body{flex:1;min-width:0}
+.cr-name{font-weight:700;font-size:15px}
+.cr-desc{font-size:13px;color:var(--muted)}
+.cr-amt{font-size:12.5px;font-weight:700;color:var(--accent);white-space:nowrap}
+
+/* Exercise card */
+.ex{position:relative;overflow:hidden;transition:border-color .3s}
+.ex.complete{border-color:var(--ok)}
+.ex.complete::after{content:"✓";position:absolute;top:12px;left:12px;width:26px;height:26px;border-radius:50%;background:var(--ok);color:#fff;display:grid;place-items:center;font-weight:800;font-size:14px;animation:pop .4s ease}
+.ex-head{display:flex;align-items:flex-start;gap:10px}
+.ex-num{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;font-weight:800;display:grid;place-items:center;flex:none}
+.ex-title{flex:1;min-width:0}
+.ex-title h3{font-size:17px;font-weight:800;line-height:1.3}
+.tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px}
+.tag{font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;background:var(--card-2);color:var(--muted);border:1px solid var(--line)}
+.tag.skill{background:linear-gradient(135deg,#7c3aed,#c026d3);color:#fff;border:0}
+.tag.k-strength{color:#dc2626}
+.tag.k-hypertrophy{color:#2563eb}
+.tag.k-endurance{color:#059669}
+.swap-btn{display:flex;align-items:center;gap:4px;font-size:13px;font-weight:700;padding:7px 10px;border-radius:10px;background:var(--card-2);border:1px solid var(--line);flex:none}
+.ex.complete .swap-btn{margin-left:30px}
+.swap-btn svg{width:15px;height:15px}
+.swap-btn:active{transform:scale(.94)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.stat{background:var(--card-2);border:1px solid var(--line);border-radius:12px;padding:8px 6px;text-align:center}
+.stat b{direction:ltr;display:block;font-size:17px;font-weight:800;line-height:1.2}
+.stat span{font-size:11.5px;color:var(--muted)}
+button.stat{position:relative}
+button.stat::after{content:"⏱";position:absolute;top:4px;left:6px;font-size:11px;opacity:.6}
+.desc{font-size:14px;color:var(--text);opacity:.85;margin-top:12px}
+.muscles{display:grid;grid-template-columns:1fr 150px;gap:10px;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+.mus-line{font-size:13.5px;display:flex;gap:6px;align-items:baseline;line-height:1.45}
+.mus-line + .mus-line{margin-top:4px}
+.dot{width:10px;height:10px;border-radius:50%;flex:none;display:inline-block;transform:translateY(1px)}
+.dot.pri{background:var(--m-pri)}
+.dot.sec{background:var(--m-sec)}
+.mus-line .k{color:var(--muted);white-space:nowrap}
+.body-svg{width:100%;height:auto;display:block}
+.body-svg .sil{fill:var(--sil)}
+.body-svg .mb{fill:var(--m-base)}
+.body-svg .mp{fill:var(--m-pri)}
+.body-svg .ms{fill:var(--m-sec)}
+.body-svg ellipse,.body-svg rect,.body-svg polygon{transition:fill .35s}
+.body-svg text{fill:var(--muted);font-size:12px;font-family:inherit;text-anchor:middle}
+.sets{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.set{flex:1 1 0;min-width:64px;padding:11px 6px;border-radius:12px;border:2px solid var(--line);background:var(--card-2);font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .2s}
+.set svg{width:16px;height:16px;display:none}
+.set.done{background:var(--ok);border-color:var(--ok);color:#fff;animation:pop .35s ease}
+.set.done svg{display:block}
+@keyframes pop{0%{transform:scale(.85)}60%{transform:scale(1.07)}100%{transform:scale(1)}}
+
+/* Summary */
+.sum-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:center}
+.sum-map{max-width:260px;margin:0 auto;width:100%}
+.mchips{display:flex;flex-wrap:wrap;gap:6px}
+.mchip{font-size:12.5px;font-weight:600;padding:4px 10px;border-radius:99px;display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);background:var(--card-2)}
+.mchip b{font-size:11px;color:var(--muted)}
+.legend{display:flex;gap:14px;font-size:12.5px;color:var(--muted);margin-top:10px;flex-wrap:wrap}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.big-num{font-size:34px;font-weight:800;line-height:1;color:var(--accent)}
+
+/* Empty */
+.empty{text-align:center;padding:34px 16px;color:var(--muted)}
+.empty .em{font-size:44px;margin-bottom:8px}
+.empty h3{color:var(--text);font-size:18px;margin-bottom:4px}
+
+/* Animations */
+.enter{opacity:0;animation:fadeUp .5s cubic-bezier(.2,.8,.2,1) forwards;animation-delay:var(--d,0ms)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px) scale(.98)}to{opacity:1;transform:none}}
+.swap-in{animation:swapIn .45s ease}
+@keyframes swapIn{0%{opacity:0;transform:rotateX(70deg)}100%{opacity:1;transform:none}}
+
+/* Bottom nav */
+.nav{position:fixed;bottom:0;left:0;right:0;z-index:40;background:color-mix(in srgb,var(--card) 92%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
+.nav .wrap{display:flex;height:var(--nav-h)}
+.nav button{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:12px;font-weight:600;color:var(--muted);transition:color .2s}
+.nav button svg{width:22px;height:22px}
+.nav button.on{color:var(--accent)}
+.view[hidden]{display:none}
+
+/* Timer */
+.timer{position:fixed;left:12px;right:12px;bottom:calc(var(--nav-h) + env(safe-area-inset-bottom) + 10px);z-index:45;max-width:656px;margin:0 auto;background:var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:0 16px 40px rgba(0,0,0,.22);padding:14px;transform:translateY(calc(100% + 120px));visibility:hidden;transition:transform .4s cubic-bezier(.2,.8,.2,1),visibility 0s .4s}
+.timer.show{transform:none;visibility:visible;transition:transform .4s cubic-bezier(.2,.8,.2,1),visibility 0s}
+.timer.ended{border-color:var(--ok)}
+.t-inner{display:flex;align-items:center;gap:14px}
+.t-ring{position:relative;width:86px;height:86px;flex:none}
+.t-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.t-ring circle{fill:none;stroke-width:8}
+.t-bg{stroke:var(--card-2)}
+.t-fg{stroke:var(--accent);stroke-linecap:round;transition:stroke-dashoffset .25s linear,stroke .3s}
+.timer.ended .t-fg{stroke:var(--ok)}
+.t-time{position:absolute;inset:0;display:grid;place-items:center;font-weight:800;font-size:22px;font-variant-numeric:tabular-nums;cursor:pointer}
+.t-side{flex:1;min-width:0}
+.t-label{font-weight:800;font-size:16px}
+.t-next{font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.t-btns{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px}
+.t-btns button{padding:9px 0;border-radius:11px;background:var(--card-2);border:1px solid var(--line);font-weight:700;font-size:14px}
+.t-btns button:active{transform:scale(.94)}
+.t-close{position:absolute;top:8px;left:10px;width:28px;height:28px;border-radius:8px;color:var(--muted);font-size:18px}
+.timer-fab{position:fixed;left:16px;bottom:calc(var(--nav-h) + env(safe-area-inset-bottom) + 14px);z-index:35;width:52px;height:52px;border-radius:50%;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);display:grid;place-items:center;color:var(--accent)}
+.timer-fab svg{width:24px;height:24px}
+
+/* History / favorites */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 10px;text-align:center;box-shadow:var(--shadow)}
+.kpi b{display:block;font-size:26px;font-weight:800;color:var(--accent);line-height:1.1}
+.kpi span{font-size:12px;color:var(--muted)}
+.item{display:flex;gap:12px;align-items:center}
+.item-ic{width:44px;height:44px;border-radius:13px;background:var(--accent-soft);display:grid;place-items:center;font-size:20px;flex:none}
+.item-body{flex:1;min-width:0}
+.item-title{font-weight:700;font-size:15px}
+.item-sub{font-size:12.5px;color:var(--muted)}
+.badge{font-size:12px;font-weight:800;padding:4px 9px;border-radius:99px;background:var(--ok-soft);color:var(--ok);white-space:nowrap}
+.badge.part{background:var(--accent-soft);color:var(--accent)}
+.list-actions{display:flex;gap:6px}
+
+/* Modal */
+.modal{position:fixed;inset:0;z-index:60;background:rgba(5,8,15,.55);display:grid;place-items:center;padding:16px;opacity:0;pointer-events:none;transition:opacity .3s}
+.modal.show{opacity:1;pointer-events:auto}
+.modal-card{background:var(--card);border-radius:24px;padding:26px 20px 20px;max-width:380px;width:100%;text-align:center;transform:scale(.85) translateY(20px);transition:transform .45s cubic-bezier(.2,1.4,.4,1)}
+.modal.show .modal-card{transform:none}
+.trophy{font-size:64px;line-height:1;animation:bounce 1.2s ease infinite}
+@keyframes bounce{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-10px) rotate(4deg)}}
+.modal-card h2{font-size:28px;font-weight:800;margin-top:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.modal-card p{color:var(--muted);margin-top:6px}
+.modal-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:18px 0}
+.modal-stats div{background:var(--card-2);border-radius:14px;padding:10px 4px}
+.modal-stats b{display:block;font-size:20px;font-weight:800}
+.modal-stats span{font-size:11.5px;color:var(--muted)}
+.modal-card .btn{width:100%;padding:13px}
+
+.toast{position:fixed;top:72px;left:50%;transform:translate(-50%,-20px);z-index:70;background:var(--text);color:var(--bg);padding:10px 16px;border-radius:12px;font-weight:600;font-size:14px;opacity:0;pointer-events:none;transition:all .3s;box-shadow:var(--shadow);max-width:90vw;text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+#confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:80}
+.note{font-size:13px;color:var(--muted);margin-top:10px;text-align:center}
+
+@media (max-width:420px){
+  .chips.grid-4{grid-template-columns:repeat(2,1fr)}
+  .muscles{grid-template-columns:1fr 128px}
+  .sum-grid{grid-template-columns:1fr}
+  .logo span{font-size:17px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+</style>
+</head>
+<body>
+
+<header class="app-head">
+  <div class="wrap">
+    <div class="logo">
+      <div class="logo-mark"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M3 5h18"/><path d="M7 5v4M17 5v4"/><circle cx="12" cy="11" r="2"/><path d="M12 13v4M9 21l3-4 3 4M8 9l4 3 4-3"/></svg></div>
+      <span>קליסתניקס</span>
+    </div>
+    <div class="streak" id="streakPill" title="ימי אימון ברצף">🔥 <span id="streakNum">0</span></div>
+    <button class="icon-btn" id="themeBtn" aria-label="החלפת מצב כהה/בהיר"></button>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- WORKOUT VIEW -->
+  <section class="view" id="view-workout">
+    <div class="section">
+      <div class="card" id="settings">
+        <div class="field">
+          <div class="label">🎯 מטרת אימון</div>
+          <div class="chips grid-2" data-key="goal">
+            <button class="chip" data-v="strength">כוח<small><bdi dir="ltr">3–6</bdi> חזרות · מנוחה <bdi dir="ltr">2–4</bdi> דק׳</small></button>
+            <button class="chip" data-v="hypertrophy">היפרטרופיה<small><bdi dir="ltr">8–12</bdi> חזרות · <bdi dir="ltr">60–90</bdi> שנ׳</small></button>
+            <button class="chip" data-v="endurance">סיבולת<small><bdi dir="ltr">15+</bdi> חזרות · <bdi dir="ltr">30–45</bdi> שנ׳</small></button>
+            <button class="chip" data-v="mixed">משולב<small>כוח ← היפרטרופיה ← סיבולת</small></button>
+          </div>
+        </div>
+        <div class="field">
+          <div class="label">📈 רמה</div>
+          <div class="chips grid-4" data-key="level">
+            <button class="chip" data-v="1">מתחיל</button>
+            <button class="chip" data-v="2">בינוני</button>
+            <button class="chip" data-v="3">מתקדם</button>
+            <button class="chip" data-v="4">מקצוען</button>
+          </div>
+        </div>
+        <div class="field">
+          <div class="label">💪 אזור גוף</div>
+          <div class="chips" data-key="area" style="display:grid;grid-template-columns:repeat(3,1fr)">
+            <button class="chip" data-v="upper">פלג עליון</button>
+            <button class="chip" data-v="push">דחיפה</button>
+            <button class="chip" data-v="pull">משיכה</button>
+            <button class="chip" data-v="legs">רגליים</button>
+            <button class="chip" data-v="core">בטן וליבה</button>
+            <button class="chip" data-v="full">כל הגוף</button>
+          </div>
+        </div>
+        <div class="field">
+          <div class="label">🧰 ציוד זמין <small>(אפשר לבחור כמה)</small></div>
+          <div class="chips" data-key="equip" data-multi="1">
+            <button class="chip" data-v="none">בלי ציוד</button>
+            <button class="chip" data-v="bar">מתח</button>
+            <button class="chip" data-v="dip">מקבילים</button>
+            <button class="chip" data-v="rings">טבעות</button>
+            <button class="chip" data-v="belt">חגורת משקל</button>
+          </div>
+        </div>
+        <div class="field">
+          <div class="label">⏱️ משך אימון</div>
+          <div class="chips grid-4" data-key="duration">
+            <button class="chip" data-v="15">15 דק׳</button>
+            <button class="chip" data-v="30">30 דק׳</button>
+            <button class="chip" data-v="45">45 דק׳</button>
+            <button class="chip" data-v="60">60 דק׳</button>
+          </div>
+        </div>
+        <button class="gen-btn" id="genBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg>
+          צור אימון
+        </button>
+      </div>
+    </div>
+    <div class="section" id="workout"></div>
+  </section>
+
+  <!-- HISTORY VIEW -->
+  <section class="view" id="view-history" hidden>
+    <div class="section">
+      <div class="stats-row" id="histStats"></div>
+    </div>
+    <div class="section">
+      <div style="display:flex;align-items:center;margin-bottom:8px">
+        <div class="h2" style="flex:1">היסטוריית אימונים</div>
+        <button class="btn ghost danger" id="clearHist">נקה</button>
+      </div>
+      <div id="histList"></div>
+    </div>
+  </section>
+
+  <!-- FAVORITES VIEW -->
+  <section class="view" id="view-favs" hidden>
+    <div class="section">
+      <div class="h2" style="margin-bottom:8px">אימונים מועדפים</div>
+      <div id="favList"></div>
+    </div>
+  </section>
+</main>
+
+<button class="timer-fab" id="timerFab" aria-label="פתח טיימר מנוחה"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6M12 2v3"/></svg></button>
+
+<div class="timer" id="timer" aria-live="polite">
+  <button class="t-close" data-t="close" aria-label="סגור">✕</button>
+  <div class="t-inner">
+    <div class="t-ring">
+      <svg viewBox="0 0 100 100"><circle class="t-bg" cx="50" cy="50" r="42"/><circle class="t-fg" id="tFg" cx="50" cy="50" r="42" stroke-dasharray="263.9" stroke-dashoffset="0"/></svg>
+      <div class="t-time" id="tTime" title="הקש כדי לקבוע זמן ידנית">0:00</div>
+    </div>
+    <div class="t-side">
+      <div class="t-label" id="tLabel">מנוחה</div>
+      <div class="t-next" id="tNext"></div>
+      <div class="t-btns">
+        <button data-t="-15">−15</button>
+        <button data-t="pause" id="tPause">⏸</button>
+        <button data-t="+15">+15</button>
+        <button data-t="skip">דלג</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<nav class="nav">
+  <div class="wrap">
+    <button class="on" data-view="workout"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6.5 6.5v11M17.5 6.5v11M3 9v6M21 9v6M6.5 12h11"/></svg>אימון</button>
+    <button data-view="history"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/></svg>היסטוריה</button>
+    <button data-view="favs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.2l1-6.2L3 9.6l6.2-.9z"/></svg>מועדפים</button>
+  </div>
+</nav>
+
+<div class="modal" id="doneModal">
+  <div class="modal-card">
+    <div class="trophy">🏆</div>
+    <h2>כל הכבוד!</h2>
+    <p id="doneMsg">סיימת את האימון. הגוף שלך מודה לך!</p>
+    <div class="modal-stats" id="doneStats"></div>
+    <button class="btn primary" id="doneClose">יאללה, סגור</button>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<canvas id="confetti"></canvas>
+
+<script>
+'use strict';
+/* =========================================================
+   Utilities & storage
+   ========================================================= */
+const $ = (s, el = document) => el.querySelector(s);
+const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+const store = {
+  get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+};
+const rand = a => a[Math.floor(Math.random() * a.length)];
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const fmt = s => { s = Math.max(0, Math.ceil(s)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
+const dayKey = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+/* =========================================================
+   Static data
+   ========================================================= */
+const MUSCLES = {
+  chest: 'חזה', shoulders: 'כתפיים', rearDelt: 'כתף אחורית', triceps: 'יד אחורית (תלת־ראשי)',
+  biceps: 'יד קדמית (דו־ראשי)', forearms: 'אמות', lats: 'גב רחב', traps: 'טרפזים',
+  rhomboids: 'גב עליון', lowerBack: 'גב תחתון', abs: 'בטן', obliques: 'אלכסוניים',
+  hipFlexors: 'מכופפי ירך', quads: 'ארבע־ראשי', hamstrings: 'המסטרינג', glutes: 'ישבן',
+  calves: 'שוקיים', adductors: 'מקרבים'
+};
+const GOALS = { strength: 'כוח', hypertrophy: 'היפרטרופיה', endurance: 'סיבולת', mixed: 'משולב' };
+const LEVELS = { 1: 'מתחיל', 2: 'בינוני', 3: 'מתקדם', 4: 'מקצוען' };
+const AREAS = {
+  upper: { name: 'פלג עליון', cats: ['push', 'pull'], rot: ['push', 'pull'] },
+  push: { name: 'דחיפה', cats: ['push'], rot: ['push'] },
+  pull: { name: 'משיכה', cats: ['pull'], rot: ['pull'] },
+  legs: { name: 'רגליים', cats: ['legs'], rot: ['legs'] },
+  core: { name: 'בטן וליבה', cats: ['core'], rot: ['core'] },
+  full: { name: 'כל הגוף', cats: ['push', 'pull', 'legs', 'core', 'full'], rot: ['legs', 'push', 'pull', 'core', 'push', 'pull', 'full', 'legs'] }
+};
+// Prescription per training goal
+const SCHEMES = {
+  strength:    { name: 'כוח',        reps: '3–6',   hold: '20–30', skillHold: '5–10', rest: 150, work: 30, sets: { 15: 3, 30: 3, 45: 4, 60: 4 } },
+  hypertrophy: { name: 'היפרטרופיה', reps: '8–12',  hold: '30–45', rest: 75, work: 40, sets: { 15: 3, 30: 3, 45: 4, 60: 4 } },
+  endurance:   { name: 'סיבולת',     reps: '15–20', hold: '45–60', rest: 40, work: 50, sets: { 15: 2, 30: 3, 45: 3, 60: 4 } }
+};
+
+/* Exercise database.
+   eq: '' = no equipment; '|' separates alternatives; '+' means all are required.
+   t: 'r' reps / 'h' hold (seconds). min/max: suitable level range (1–4).
+   Options: f = skill family (progression), s = skill, side = per side, iso = accessory. */
+const EX = [];
+function E(id, name, cat, eq, min, max, t, pri, sec, desc, o = {}) {
+  EX.push(Object.assign({ id, name, cat, eq, min, max, t, pri, sec: sec ? sec.split(',') : [], desc }, o));
+}
+// ---------- PUSH ----------
+E('pushup_knee', 'שכיבות סמיכה על הברכיים', 'push', '', 1, 1, 'r', 'chest', 'triceps,shoulders', 'גוף ישר מהברכיים ועד הראש, ידיים מעט רחבות מהכתפיים. רדו עד שהחזה כמעט נוגע ברצפה ודחפו חזרה.');
+E('pushup_incline', 'שכיבות סמיכה בשיפוע (ידיים מוגבהות)', 'push', '', 1, 2, 'r', 'chest', 'triceps,shoulders', 'ידיים על ספסל או שולחן יציב. גוף בקו ישר, מרפקים בזווית של כ־45° מהגוף, ורדו עד שהחזה מתקרב למשטח.');
+E('pushup', 'שכיבות סמיכה', 'push', '', 1, 3, 'r', 'chest', 'triceps,shoulders,abs', 'כפות ידיים מתחת לכתפיים, בטן וישבן מכווצים. רדו בשליטה עד שהחזה כמעט נוגע ברצפה ודחפו עד יישור מרפקים.');
+E('pushup_wide', 'שכיבות סמיכה רחבות', 'push', '', 1, 3, 'r', 'chest', 'shoulders,triceps', 'ידיים רחבות משמעותית מהכתפיים. רדו לאט תוך שמירה על גוף ישר והרגישו מתיחה בחזה בתחתית התנועה.');
+E('pushup_diamond', 'שכיבות סמיכה יהלום', 'push', '', 2, 3, 'r', 'triceps', 'chest,shoulders', 'האגודלים והאצבעות המורות נוגעים ויוצרים משולש מתחת לחזה. שמרו על מרפקים קרובים לגוף לאורך כל התנועה.');
+E('pushup_decline', 'שכיבות סמיכה בשיפוע שלילי (רגליים מוגבהות)', 'push', '', 2, 3, 'r', 'chest', 'shoulders,triceps', 'רגליים על כיסא או ספסל וידיים על הרצפה. גוף ישר, רדו עד שהחזה מתקרב לרצפה – מדגיש חזה עליון וכתפיים.');
+E('pike_pushup', 'שכיבות סמיכה פייק', 'push', '', 1, 3, 'r', 'shoulders', 'triceps,traps', 'ישבן גבוה והגוף בצורת V הפוכה. כופפו מרפקים והורידו את הראש לנקודה שלפני כפות הידיים, ודחפו חזרה.');
+E('pike_elevated', 'פייק מוגבה (רגליים על כיסא)', 'push', '', 2, 3, 'r', 'shoulders', 'triceps,traps', 'רגליים על משטח מוגבה כך שהגב כמעט אנכי. הורידו את הראש בשליטה אל המשולש שיוצרות הידיים. שלב מקדים לעמידת ידיים.');
+E('archer_pushup', 'שכיבות סמיכה ארצ׳ר', 'push', '', 3, 4, 'r', 'chest', 'triceps,shoulders', 'ידיים רחבות מאוד. רדו לכיוון יד אחת בעוד היד השנייה נשארת ישרה ככל האפשר. החליפו צד בכל חזרה.', { side: 1 });
+E('pseudo_planche_pushup', 'שכיבות סמיכה פסאודו־פלאנש', 'push', '', 3, 4, 'r', 'shoulders', 'chest,triceps,abs', 'כפות ידיים ליד המותניים, אצבעות מופנות לרגליים, והגוף נוטה קדימה. שמרו על הנטייה קדימה לאורך כל החזרה.');
+E('clap_pushup', 'שכיבות סמיכה מתפוצצות (מחיאת כף)', 'push', '', 3, 4, 'r', 'chest', 'triceps,shoulders', 'רדו בשליטה ודחפו בעוצמה כך שהידיים עוזבות את הרצפה. מחאו כף ונחתו רך עם מרפקים מעט כפופים.');
+E('bench_dips', 'דיפס על כיסא', 'push', '', 1, 2, 'r', 'triceps', 'chest,shoulders', 'ידיים על קצה כיסא מאחוריכם ורגליים קדימה. כופפו מרפקים עד 90° ודחפו חזרה, כשהגב נשאר קרוב לכיסא.');
+E('dips_neg', 'דיפס שליליים', 'push', 'dip', 1, 1, 'r', 'triceps', 'chest,shoulders', 'קפצו למצב תמיכה עליון במקבילים ורדו לאט מאוד (3–5 שניות) עד זווית של 90° במרפק.');
+E('support_hold', 'החזקת תמיכה במקבילים', 'push', 'dip', 1, 2, 'h', 'triceps', 'shoulders,abs', 'ידיים ישרות ונעולות, כתפיים לחוצות למטה הרחק מהאוזניים, גוף ישר ויציב.', { iso: 1 });
+E('dips', 'דיפס במקבילים', 'push', 'dip', 2, 3, 'r', 'triceps', 'chest,shoulders', 'התחילו בתמיכה עם ידיים ישרות. רדו עד שהכתף מעט מתחת למרפק, נטו מעט קדימה, ודחפו עד יישור מלא.');
+E('ring_support', 'החזקת תמיכה בטבעות', 'push', 'rings', 2, 3, 'h', 'shoulders', 'triceps,chest,abs', 'ידיים ישרות לצד הגוף, טבעות צמודות לירכיים, ונסו לסובב את הטבעות החוצה. שלטו ברעידות.', { iso: 1 });
+E('ring_pushup', 'שכיבות סמיכה בטבעות', 'push', 'rings', 2, 3, 'r', 'chest', 'triceps,shoulders,abs', 'טבעות נמוכות סמוך לרצפה. רדו בשליטה עד שהידיים ליד החזה, ובסוף כל חזרה סובבו את הטבעות החוצה.');
+E('ring_dips', 'דיפס בטבעות', 'push', 'rings', 3, 4, 'r', 'triceps', 'chest,shoulders', 'בתמיכה על הטבעות, צמדו אותן לגוף ורדו בשליטה עד 90°. דחפו למעלה וסובבו את הטבעות החוצה בנעילה.');
+E('straight_bar_dips', 'דיפס על מוט ישר', 'push', 'bar', 3, 4, 'r', 'triceps', 'chest,shoulders', 'בתמיכה מעל מוט המתח, רגליים מעט קדימה. רדו עד שהמוט ליד החזה ודחפו חזרה. חיוני לשלב הסיום של המאסל אפ.');
+E('korean_dips', 'דיפס קוריאני', 'push', 'bar', 4, 4, 'r', 'shoulders', 'triceps,chest', 'המוט מאחורי הגב והידיים אוחזות בו מאחור. רדו בשליטה עד שהמוט מתחת לישבן ודחפו חזרה. דורש גמישות כתפיים.');
+E('weighted_dips', 'דיפס עם משקל', 'push', 'dip+belt', 3, 4, 'r', 'triceps', 'chest,shoulders', 'חגרו משקל לחגורה ובצעו דיפס מלא עם טכניקה מושלמת. אם הטכניקה נשברת – הפחיתו משקל.', { s: 1 });
+// Handstand progression
+E('hs_pike_hold', 'החזקת פייק מוגבה (הכנה לעמידת ידיים)', 'push', '', 1, 4, 'h', 'shoulders', 'triceps,traps,abs', 'רגליים על כיסא, ישבן גבוה מעל הכתפיים. דחפו את הרצפה והכניסו את הראש בין הידיים.', { f: 'hs', s: 1 });
+E('hs_wall', 'עמידת ידיים מול קיר (בטן לקיר)', 'push', '', 2, 4, 'h', 'shoulders', 'triceps,traps,abs', 'טפסו עם הרגליים על הקיר עד שהגוף כמעט אנכי. ידיים ישרות, דחיפה חזקה מהכתפיים, בטן וישבן מכווצים.', { f: 'hs', s: 1 });
+E('hs_free', 'עמידת ידיים חופשית – תרגול איזון', 'push', '', 3, 4, 'h', 'shoulders', 'triceps,traps,forearms,abs', 'בעטו לעמידת ידיים ושמרו על איזון בעזרת לחץ אצבעות. החזיקו כמה שניתן וצאו בבטחה בסיבוב הצידה.', { f: 'hs', s: 1 });
+E('hs_free_hold', 'עמידת ידיים חופשית – החזקה מלאה', 'push', '', 4, 4, 'h', 'shoulders', 'triceps,traps,forearms,abs', 'עמידת ידיים ישרה לגמרי: ידיים נעולות, כתפיים פתוחות ליד האוזניים, הגוף בקו אחד מהידיים ועד הבהונות.', { f: 'hs', s: 1 });
+// Handstand push-up progression
+E('hspu_neg', 'שכיבות סמיכה בעמידת ידיים – שליליות מול קיר', 'push', '', 2, 4, 'r', 'shoulders', 'triceps,traps', 'מעמידת ידיים מול הקיר, רדו לאט (3–5 שניות) עד שהראש נוגע ברצפה. רדו מהקיר ועלו שוב לחזרה הבאה.', { f: 'hspu', s: 1 });
+E('hspu_wall', 'שכיבות סמיכה בעמידת ידיים מול קיר', 'push', '', 3, 4, 'r', 'shoulders', 'triceps,traps', 'בעמידת ידיים מול קיר, רדו עד שהראש נוגע קלות ברצפה ודחפו עד יישור מלא בלי לקשת את הגב.', { f: 'hspu', s: 1 });
+E('hspu_deficit', 'שכיבות סמיכה בעמידת ידיים בטווח עמוק (מקבילים)', 'push', 'dip', 4, 4, 'r', 'shoulders', 'triceps,traps,chest', 'עמידת ידיים על המקבילים עם רגליים על קיר. רדו מתחת לגובה הידיים לטווח מלא ודחפו חזרה למעלה.', { f: 'hspu', s: 1 });
+E('hspu_free', 'שכיבות סמיכה בעמידת ידיים חופשית', 'push', '', 4, 4, 'r', 'shoulders', 'triceps,traps,abs,forearms', 'בעמידת ידיים חופשית, רדו בשליטה עד שהראש כמעט נוגע ברצפה ודחפו חזרה תוך שמירה על איזון.', { f: 'hspu', s: 1 });
+// Planche progression
+E('pl_lean', 'פלאנש לין', 'push', '', 2, 4, 'h', 'shoulders', 'chest,triceps,abs,forearms', 'במצב שכיבת סמיכה עם ידיים ישרות, הטו את הגוף קדימה כך שהכתפיים עוברות את כפות הידיים. כתפיים מעוגלות קדימה.', { f: 'pl', s: 1 });
+E('pl_tuck', 'טאק פלאנש', 'push', '', 3, 4, 'h', 'shoulders', 'chest,triceps,abs,forearms', 'ידיים ישרות על הרצפה או מקבילונים, ברכיים צמודות לחזה. הטו קדימה ודחפו את הרצפה עד שהרגליים מתרוממות.', { f: 'pl', s: 1 });
+E('pl_advtuck', 'אדבנס טאק פלאנש', 'push', '', 4, 4, 'h', 'shoulders', 'chest,triceps,abs,lowerBack', 'כמו טאק פלאנש, אבל עם גב ישר ושטוח והירכיים בגובה הכתפיים. ידיים נעולות לחלוטין.', { f: 'pl', s: 1 });
+E('pl_straddle', 'סטרדל פלאנש', 'push', '', 4, 4, 'h', 'shoulders', 'chest,triceps,abs,glutes', 'רגליים ישרות ופשוקות לצדדים, הגוף מקביל לרצפה ונשען רק על הידיים. דורש כוח כתפיים קיצוני.', { f: 'pl', s: 1 });
+
+// ---------- PULL ----------
+E('scap_pull', 'משיכות שכמות בתלייה', 'pull', 'bar|rings', 1, 2, 'r', 'rhomboids', 'lats,traps', 'תלו מהמוט עם ידיים ישרות. משכו את השכמות למטה ואחורה כך שהגוף עולה מעט – בלי לכופף מרפקים.', { iso: 1 });
+E('dead_hang', 'תלייה חופשית', 'pull', 'bar|rings', 1, 2, 'h', 'forearms', 'lats,shoulders', 'תלו באחיזה מלאה, כתפיים פעילות (לא צמודות לאוזניים), גוף רגוע וישר. מחזק אחיזה ופותח כתפיים.', { iso: 1 });
+E('aus_row', 'חתירה אוסטרלית (מתח נמוך)', 'pull', 'bar', 1, 3, 'r', 'rhomboids', 'lats,biceps,rearDelt', 'מתחת למוט נמוך, גוף ישר ועקבים על הרצפה. משכו את החזה אל המוט, צמדו שכמות, ורדו לאט.');
+E('ring_row', 'חתירה בטבעות', 'pull', 'rings', 1, 3, 'r', 'rhomboids', 'lats,biceps,rearDelt', 'אחזו בטבעות ונטו לאחור עם גוף ישר. משכו עד שהטבעות ליד החזה. ככל שהגוף אופקי יותר – קשה יותר.');
+E('table_row', 'חתירה מתחת לשולחן', 'pull', '', 1, 2, 'r', 'rhomboids', 'lats,biceps', 'שכבו מתחת לשולחן יציב ואחזו בקצהו. משכו את החזה לכיוון השולחן תוך שמירה על גוף ישר. ודאו שהשולחן לא מתהפך!');
+E('towel_row', 'חתירת מגבת בדלת', 'pull', '', 1, 2, 'r', 'lats', 'biceps,forearms,rhomboids', 'כרכו מגבת סביב ידית של דלת סגורה ונעולה. נטו לאחור ומשכו את עצמכם לכיוון הדלת עם מרפקים ליד הגוף.');
+E('superman', 'סופרמן', 'pull', '', 1, 2, 'r', 'lowerBack', 'glutes,rhomboids', 'שכבו על הבטן, הרימו בו־זמנית ידיים, חזה ורגליים מהרצפה, החזיקו שנייה ורדו לאט.', { iso: 1 });
+E('prone_ytw', 'הרמות Y‑T‑W בשכיבה', 'pull', '', 1, 3, 'r', 'rearDelt', 'rhomboids,traps', 'שכבו על הבטן ויצרו עם הידיים את האותיות Y, T ו־W ברצף תוך כיווץ שכמות. כל רצף = חזרה אחת.', { iso: 1 });
+E('snow_angel', 'מלאך שלג הפוך', 'pull', '', 1, 2, 'r', 'rhomboids', 'rearDelt,lowerBack', 'על הבטן, ידיים מורמות מעט מהרצפה. העבירו אותן בקשת מהמותניים אל מעל הראש וחזרה, לאט.', { iso: 1 });
+E('pullup_neg', 'מתח שלילי', 'pull', 'bar', 1, 2, 'r', 'lats', 'biceps,forearms', 'קפצו לנקודה העליונה של המתח (סנטר מעל המוט) ורדו לאט ככל האפשר – 3 עד 5 שניות.');
+E('chinup', 'מתח באחיזה הפוכה (צ׳ין אפ)', 'pull', 'bar|rings', 2, 3, 'r', 'biceps', 'lats,forearms', 'אחיזה ברוחב כתפיים, כפות ידיים מופנות אליכם. משכו עד שהסנטר מעל המוט ורדו עד יישור מלא.');
+E('pullup', 'מתח', 'pull', 'bar', 2, 3, 'r', 'lats', 'biceps,rhomboids,forearms', 'אחיזה מעט רחבה מהכתפיים. התחילו מתלייה מלאה, משכו את השכמות למטה ועלו עד שהסנטר מעל המוט, בלי תנופה.');
+E('wide_pullup', 'מתח רחב', 'pull', 'bar', 2, 4, 'r', 'lats', 'rhomboids,biceps,rearDelt', 'אחיזה רחבה בהרבה מהכתפיים. משכו את המרפקים למטה ולצדדים עד שהסנטר מעל המוט. רדו בשליטה.');
+E('ring_pullup', 'מתח בטבעות', 'pull', 'rings', 2, 4, 'r', 'lats', 'biceps,forearms,rhomboids', 'מתח בטבעות עם סיבוב טבעי של כפות הידיים. עלו עד שהטבעות ליד החזה ורדו בשליטה מלאה.');
+E('chest_pullup', 'מתח מתפוצץ (חזה למוט)', 'pull', 'bar', 3, 4, 'r', 'lats', 'biceps,rhomboids,abs', 'משכו בעוצמה מקסימלית כך שהחזה מגיע למוט. התרגיל החשוב ביותר בדרך למאסל אפ.');
+E('l_pullup', 'מתח בישיבת L', 'pull', 'bar', 3, 4, 'r', 'lats', 'abs,hipFlexors,biceps', 'החזיקו את הרגליים ישרות לפנים במצב L לאורך כל המתח, בלי לתת להן לרדת.');
+E('weighted_pullup', 'מתח עם משקל', 'pull', 'bar+belt', 3, 4, 'r', 'lats', 'biceps,forearms,rhomboids', 'חגרו משקל לחגורה ובצעו מתח בטווח מלא. התחילו במשקל קל והגדילו בהדרגה.', { s: 1 });
+E('weighted_chinup', 'צ׳ין אפ עם משקל', 'pull', 'bar+belt', 3, 4, 'r', 'biceps', 'lats,forearms', 'צ׳ין אפ מלא עם משקל על החגורה. שמרו על טווח מלא – מיישור מלא ועד סנטר מעל המוט.', { s: 1 });
+E('typewriter', 'מתח טייפרייטר', 'pull', 'bar', 4, 4, 'r', 'lats', 'biceps,rhomboids,forearms', 'עלו למתח רחב, ובנקודה העליונה העבירו את הגוף מצד לצד לאורך המוט כשהיד השנייה מתיישרת.');
+E('bw_curl', 'כפיפת מרפקים במשקל גוף', 'pull', 'bar|rings', 2, 3, 'r', 'biceps', 'forearms', 'אחזו במוט נמוך או בטבעות באחיזה הפוכה ונטו לאחור. כופפו רק את המרפקים ומשכו את המצח לכיוון הידיים.', { iso: 1 });
+E('face_pull', 'פייס פול בטבעות', 'pull', 'rings', 2, 3, 'r', 'rearDelt', 'rhomboids,traps', 'אחזו בטבעות ונטו לאחור. משכו את הטבעות לכיוון הפנים עם מרפקים גבוהים ופתחו את הידיים לצדדים.', { iso: 1 });
+E('fl_raise', 'הרמות פרונט לבר (טאק)', 'pull', 'bar|rings', 3, 4, 'r', 'lats', 'abs,rhomboids,rearDelt', 'מתלייה הפוכה, הורידו את הגוף בטאק עד מקביל לרצפה עם ידיים ישרות, ועלו חזרה בשליטה.');
+// One-arm pull-up progression
+E('oap_archer', 'מתח ארצ׳ר', 'pull', 'bar', 3, 4, 'r', 'lats', 'biceps,forearms,rhomboids', 'אחיזה רחבה מאוד. משכו לכיוון יד אחת בעוד השנייה מתיישרת לאורך המוט. החליפו צד בכל חזרה.', { f: 'oap', s: 1, side: 1 });
+E('oap_neg', 'מתח ביד אחת – שלילי', 'pull', 'bar', 4, 4, 'r', 'lats', 'biceps,forearms,abs', 'עלו למתח בשתי ידיים, עזבו יד אחת ורדו לאט ככל האפשר על יד אחת. שמרו על הגוף צמוד ויציב.', { f: 'oap', s: 1, side: 1 });
+E('oap', 'מתח ביד אחת', 'pull', 'bar', 4, 4, 'r', 'lats', 'biceps,forearms,abs', 'מתלייה מלאה על יד אחת, משכו עד שהסנטר מעל המוט. היד החופשית ליד הגוף, בלי סיבוב מוגזם.', { f: 'oap', s: 1, side: 1 });
+// Muscle-up progression
+E('mu_neg', 'מאסל אפ שלילי', 'pull', 'bar', 2, 4, 'r', 'lats', 'triceps,chest,biceps', 'קפצו לתמיכה מעל המוט ורדו לאט דרך שלב המעבר ועד תלייה מלאה. מלמד את תבנית התנועה.', { f: 'mu', s: 1 });
+E('mu', 'מאסל אפ', 'pull', 'bar', 3, 4, 'r', 'lats', 'triceps,chest,biceps,abs', 'מתלייה, משכו בעוצמה עם תנופה קלה אל מעל המוט, העבירו את החזה מעליו ודחפו עד תמיכה מלאה.', { f: 'mu', s: 1 });
+E('mu_strict', 'מאסל אפ סטריקט', 'pull', 'bar', 4, 4, 'r', 'lats', 'triceps,chest,biceps,forearms', 'מאסל אפ ללא תנופה וללא בעיטה – משיכה איטית ונקייה, מעבר שקט מעל המוט ודחיפה מלאה.', { f: 'mu', s: 1 });
+E('mu_rings', 'מאסל אפ בטבעות', 'pull', 'rings', 4, 4, 'r', 'lats', 'triceps,chest,biceps', 'אחיזה כוזבת (False Grip) בטבעות, משיכה לחזה, מעבר מהיר של המרפקים מעל הטבעות ודיפס עד נעילה.', { f: 'mu', s: 1 });
+// Front lever progression
+E('fl_tuck', 'טאק פרונט לבר', 'pull', 'bar|rings', 2, 4, 'h', 'lats', 'abs,rhomboids,rearDelt', 'בתלייה, משכו את הברכיים לחזה והרימו את הגוף עד שהגב מקביל לרצפה. ידיים ישרות, שכמות לחוצות למטה.', { f: 'fl', s: 1 });
+E('fl_advtuck', 'אדבנס טאק פרונט לבר', 'pull', 'bar|rings', 3, 4, 'h', 'lats', 'abs,rhomboids,rearDelt', 'כמו טאק, אך הגב ישר לגמרי והירכיים בזווית 90° לגוף. אגן ניטרלי וידיים נעולות.', { f: 'fl', s: 1 });
+E('fl_straddle', 'סטרדל פרונט לבר', 'pull', 'bar|rings', 4, 4, 'h', 'lats', 'abs,rhomboids,rearDelt,lowerBack', 'רגליים ישרות ופשוקות וכל הגוף אופקי ומקביל לרצפה. ככל שהרגליים פשוקות יותר – קל יותר.', { f: 'fl', s: 1 });
+E('fl_full', 'פרונט לבר מלא', 'pull', 'bar|rings', 4, 4, 'h', 'lats', 'abs,rhomboids,rearDelt,glutes', 'הגוף כולו ישר ואופקי, רגליים צמודות, ידיים ישרות. דחפו את המוט כלפי מטה וכווצו בטן וישבן.', { f: 'fl', s: 1 });
+// Back lever progression
+E('bl_skin', 'סקין דה קאט', 'pull', 'bar|rings', 2, 4, 'r', 'shoulders', 'lats,biceps,abs', 'מתלייה, הרימו את הרגליים ועברו דרך הידיים לתלייה הפוכה (גרמן הנג), ואז חזרו לאט באותה הדרך.', { f: 'bl', s: 1 });
+E('bl_tuck', 'טאק בק לבר', 'pull', 'bar|rings', 3, 4, 'h', 'lats', 'shoulders,biceps,chest,lowerBack', 'מתלייה הפוכה, הורידו את הגוף בטאק עד שהגב מקביל לרצפה, פנים כלפי מטה. ידיים ישרות לחלוטין.', { f: 'bl', s: 1 });
+E('bl_straddle', 'סטרדל בק לבר', 'pull', 'bar|rings', 4, 4, 'h', 'lats', 'shoulders,biceps,chest,lowerBack,glutes', 'הגוף אופקי עם רגליים ישרות ופשוקות, פנים לרצפה. אגן ישר – אל תתנו לו לשקוע.', { f: 'bl', s: 1 });
+E('bl_full', 'בק לבר מלא', 'pull', 'bar|rings', 4, 4, 'h', 'lats', 'shoulders,biceps,chest,lowerBack,glutes', 'כל הגוף ישר ואופקי עם רגליים צמודות. כווצו ישבן ובטן ושמרו על כתפיים יציבות.', { f: 'bl', s: 1 });
+
+// ---------- LEGS ----------
+E('squat', 'סקוואט', 'legs', '', 1, 2, 'r', 'quads', 'glutes,hamstrings', 'רגליים ברוחב כתפיים וחזה זקוף. רדו כאילו מתיישבים על כיסא עד שהירכיים מקבילות לרצפה, ועלו דרך העקבים.');
+E('jump_squat', 'סקוואט קפיצה', 'legs', '', 1, 3, 'r', 'quads', 'glutes,calves', 'רדו לסקוואט וקפצו בפיצוץ למעלה. נחתו רך על כריות כפות הרגליים ועברו ישר לחזרה הבאה.');
+E('lunge', 'לאנג׳ (מכרע קדמי)', 'legs', '', 1, 2, 'r', 'quads', 'glutes,hamstrings', 'צעד גדול קדימה ורדו עד שהברך האחורית כמעט נוגעת ברצפה. ברך קדמית מעל הקרסול. החליפו רגליים.', { side: 1 });
+E('rev_lunge', 'מכרע אחורי', 'legs', '', 1, 3, 'r', 'glutes', 'quads,hamstrings', 'צעד גדול אחורה ורדו בשליטה. דחפו דרך העקב הקדמי כדי לחזור לעמידה.', { side: 1 });
+E('lat_lunge', 'מכרע צידי', 'legs', '', 1, 2, 'r', 'adductors', 'quads,glutes', 'צעד רחב לצד, שבו לאחור על הרגל הכפופה בעוד השנייה ישרה. דחפו חזרה למרכז.', { side: 1 });
+E('step_up', 'עליות על מדרגה', 'legs', '', 1, 2, 'r', 'quads', 'glutes', 'עלו על כיסא יציב או מדרגה גבוהה בעזרת הרגל העליונה בלבד, בלי לדחוף מהרגל התחתונה.', { side: 1 });
+E('wall_sit', 'ישיבה על קיר', 'legs', '', 1, 2, 'h', 'quads', 'glutes', 'גב צמוד לקיר, ברכיים ב־90° וירכיים מקבילות לרצפה. החזיקו את התנוחה ונשמו באופן קבוע.', { iso: 1 });
+E('glute_bridge', 'גשר ישבן', 'legs', '', 1, 2, 'r', 'glutes', 'hamstrings,lowerBack', 'שכבו על הגב עם ברכיים כפופות. דחפו דרך העקבים והרימו את האגן עד קו ישר מהברכיים לכתפיים. כווצו ישבן למעלה.', { iso: 1 });
+E('sl_bridge', 'גשר ישבן על רגל אחת', 'legs', '', 2, 3, 'r', 'glutes', 'hamstrings', 'כמו גשר ישבן, אך רגל אחת ישרה באוויר. הרימו את האגן בלי לסובב אותו לצדדים.', { side: 1, iso: 1 });
+E('calf_raise', 'הרמות עקבים', 'legs', '', 1, 3, 'r', 'calves', '', 'עמדו על קצה מדרגה, רדו עם העקבים למתיחה ועלו גבוה ככל האפשר על קצות האצבעות. החזיקו שנייה למעלה.', { iso: 1 });
+E('sl_calf', 'הרמות עקבים על רגל אחת', 'legs', '', 2, 4, 'r', 'calves', '', 'על רגל אחת על קצה מדרגה. טווח מלא – מתיחה עמוקה למטה ועלייה מלאה למעלה, בקצב איטי.', { side: 1, iso: 1 });
+E('bulgarian', 'סקוואט בולגרי', 'legs', '', 2, 3, 'r', 'quads', 'glutes,hamstrings', 'רגל אחורית על כיסא ורגל קדמית רחוקה מספיק. רדו אנכית עד שהירך הקדמית מקבילה לרצפה ודחפו למעלה.', { side: 1 });
+E('cossack', 'סקוואט קוזאק', 'legs', '', 2, 3, 'r', 'adductors', 'quads,glutes,hamstrings', 'עמידה רחבה מאוד. רדו לצד אחד לישיבה עמוקה כשהרגל השנייה ישרה ובהונותיה כלפי מעלה. עברו לצד השני.', { side: 1 });
+E('ham_slide', 'כפיפות ברך בהחלקה', 'legs', '', 2, 3, 'r', 'hamstrings', 'glutes,calves', 'שכבו על הגב עם העקבים על מגבת על רצפה חלקה. הרימו אגן והחליקו את העקבים לכיוון הישבן וחזרה.');
+E('broad_jump', 'קפיצה לרוחק', 'legs', '', 2, 3, 'r', 'quads', 'glutes,hamstrings,calves', 'עמדו ברוחב אגן, הניפו ידיים וקפצו קדימה רחוק ככל האפשר. נחתו רך בסקוואט, התייצבו וחזרו.');
+E('shrimp', 'שרימפ סקוואט', 'legs', '', 3, 4, 'r', 'quads', 'glutes', 'על רגל אחת, אחזו את הרגל השנייה מאחור. רדו עד שהברך האחורית נוגעת ברצפה ועלו חזרה.', { side: 1 });
+E('sissy', 'סיסי סקוואט', 'legs', '', 3, 4, 'r', 'quads', 'abs', 'עמדו על קצות האצבעות ונטו לאחור בזמן שהברכיים נעות קדימה. הגוף ישר מהברכיים ועד הראש. החזיקו משהו לאיזון.');
+E('nordic', 'נורדיק קרל (שלילי)', 'legs', '', 3, 4, 'r', 'hamstrings', 'glutes,calves', 'ברכיים על כרית ועקבים מקובעים (מתחת לספה). רדו קדימה לאט ככל האפשר עם גוף ישר ובלמו עם הידיים.');
+E('skater', 'סקייטר סקוואט', 'legs', '', 3, 4, 'r', 'quads', 'glutes,hamstrings', 'על רגל אחת, הרגל השנייה כפופה מאחור. רדו עד שהברך האחורית נוגעת ברצפה, גו נוטה מעט קדימה.', { side: 1 });
+E('pistol_box', 'פיסטול סקוואט לכיסא', 'legs', '', 2, 4, 'r', 'quads', 'glutes,abs', 'על רגל אחת, הרגל השנייה קדימה. רדו בשליטה עד שהישבן נוגע בכיסא ועלו בלי להיעזר בתנופה.', { f: 'pistol', s: 1, side: 1 });
+E('pistol', 'פיסטול סקוואט', 'legs', '', 3, 4, 'r', 'quads', 'glutes,hamstrings,abs', 'סקוואט מלא על רגל אחת כשהרגל השנייה ישרה קדימה. עקב על הרצפה וידיים קדימה לאיזון.', { f: 'pistol', s: 1, side: 1 });
+E('pistol_jump', 'פיסטול סקוואט מתפוצץ', 'legs', '', 4, 4, 'r', 'quads', 'glutes,calves,abs', 'רדו לפיסטול מלא ועלו בפיצוץ עד קפיצה קטנה על אותה רגל. נחתו רך ועברו לחזרה הבאה.', { f: 'pistol', s: 1, side: 1 });
+
+// ---------- CORE ----------
+E('plank', 'פלאנק', 'core', '', 1, 3, 'h', 'abs', 'shoulders,obliques', 'על האמות והבהונות, גוף בקו ישר. כווצו בטן וישבן ואל תתנו לאגן לשקוע.');
+E('side_plank', 'פלאנק צידי', 'core', '', 1, 3, 'h', 'obliques', 'abs,glutes', 'על אמה אחת, גוף בקו ישר מהראש ועד כפות הרגליים. הרימו את האגן ואל תתנו לו לשקוע.', { side: 1 });
+E('crunch', 'כפיפות בטן', 'core', '', 1, 1, 'r', 'abs', '', 'על הגב עם ברכיים כפופות. הרימו את השכמות מהרצפה תוך כיווץ בטן, בלי למשוך את הצוואר.');
+E('dead_bug', 'דד באג', 'core', '', 1, 2, 'r', 'abs', 'hipFlexors', 'על הגב, ידיים למעלה וברכיים ב־90°. הורידו יד ורגל נגדיות לאט, כשהגב התחתון צמוד לרצפה.');
+E('hollow', 'הולו הולד', 'core', '', 1, 3, 'h', 'abs', 'hipFlexors', 'על הגב, גב תחתון צמוד לרצפה. הרימו כתפיים ורגליים ישרות לגובה נמוך – הגוף בצורת סירה.');
+E('leg_raise', 'הרמות רגליים בשכיבה', 'core', '', 1, 2, 'r', 'abs', 'hipFlexors', 'על הגב, רגליים ישרות. הרימו עד 90° והורידו לאט בלי לגעת ברצפה, גב תחתון צמוד.');
+E('mountain', 'מטפסי הרים', 'core', '', 1, 2, 'r', 'abs', 'hipFlexors,shoulders,quads', 'במצב שכיבת סמיכה, הביאו ברכיים לחזה לסירוגין בקצב מהיר. אגן נמוך ויציב.');
+E('bicycle', 'בטן אופניים', 'core', '', 1, 2, 'r', 'obliques', 'abs,hipFlexors', 'על הגב, ידיים מאחורי הראש. קרבו מרפק לברך הנגדית לסירוגין תוך יישור הרגל השנייה.');
+E('russian_twist', 'סיבובים רוסיים', 'core', '', 1, 2, 'r', 'obliques', 'abs', 'ישיבה עם גב נוטה לאחור ורגליים מורמות. סובבו את הגו מצד לצד וגעו ברצפה ליד הירך.');
+E('shoulder_tap', 'פלאנק עם נגיעה בכתף', 'core', '', 1, 2, 'r', 'abs', 'obliques,shoulders', 'במצב שכיבת סמיכה, רגליים מעט פשוקות. געו ביד בכתף הנגדית לסירוגין בלי לסובב את האגן.');
+E('arch_hold', 'החזקת קשת', 'core', '', 1, 3, 'h', 'lowerBack', 'glutes,rhomboids', 'על הבטן, הרימו ידיים ורגליים ישרות מהרצפה – הגוף בצורת קשת – והחזיקו. ההפך של הולו הולד.');
+E('v_up', 'V־אפ', 'core', '', 2, 3, 'r', 'abs', 'hipFlexors', 'ממצב הולו, הרימו בו־זמנית ידיים ורגליים ישרות ונגעו בבהונות למעלה. רדו לאט חזרה.');
+E('hang_knee', 'הרמות ברכיים בתלייה', 'core', 'bar|rings', 1, 2, 'r', 'abs', 'hipFlexors,forearms', 'בתלייה מהמוט, הרימו ברכיים לחזה בלי תנופה ורדו לאט.');
+E('hang_leg', 'הרמות רגליים בתלייה', 'core', 'bar|rings', 2, 3, 'r', 'abs', 'hipFlexors,forearms', 'בתלייה, הרימו רגליים ישרות לפחות לגובה המותניים – בשליטה ובלי נדנוד.');
+E('ttb', 'בהונות למוט', 'core', 'bar', 3, 4, 'r', 'abs', 'hipFlexors,lats,forearms', 'בתלייה, הרימו רגליים ישרות עד שהבהונות נוגעות במוט. רדו לאט בלי להתנדנד.');
+E('windshield', 'מגבים (ווינדשילד וייפרס)', 'core', 'bar', 4, 4, 'r', 'obliques', 'abs,lats,forearms', 'בתלייה עם רגליים מורמות עד המוט, סובבו את הרגליים מצד לצד כמו מגבים של רכב.');
+E('ring_rollout', 'גלגול בטן בטבעות', 'core', 'rings', 3, 4, 'r', 'abs', 'lats,shoulders', 'טבעות נמוכות, על הברכיים או הרגליים. גלגלו את הידיים קדימה עד מתיחה מלאה ומשכו חזרה עם הבטן בלי לקשת גב.');
+// L-sit progression
+E('lsit_tuck', 'טאק סיט', 'core', '', 1, 4, 'h', 'abs', 'hipFlexors,triceps', 'ידיים על הרצפה ליד הירכיים. דחפו למטה והרימו ישבן ורגליים מקופלות מהרצפה.', { f: 'lsit', s: 1 });
+E('lsit_one', 'L־סיט על רגל אחת', 'core', '', 2, 4, 'h', 'abs', 'hipFlexors,triceps,quads', 'כמו טאק סיט, אך רגל אחת ישרה קדימה. החליפו רגל בכל סט או באמצע ההחזקה.', { f: 'lsit', s: 1 });
+E('lsit', 'L־סיט', 'core', '', 3, 4, 'h', 'abs', 'hipFlexors,triceps,quads', 'בתמיכה על ידיים ישרות, רגליים ישרות קדימה ומקבילות לרצפה. כתפיים לחוצות למטה.', { f: 'lsit', s: 1 });
+E('vsit', 'V־סיט', 'core', '', 4, 4, 'h', 'abs', 'hipFlexors,triceps,shoulders', 'מ־L־סיט, הרימו את הרגליים גבוה מעל המותניים תוך דחיפת הרצפה והטיית הכתפיים לאחור.', { f: 'lsit', s: 1 });
+// Dragon flag
+E('df_neg', 'דרגון פלאג שלילי', 'core', '', 3, 4, 'r', 'abs', 'obliques,lats', 'על ספסל, אחזו במשהו יציב מאחורי הראש. עלו לגוף ישר על השכמות ורדו לאט מאוד כגוש אחד.', { f: 'df', s: 1 });
+E('df', 'דרגון פלאג', 'core', '', 4, 4, 'r', 'abs', 'obliques,lats,lowerBack', 'גוף ישר לחלוטין שנשען על השכמות. רדו ועלו בשליטה מלאה בלי לכופף את הירכיים.', { f: 'df', s: 1 });
+// Human flag
+E('flag_tuck', 'טאק הומן פלאג', 'core', 'bar', 3, 4, 'h', 'obliques', 'lats,shoulders,abs', 'אחזו בעמוד אנכי – יד עליונה מושכת ויד תחתונה דוחפת. הרימו את הגוף לצד עם ברכיים מקופלות.', { f: 'flag', s: 1 });
+E('flag', 'הומן פלאג', 'core', 'bar', 4, 4, 'h', 'obliques', 'lats,shoulders,abs,triceps', 'גוף ישר ואופקי לצד העמוד, ידיים נעולות. יד עליונה מושכת, יד תחתונה דוחפת בכוח.', { f: 'flag', s: 1 });
+
+// ---------- FULL BODY ----------
+E('burpee', 'ברפי', 'full', '', 1, 3, 'r', 'quads', 'chest,shoulders,abs', 'רדו לסקוואט, ידיים לרצפה, קפצו לשכיבת סמיכה, חזרו לסקוואט וקפצו למעלה עם ידיים מעל הראש.');
+E('bear_crawl', 'זחילת דוב', 'full', '', 1, 2, 'h', 'shoulders', 'abs,quads', 'על ידיים וכפות רגליים, ברכיים מעט מעל הרצפה. זחלו קדימה ואחורה בצעדים קטנים, גב שטוח.');
+E('inchworm', 'תולעת עם שכיבת סמיכה', 'full', '', 1, 2, 'r', 'shoulders', 'chest,hamstrings,abs', 'מעמידה, התכופפו וידיים לרצפה, "הלכו" עם הידיים קדימה לשכיבת סמיכה, בצעו אחת וחזרו לעמידה.');
+E('burpee_pullup', 'ברפי עם מתח', 'full', 'bar', 2, 4, 'r', 'lats', 'chest,quads,biceps', 'בצעו ברפי, ובקפיצה תפסו את המוט ובצעו מתח. רדו וחזרו מיד לחזרה הבאה.');
+
+const EXM = Object.fromEntries(EX.map(e => [e.id, e]));
+
+// Warm-up & stretches. areas: '*' = all
+const WARM = [
+  ['קפיצות כוכב', '45 שניות', '*', '', 'קפיצות קלות עם פתיחת ידיים ורגליים להעלאת הדופק.', 1],
+  ['ריצה במקום עם ברכיים גבוהות', '45 שניות', '*', '', 'הרימו ברכיים לגובה המותניים והניעו את הידיים בקצב.', 1],
+  ['סיבובי ידיים', '15 קדימה + 15 אחורה', 'upper,push,pull,full', '', 'ידיים ישרות לצדדים, סיבובים מקטנים לגדולים.'],
+  ['סיבובי שורש כף יד', '30 שניות', 'upper,push,pull,full,core', '', 'שלבו אצבעות וסובבו את פרקי הידיים לשני הכיוונים. חשוב במיוחד לפני עמידות ידיים.'],
+  ['שכיבות סמיכה לשכמות', '10 חזרות', 'upper,push,full', '', 'במצב שכיבת סמיכה עם ידיים ישרות, קרבו ורחקו את השכמות.'],
+  ['משיכות שכמות בתלייה', '10 חזרות', 'upper,pull', 'bar', 'בתלייה, משכו כתפיים למטה ושחררו, בלי לכופף מרפקים.'],
+  ['תלייה פסיבית', '20 שניות', 'upper,pull', 'bar', 'תלייה רגועה מהמוט לפתיחת הכתפיים והגב.'],
+  ['פתיחת חזה דינמית', '15 חזרות', 'upper,push', '', 'פתחו ידיים לצדדים לאחור וחבקו קדימה בקצב.'],
+  ['חתול־פרה', '8 חזרות', 'core,legs,full,pull', '', 'על ארבע, עגלו את הגב למעלה ואז קשתו אותו למטה עם הנשימה.'],
+  ['נדנודי רגליים', '10 לכל רגל', 'legs,full,core', '', 'אחזו בקיר והניפו רגל קדימה-אחורה ואז הצידה.'],
+  ['סיבובי אגן', '10 לכל כיוון', 'legs,core', '', 'ידיים על המותניים, סיבובים רחבים של האגן.'],
+  ['סקוואט איטי לחימום', '10 חזרות', 'legs,full', '', 'סקוואט עמוק ואיטי, השהו שנייה בתחתית.'],
+  ['מכרע עם סיבוב גו', '5 לכל צד', 'legs,full,core', '', 'צעד מכרע וסובבו את הגו לכיוון הרגל הקדמית.'],
+  ['דד באג איטי', '6 לכל צד', 'core', '', 'תנועות איטיות ומבוקרות להפעלת שרירי הליבה.'],
+  ['הרמות עקבים מהירות', '20 חזרות', 'legs', '', 'הרמות עקבים קלות ומהירות לחימום השוקיים והקרסוליים.']
+].map(([n, a, ar, eq, d, cardio]) => ({ n, a, ar: ar.split(','), eq, d, cardio: !!cardio }));
+
+const STRETCH = [
+  ['מתיחת חזה בפתח דלת', '30 שניות לכל צד', 'push,upper,full', '', 'אמה על משקוף הדלת, צעדו קדימה עד מתיחה בחזה.'],
+  ['מתיחת יד אחורית מעל הראש', '30 שניות לכל צד', 'push,upper', '', 'כופפו מרפק מעל הראש ומשכו אותו עדין ביד השנייה.'],
+  ['מתיחת כתף על החזה', '30 שניות לכל צד', 'push,pull,upper,full', '', 'משכו יד ישרה על פני החזה בעזרת היד השנייה.'],
+  ['תנוחת ילד', '45 שניות', 'pull,core,upper,full,legs', '', 'ישבו על העקבים, מתחו ידיים קדימה והניחו מצח על הרצפה.'],
+  ['מתיחת גב רחב בתלייה', '30 שניות', 'pull,upper', 'bar', 'תלייה רפויה מהמוט, נשמו עמוק לתוך הצלעות.'],
+  ['מתיחת אמות ושורש כף יד', '30 שניות', 'push,pull,upper,full', '', 'יד ישרה קדימה, משכו את האצבעות לאחור ואז קדימה.'],
+  ['מתיחת דו־ראשי על הקיר', '30 שניות לכל צד', 'pull,upper', '', 'כף יד על הקיר מאחור, סובבו את הגוף הרחק מהקיר.'],
+  ['מתיחת צוואר וטרפזים', '30 שניות לכל צד', 'push,pull,upper', '', 'הטו את הראש לצד ומשכו בעדינות ביד.'],
+  ['מתיחת ארבע־ראשי בעמידה', '30 שניות לכל צד', 'legs,full', '', 'אחזו בכף הרגל מאחור וקרבו את העקב לישבן.'],
+  ['מתיחת המסטרינג בישיבה', '45 שניות', 'legs,full,core', '', 'ישיבה עם רגליים ישרות, הושיטו ידיים לבהונות עם גב ארוך.'],
+  ['מתיחת יונה', '30 שניות לכל צד', 'legs,full', '', 'רגל קדמית מקופלת לפניכם, רגל אחורית ישרה. נטו קדימה.'],
+  ['מתיחת שוקיים על הקיר', '30 שניות לכל צד', 'legs', '', 'ידיים על הקיר, רגל אחורית ישרה ועקב לרצפה.'],
+  ['תנוחת קוברה', '30 שניות', 'core,full', '', 'על הבטן, דחפו עם הידיים והרימו את החזה תוך מתיחת הבטן.'],
+  ['פיתול גב בשכיבה', '30 שניות לכל צד', 'core,legs,full,pull', '', 'על הגב, העבירו ברך לצד הנגדי וסובבו את הראש לצד השני.'],
+  ['מתיחת מכופפי ירך במכרע', '30 שניות לכל צד', 'legs,core,full', '', 'ברך אחורית על הרצפה, דחפו את האגן קדימה.']
+].map(([n, a, ar, eq, d]) => ({ n, a, ar: ar.split(','), eq, d }));
+
+/* =========================================================
+   Body map (SVG)
+   ========================================================= */
+const SIL = `<g class="sil">
+  <circle cx="60" cy="20" r="13"/><rect x="54" y="30" width="12" height="12" rx="3"/>
+  <path d="M38 42 Q60 35 82 42 L85 74 Q83 100 79 116 L41 116 Q37 100 35 74 Z"/>
+  <rect x="23" y="44" width="14" height="44" rx="7"/><rect x="83" y="44" width="14" height="44" rx="7"/>
+  <rect x="20" y="86" width="13" height="40" rx="6.5"/><rect x="87" y="86" width="13" height="40" rx="6.5"/>
+  <circle cx="26.5" cy="132" r="6"/><circle cx="93.5" cy="132" r="6"/>
+  <path d="M41 110 L79 110 L81 134 L39 134 Z"/>
+  <rect x="40" y="124" width="19.5" height="66" rx="9.5"/><rect x="60.5" y="124" width="19.5" height="66" rx="9.5"/>
+  <rect x="42" y="186" width="15" height="52" rx="7.5"/><rect x="63" y="186" width="15" height="52" rx="7.5"/>
+  <ellipse cx="49.5" cy="242" rx="8" ry="4.5"/><ellipse cx="70.5" cy="242" rx="8" ry="4.5"/>
+</g>`;
+// [muscle, type, ...args]  e = ellipse(cx,cy,rx,ry), r = rect(x,y,w,h,rx), p = polygon(points)
+const SHAPES = {
+  f: [
+    ['traps', 'p', '47,43 56,37 56,44'], ['traps', 'p', '73,43 64,37 64,44'],
+    ['shoulders', 'e', 37, 50, 8, 8], ['shoulders', 'e', 83, 50, 8, 8],
+    ['chest', 'e', 50, 58, 10.5, 8], ['chest', 'e', 70, 58, 10.5, 8],
+    ['biceps', 'e', 30, 69, 5, 12], ['biceps', 'e', 90, 69, 5, 12],
+    ['forearms', 'e', 26.5, 103, 5, 14], ['forearms', 'e', 93.5, 103, 5, 14],
+    ['obliques', 'e', 44.5, 89, 4.5, 14], ['obliques', 'e', 75.5, 89, 4.5, 14],
+    ['abs', 'r', 51.5, 70, 17, 40, 5],
+    ['hipFlexors', 'e', 50, 119, 5, 6], ['hipFlexors', 'e', 70, 119, 5, 6],
+    ['quads', 'e', 48.5, 156, 7.5, 24], ['quads', 'e', 71.5, 156, 7.5, 24],
+    ['adductors', 'e', 57, 142, 2.6, 13], ['adductors', 'e', 63, 142, 2.6, 13],
+    ['calves', 'e', 49.5, 210, 5, 17], ['calves', 'e', 70.5, 210, 5, 17]
+  ],
+  b: [
+    ['rhomboids', 'e', 53, 63, 6, 7], ['rhomboids', 'e', 67, 63, 6, 7],
+    ['traps', 'p', '60,35 76,44 64,57 60,59 56,57 44,44'],
+    ['rearDelt', 'e', 37, 50, 8, 8], ['rearDelt', 'e', 83, 50, 8, 8],
+    ['lats', 'e', 45.5, 81, 8, 17], ['lats', 'e', 74.5, 81, 8, 17],
+    ['triceps', 'e', 30, 67, 5, 13], ['triceps', 'e', 90, 67, 5, 13],
+    ['forearms', 'e', 26.5, 103, 5, 14], ['forearms', 'e', 93.5, 103, 5, 14],
+    ['lowerBack', 'r', 53, 86, 14, 24, 5],
+    ['glutes', 'e', 50, 125, 10, 10], ['glutes', 'e', 70, 125, 10, 10],
+    ['hamstrings', 'e', 49.5, 161, 7.5, 22], ['hamstrings', 'e', 70.5, 161, 7.5, 22],
+    ['calves', 'e', 49.5, 205, 6, 16], ['calves', 'e', 70.5, 205, 6, 16]
+  ]
+};
+function shapeEl(s, cls) {
+  const [m, t, ...a] = s;
+  const tip = `<title>${MUSCLES[m]}</title>`;
+  if (t === 'e') return `<ellipse class="${cls}" cx="${a[0]}" cy="${a[1]}" rx="${a[2]}" ry="${a[3]}">${tip}</ellipse>`;
+  if (t === 'r') return `<rect class="${cls}" x="${a[0]}" y="${a[1]}" width="${a[2]}" height="${a[3]}" rx="${a[4]}">${tip}</rect>`;
+  return `<polygon class="${cls}" points="${a[0]}">${tip}</polygon>`;
+}
+function bodySVG(pri, sec, labels) {
+  const cls = m => pri.has(m) ? 'mp' : sec.has(m) ? 'ms' : 'mb';
+  const fig = (side, ox) => `<g transform="translate(${ox},0)">${SIL}${SHAPES[side].map(s => shapeEl(s, cls(s[0]))).join('')}</g>`;
+  // RTL: front figure on the right, back on the left
+  const lab = labels ? '<text x="190" y="262">מקדימה</text><text x="60" y="262">מאחורה</text>' : '';
+  return `<svg class="body-svg" viewBox="0 0 250 ${labels ? 266 : 250}" role="img" aria-label="מפת שרירים: מקדימה ומאחורה">${fig('b', 0)}${fig('f', 130)}${lab}</svg>`;
+}
+
+/* =========================================================
+   State
+   ========================================================= */
+const state = {
+  s: Object.assign({ goal: 'hypertrophy', level: 1, area: 'full', equip: [], duration: 30 }, store.get('cg.settings', {})),
+  w: store.get('cg.workout', null),
+  hist: store.get('cg.history', []),
+  favs: store.get('cg.favs', [])
+};
+const saveW = () => store.set('cg.workout', state.w);
+
+/* =========================================================
+   Generator
+   ========================================================= */
+function eqOK(eq, avail) {
+  if (!eq) return true;
+  return eq.split('|').some(g => g === '' || g.split('+').every(x => avail.includes(x)));
+}
+// Eligible exercises; for each skill family keep only the most advanced stage(s) the level allows
+function buildPool(s, cats) {
+  const L = s.level, fam = {}, out = [];
+  for (const e of EX) {
+    if (!cats.includes(e.cat) || e.min > L || !eqOK(e.eq, s.equip)) continue;
+    if (e.f) (fam[e.f] = fam[e.f] || []).push(e); else out.push(e);
+  }
+  for (const k in fam) {
+    const top = Math.max(...fam[k].map(e => e.min));
+    out.push(...fam[k].filter(e => e.min === top));
+  }
+  return out;
+}
+const tier = e => e.s ? 0 : e.cat === 'core' ? 3 : e.iso ? 2 : 1;
+
+function pickFrom(cands, chosen, L) {
+  const priCount = {};
+  chosen.forEach(e => priCount[e.pri] = (priCount[e.pri] || 0) + 1);
+  const skills = chosen.filter(e => e.s).length;
+  let best = null, bs = -1e9;
+  for (const e of cands) {
+    let sc = Math.random() * 1.6;
+    sc += e.max >= L ? 3 : -(L - e.max) * 1.5;      // prefer level-appropriate
+    sc -= (priCount[e.pri] || 0) * 1.2;               // prefer variety of muscles
+    if (e.s) sc += L >= 3 ? (skills < 2 ? 1.6 : -0.4) : L === 2 ? 0.3 : 0;
+    if (e.iso) sc -= 0.4;
+    if (sc > bs) { bs = sc; best = e; }
+  }
+  return best;
+}
+function available(pool, chosen, cat) {
+  const ids = new Set(chosen.map(e => e.id)), fams = new Set(chosen.map(e => e.f).filter(Boolean));
+  return pool.filter(e => (!cat || e.cat === cat) && !ids.has(e.id) && !(e.f && fams.has(e.f)));
+}
+
+function setsFor(k, s) { let n = SCHEMES[k].sets[s.duration]; if (s.level === 1) n--; return Math.max(2, n); }
+function prescribe(e, k, s) {
+  const key = e.s ? 'strength' : k;          // skills are always trained in a strength scheme
+  const sc = SCHEMES[key];
+  const val = e.t === 'h' ? (e.s ? sc.skillHold || '5–10' : sc.hold) : sc.reps;
+  return { k: key, sets: setsFor(key, s), val, unit: e.t === 'h' ? 'שניות' : 'חזרות', rest: sc.rest };
+}
+function slotScheme(goal, i, n) {
+  if (goal !== 'mixed') return goal;
+  const f = i / n;
+  return f < 1 / 3 ? 'strength' : f < 2 / 3 ? 'hypertrophy' : 'endurance';
+}
+const warmCount = d => d <= 15 ? 3 : d >= 60 ? 5 : 4;
+const slotSeconds = p => p.sets * SCHEMES[p.k].work + (p.sets - 1) * p.rest + 45;
+const mainBudget = s => s.duration * 60 - warmCount(s.duration) * 2 * 45;
+
+function pickList(list, s, count, cardioFirst) {
+  const ok = list.filter(x => (x.ar[0] === '*' || x.ar.includes(s.area)) && eqOK(x.eq, s.equip));
+  let out = [];
+  if (cardioFirst) {
+    const cardio = ok.filter(x => x.cardio);
+    out.push(rand(cardio));
+    out = out.concat(shuffle(ok.filter(x => !x.cardio)).slice(0, count - 1));
+  } else out = shuffle(ok).slice(0, count);
+  return out.map(x => ({ n: x.n, a: x.a, d: x.d, done: false }));
+}
+
+function generate() {
+  const s = state.s, L = s.level, area = AREAS[s.area];
+  const pool = buildPool(s, area.cats);
+  // Fill the time budget (mixed goal estimated with the average of the three schemes)
+  const budget = mainBudget(s);
+  const chosen = [];
+  let used = 0, short = false;
+  for (let i = 0; chosen.length < 14 && i < 60; i++) {
+    const cat = area.rot[i % area.rot.length];
+    let c = available(pool, chosen, cat);
+    if (!c.length) c = available(pool, chosen, null);
+    if (!c.length) { short = true; break; }
+    const e = pickFrom(c, chosen, L);
+    const t = s.goal === 'mixed'
+      ? ['strength', 'hypertrophy', 'endurance'].reduce((a, k) => a + slotSeconds(prescribe(e, k, s)), 0) / 3
+      : slotSeconds(prescribe(e, s.goal, s));
+    if (chosen.length >= 2 && used + t > budget * 1.1) break;
+    chosen.push(e);
+    used += t;
+  }
+  // Order: skills → compound → accessories → core (stable)
+  chosen.sort((a, b) => tier(a) - tier(b));
+  const main = chosen.map((e, i) => Object.assign({ id: e.id, done: [] }, prescribe(e, slotScheme(s.goal, i, chosen.length), s)));
+  // Small pool (few exercises fit the settings)? Fill the time with extra sets
+  let total = main.reduce((a, m) => a + slotSeconds(m), 0);
+  for (let g = 0; total < budget * 0.9 && g < 60; g++) {
+    const m = main[g % main.length];
+    if (m.sets >= 6) continue;
+    m.sets++;
+    total = main.reduce((a, x) => a + slotSeconds(x), 0);
+  }
+  main.forEach(m => m.done = Array(m.sets).fill(false));
+  state.w = {
+    id: uid(), created: Date.now(), s: Object.assign({}, s, { equip: s.equip.slice() }),
+    warm: pickList(WARM, s, warmCount(s.duration), true),
+    main,
+    cool: pickList(STRETCH, s, warmCount(s.duration), false),
+    logged: false, favId: null, startedAt: null, short: short && total < budget * 0.8
+  };
+  saveW();
+}
+
+function swapExercise(i) {
+  const w = state.w, slot = w.main[i], cur = EXM[slot.id];
+  const s = w.s;
+  const pool = buildPool(s, ['push', 'pull', 'legs', 'core', 'full']);
+  const others = w.main.filter((_, j) => j !== i).map(m => EXM[m.id]);
+  const cands = available(pool, others, null).filter(e => e.id !== cur.id);
+  const tiers = [
+    cands.filter(e => e.pri === cur.pri),
+    cands.filter(e => e.sec.includes(cur.pri) || cur.sec.includes(e.pri)),
+    cands.filter(e => e.cat === cur.cat)
+  ];
+  const list = tiers.find(t => t.length);
+  if (!list) { toast('לא נמצא תרגיל חלופי מתאים 🤔'); return false; }
+  const inRange = list.filter(e => e.max >= s.level);
+  const next = rand(inRange.length ? inRange : list);
+  const schemeKey = s.goal === 'mixed' ? slotScheme('mixed', i, w.main.length) : s.goal;
+  const p = prescribe(next, schemeKey, s);
+  w.main[i] = Object.assign({ id: next.id }, p, { done: Array(p.sets).fill(false) });
+  saveW();
+  return true;
+}
+
+/* =========================================================
+   Rendering – workout
+   ========================================================= */
+const ICON = {
+  check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+  swap: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4L3 8l4 4"/><path d="M3 8h13a5 5 0 0 1 0 10h-2"/></svg>',
+  star: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.2l1-6.2L3 9.6l6.2-.9z"/></svg>',
+  flag: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></svg>',
+  sun: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>',
+  moon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>'
+};
+
+function totals() {
+  const w = state.w;
+  if (!w) return { done: 0, total: 0 };
+  let done = 0, total = 0;
+  w.warm.concat(w.cool).forEach(x => { total++; if (x.done) done++; });
+  w.main.forEach(m => m.done.forEach(d => { total++; if (d) done++; }));
+  return { done, total };
+}
+function estMinutes(w) {
+  let sec = (w.warm.length + w.cool.length) * 45;
+  w.main.forEach(m => { sec += slotSeconds(m); });
+  return Math.round(sec / 60);
+}
+function wName(s) { return `${GOALS[s.goal]} · ${AREAS[s.area].name} · ${s.duration} דק׳`; }
+
+function checkRow(x, phase, i) {
+  return `<div class="check-row ${x.done ? 'done' : ''}" data-act="check" data-phase="${phase}" data-i="${i}">
+    <div class="cbox">${ICON.check}</div>
+    <div class="cr-body"><div class="cr-name">${esc(x.n)}</div><div class="cr-desc">${esc(x.d)}</div></div>
+    <div class="cr-amt">${esc(x.a)}</div></div>`;
+}
+
+function exCard(m, i, cls = '') {
+  const e = EXM[m.id];
+  const goal = state.w.s.goal;
+  const tags = [];
+  if (e.s) tags.push('<span class="tag skill">סקיל</span>');
+  if (goal === 'mixed' || m.k !== goal) tags.push(`<span class="tag k-${m.k}">${SCHEMES[m.k].name}</span>`);
+  tags.push(`<span class="tag">${e.t === 'h' ? 'סטטי' : 'דינמי'}</span>`);
+  const complete = m.done.every(Boolean);
+  const secTxt = e.sec.length ? e.sec.map(x => MUSCLES[x]).join(', ') : '—';
+  const sets = m.done.map((d, j) => `<button class="set ${d ? 'done' : ''}" data-act="set" data-i="${i}" data-j="${j}">${ICON.check}סט ${j + 1}</button>`).join('');
+  return `<article class="card ex ${complete ? 'complete' : ''} ${cls}" data-card="${i}" style="--d:${120 + i * 70}ms">
+    <div class="ex-head">
+      <div class="ex-num">${i + 1}</div>
+      <div class="ex-title"><h3>${esc(e.name)}</h3><div class="tags">${tags.join('')}</div></div>
+      <button class="swap-btn" data-act="swap" data-i="${i}" aria-label="החלף תרגיל">${ICON.swap}החלף</button>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>${m.sets}</b><span>סטים</span></div>
+      <div class="stat"><b>${m.val}</b><span>${m.unit}${e.side ? ' לכל צד' : ''}</span></div>
+      <button class="stat" data-act="rest" data-i="${i}" title="הפעל טיימר מנוחה"><b>${fmt(m.rest)}</b><span>מנוחה</span></button>
+    </div>
+    <p class="desc">${esc(e.desc)}</p>
+    <div class="muscles">
+      <div>
+        <div class="mus-line"><span class="dot pri"></span><span class="k">שריר ראשי:</span><b>${MUSCLES[e.pri]}</b></div>
+        <div class="mus-line"><span class="dot sec"></span><span class="k">משניים:</span><span>${secTxt}</span></div>
+      </div>
+      <div>${bodySVG(new Set([e.pri]), new Set(e.sec))}</div>
+    </div>
+    <div class="sets">${sets}</div>
+  </article>`;
+}
+
+function summaryCard() {
+  const pri = {}, sec = {};
+  state.w.main.forEach(m => {
+    const e = EXM[m.id];
+    pri[e.pri] = (pri[e.pri] || 0) + 1;
+    e.sec.forEach(x => sec[x] = (sec[x] || 0) + 1);
+  });
+  const priSet = new Set(Object.keys(pri));
+  const secSet = new Set(Object.keys(sec).filter(x => !priSet.has(x)));
+  const all = new Set([...priSet, ...secSet]);
+  const chips = [...priSet].sort((a, b) => pri[b] - pri[a]).map(m => `<span class="mchip"><span class="dot pri"></span>${MUSCLES[m]} <b><bdi dir="ltr">×${pri[m]}</bdi></b></span>`)
+    .concat([...secSet].sort((a, b) => sec[b] - sec[a]).map(m => `<span class="mchip"><span class="dot sec"></span>${MUSCLES[m]}</span>`)).join('');
+  const missing = Object.keys(MUSCLES).filter(m => !all.has(m)).map(m => MUSCLES[m]);
+  return `<div class="card enter" style="--d:${200 + state.w.main.length * 70}ms">
+    <div class="h2" style="margin-bottom:12px">📊 סיכום שרירים</div>
+    <div class="sum-grid">
+      <div class="sum-map">${bodySVG(priSet, secSet, true)}</div>
+      <div>
+        <div class="big-num">${all.size}<span style="font-size:16px;color:var(--muted);font-weight:600"> / ${Object.keys(MUSCLES).length}</span></div>
+        <div style="color:var(--muted);font-size:13.5px;margin-bottom:10px">קבוצות שרירים באימון</div>
+        <div class="mchips">${chips}</div>
+      </div>
+    </div>
+    <div class="legend"><span><span class="dot pri"></span>שריר ראשי (מספר תרגילים)</span><span><span class="dot sec"></span>שריר משני</span></div>
+    ${missing.length && missing.length < 10 ? `<p class="note" style="text-align:right">לא עובדים היום: ${missing.join(', ')}</p>` : ''}
+  </div>`;
+}
+
+function renderWorkout(animate) {
+  const el = $('#workout'), w = state.w;
+  if (!w) {
+    el.innerHTML = `<div class="card empty"><div class="em">🤸‍♂️</div><h3>מוכן להתאמן?</h3><p>בחר הגדרות ולחץ על "צור אימון" כדי לקבל אימון מותאם אישית.</p></div>`;
+    return;
+  }
+  const a = animate ? 'enter' : '';
+  const isFav = w.favId && state.favs.some(f => f.id === w.favId);
+  const t = totals();
+  el.innerHTML = `
+  <div class="wk-head ${a}">
+    <div class="wk-top">
+      <div class="wk-title">
+        <h2>האימון שלך</h2>
+        <div class="meta">
+          <span class="pill">🎯 ${GOALS[w.s.goal]}</span><span class="pill">📈 ${LEVELS[w.s.level]}</span>
+          <span class="pill">💪 ${AREAS[w.s.area].name}</span><span class="pill">⏱️ ≈${estMinutes(w)} דק׳</span>
+        </div>
+      </div>
+      <button class="icon-btn fav-btn ${isFav ? 'on' : ''}" data-act="fav" aria-label="שמור במועדפים">${ICON.star}</button>
+    </div>
+    <div class="wk-actions">
+      <button class="btn" data-act="finish">${ICON.flag}סיים אימון</button>
+    </div>
+  </div>
+  <div class="progress ${a}"><div class="bar"><i id="pbar"></i></div><div class="pct" id="pct">0%</div></div>
+  ${w.short ? `<p class="note">💡 לא נמצאו מספיק תרגילים מתאימים לציוד שבחרת – נסה להוסיף ציוד או לבחור אזור אחר.</p>` : ''}
+  <div class="phase ${a}" style="--d:60ms"><span class="em">🔥</span>חימום<small>${w.warm.length} תרגילים</small></div>
+  <div class="card ${a}" style="--d:90ms">${w.warm.map((x, i) => checkRow(x, 'warm', i)).join('')}</div>
+  <div class="phase ${a}" style="--d:110ms"><span class="em">💪</span>האימון<small>${w.main.length} תרגילים</small></div>
+  <div id="mainList">${w.main.map((m, i) => exCard(m, i, a)).join('')}</div>
+  <div class="phase ${a}" style="--d:${150 + w.main.length * 70}ms"><span class="em">🧘</span>מתיחות<small>${w.cool.length} תרגילים</small></div>
+  <div class="card ${a}" style="--d:${170 + w.main.length * 70}ms">${w.cool.map((x, i) => checkRow(x, 'cool', i)).join('')}</div>
+  ${summaryCard().replace('class="card enter"', `class="card ${a}"`)}`;
+  updateProgress(t);
+}
+
+function updateProgress(t = totals()) {
+  const p = t.total ? Math.round(t.done / t.total * 100) : 0;
+  const bar = $('#pbar'), pct = $('#pct');
+  if (bar) requestAnimationFrame(() => { bar.style.width = p + '%'; });
+  if (pct) pct.textContent = p + '%';
+  return p;
+}
+
+/* =========================================================
+   Interactions – workout
+   ========================================================= */
+$('#workout').addEventListener('click', e => {
+  const b = e.target.closest('[data-act]');
+  if (!b || !state.w) return;
+  const w = state.w, act = b.dataset.act;
+  if (act === 'set') {
+    const i = +b.dataset.i, j = +b.dataset.j, m = w.main[i];
+    m.done[j] = !m.done[j];
+    if (!w.startedAt) w.startedAt = Date.now();
+    b.classList.toggle('done', m.done[j]);
+    $(`[data-card="${i}"]`).classList.toggle('complete', m.done.every(Boolean));
+    saveW();
+    const p = updateProgress();
+    if (m.done[j]) {
+      if (p >= 100) finishWorkout(true);
+      else startTimer(m.rest, nextLabel(i, j));
+    }
+  } else if (act === 'check') {
+    const arr = w[b.dataset.phase], x = arr[+b.dataset.i];
+    x.done = !x.done;
+    if (!w.startedAt) w.startedAt = Date.now();
+    b.classList.toggle('done', x.done);
+    saveW();
+    if (updateProgress() >= 100 && x.done) finishWorkout(true);
+  } else if (act === 'swap') {
+    const i = +b.dataset.i;
+    if (swapExercise(i)) {
+      const old = $(`[data-card="${i}"]`);
+      const tmp = document.createElement('div');
+      tmp.innerHTML = exCard(w.main[i], i, 'swap-in');
+      old.replaceWith(tmp.firstElementChild);
+      refreshSummary();
+      updateProgress();
+      toast('התרגיל הוחלף ✨');
+    }
+  } else if (act === 'rest') {
+    const m = w.main[+b.dataset.i];
+    startTimer(m.rest, EXM[m.id].name);
+  } else if (act === 'fav') {
+    toggleFav(b);
+  } else if (act === 'finish') {
+    const t = totals();
+    if (t.done === 0) { if (confirm('עוד לא סימנת אף סט. למחוק את האימון?')) { state.w = null; saveW(); renderWorkout(); } return; }
+    if (confirm('לסיים את האימון עכשיו ולשמור אותו בהיסטוריה?')) finishWorkout(false);
+  }
+});
+
+function refreshSummary() {
+  const cards = $$('#workout > .card');
+  const last = cards[cards.length - 1];
+  const tmp = document.createElement('div');
+  tmp.innerHTML = summaryCard().replace('class="card enter"', 'class="card"');
+  last.replaceWith(tmp.firstElementChild);
+}
+
+function nextLabel(i, j) {
+  const w = state.w, m = w.main[i];
+  const nextSet = m.done.findIndex(d => !d);
+  if (nextSet !== -1) return `הבא: סט ${nextSet + 1} · ${EXM[m.id].name}`;
+  const nx = w.main.findIndex(mm => mm.done.some(d => !d));
+  return nx !== -1 ? `הבא: ${EXM[w.main[nx].id].name}` : 'הבא: מתיחות 🧘';
+}
+
+function finishWorkout(full) {
+  const w = state.w;
+  stopTimer();
+  const t = totals();
+  const pct = t.total ? Math.round(t.done / t.total * 100) : 0;
+  const mins = w.startedAt ? Math.max(1, Math.round((Date.now() - w.startedAt) / 60000)) : w.s.duration;
+  const setsDone = w.main.reduce((a, m) => a + m.done.filter(Boolean).length, 0);
+  if (!w.logged) {
+    state.hist.unshift({ id: w.id, date: new Date().toISOString(), goal: w.s.goal, level: w.s.level, area: w.s.area, duration: w.s.duration, actual: mins, pct, exercises: w.main.length });
+    store.set('cg.history', state.hist);
+    w.logged = true;
+    saveW();
+  } else {
+    const h = state.hist.find(h => h.id === w.id);
+    if (h) { h.pct = pct; h.actual = mins; store.set('cg.history', state.hist); }
+  }
+  renderStreak();
+  renderHistory();
+  const st = streakInfo();
+  $('#doneMsg').textContent = full ? 'סיימת את כל האימון! הגוף שלך מודה לך 💪' : `השלמת ${pct}% מהאימון – כל אימון נחשב!`;
+  $('#doneStats').innerHTML = `<div><b>${mins}</b><span>דקות</span></div><div><b>${setsDone}</b><span>סטים</span></div><div><b>🔥 ${st.cur}</b><span>ימים ברצף</span></div>`;
+  $('#doneModal').classList.add('show');
+  confetti();
+  playTone([523, 659, 784, 1047], 0.13);
+}
+$('#doneClose').addEventListener('click', () => $('#doneModal').classList.remove('show'));
+$('#doneModal').addEventListener('click', e => { if (e.target.id === 'doneModal') e.currentTarget.classList.remove('show'); });
+
+/* =========================================================
+   Favorites
+   ========================================================= */
+function toggleFav(btn) {
+  const w = state.w;
+  const idx = w.favId ? state.favs.findIndex(f => f.id === w.favId) : -1;
+  if (idx !== -1) {
+    state.favs.splice(idx, 1);
+    w.favId = null;
+    btn.classList.remove('on');
+    toast('הוסר מהמועדפים');
+  } else {
+    const id = uid();
+    state.favs.unshift({
+      id, name: wName(w.s), savedAt: Date.now(),
+      data: {
+        s: w.s,
+        warm: w.warm.map(x => ({ n: x.n, a: x.a, d: x.d })),
+        main: w.main.map(m => ({ id: m.id, k: m.k, sets: m.sets, val: m.val, unit: m.unit, rest: m.rest })),
+        cool: w.cool.map(x => ({ n: x.n, a: x.a, d: x.d }))
+      }
+    });
+    w.favId = id;
+    btn.classList.add('on');
+    btn.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.35) rotate(20deg)' }, { transform: 'scale(1)' }], { duration: 400 });
+    toast('נשמר במועדפים ⭐');
+  }
+  store.set('cg.favs', state.favs);
+  saveW();
+  renderFavs();
+}
+function loadFav(id) {
+  const f = state.favs.find(f => f.id === id);
+  if (!f) return;
+  if (state.w && !state.w.logged && totals().done > 0 && !confirm('יש אימון פעיל. להחליף אותו באימון המועדף?')) return;
+  const d = f.data;
+  state.w = {
+    id: uid(), created: Date.now(), s: d.s,
+    warm: d.warm.map(x => Object.assign({}, x, { done: false })),
+    main: d.main.filter(m => EXM[m.id]).map(m => Object.assign({}, m, { done: Array(m.sets).fill(false) })),
+    cool: d.cool.map(x => Object.assign({}, x, { done: false })),
+    logged: false, favId: f.id, startedAt: null
+  };
+  saveW();
+  switchView('workout');
+  renderWorkout(true);
+  setTimeout(() => $('#workout').scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+}
+function renderFavs() {
+  const el = $('#favList');
+  if (!state.favs.length) {
+    el.innerHTML = `<div class="card empty"><div class="em">⭐</div><h3>אין עדיין מועדפים</h3><p>לחץ על הכוכב באימון שאהבת כדי לשמור אותו כאן.</p></div>`;
+    return;
+  }
+  el.innerHTML = state.favs.map(f => {
+    const names = f.data.main.slice(0, 3).map(m => EXM[m.id] ? EXM[m.id].name : '').filter(Boolean).join(' · ');
+    return `<div class="card item">
+      <div class="item-ic">⭐</div>
+      <div class="item-body">
+        <div class="item-title">${esc(f.name)}</div>
+        <div class="item-sub">${LEVELS[f.data.s.level]} · ${f.data.main.length} תרגילים · נשמר ${new Date(f.savedAt).toLocaleDateString('he-IL')}</div>
+        <div class="item-sub" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(names)}</div>
+      </div>
+      <div class="list-actions">
+        <button class="btn primary" data-load="${f.id}">טען</button>
+        <button class="btn ghost danger" data-del="${f.id}" aria-label="מחק">✕</button>
+      </div></div>`;
+  }).join('');
+}
+$('#favList').addEventListener('click', e => {
+  const l = e.target.closest('[data-load]'), d = e.target.closest('[data-del]');
+  if (l) loadFav(l.dataset.load);
+  if (d && confirm('למחוק את האימון מהמועדפים?')) {
+    state.favs = state.favs.filter(f => f.id !== d.dataset.del);
+    store.set('cg.favs', state.favs);
+    if (state.w && state.w.favId === d.dataset.del) { state.w.favId = null; saveW(); }
+    renderFavs();
+    const fb = $('.fav-btn'); if (fb && state.w && !state.w.favId) fb.classList.remove('on');
+  }
+});
+
+/* =========================================================
+   History & streak
+   ========================================================= */
+function streakInfo() {
+  const days = new Set(state.hist.map(h => dayKey(new Date(h.date))));
+  let cur = 0;
+  const d = new Date();
+  if (!days.has(dayKey(d))) d.setDate(d.getDate() - 1);
+  while (days.has(dayKey(d))) { cur++; d.setDate(d.getDate() - 1); }
+  let best = 0, run = 0, prev = null;
+  [...days].sort().forEach(k => {
+    const dt = new Date(k + 'T12:00:00');
+    run = prev && Math.round((dt - prev) / 864e5) === 1 ? run + 1 : 1;
+    best = Math.max(best, run);
+    prev = dt;
+  });
+  return { cur, best, days: days.size };
+}
+function renderStreak() {
+  const st = streakInfo();
+  $('#streakNum').textContent = st.cur;
+  $('#streakPill').title = `${st.cur} ימי אימון ברצף`;
+}
+function renderHistory() {
+  const st = streakInfo();
+  $('#histStats').innerHTML = `
+    <div class="kpi"><b>🔥 ${st.cur}</b><span>ימים ברצף</span></div>
+    <div class="kpi"><b>${st.best}</b><span>שיא רצף</span></div>
+    <div class="kpi"><b>${state.hist.length}</b><span>סה״כ אימונים</span></div>`;
+  const el = $('#histList');
+  $('#clearHist').hidden = !state.hist.length;
+  if (!state.hist.length) {
+    el.innerHTML = `<div class="card empty"><div class="em">📅</div><h3>עדיין אין אימונים</h3><p>כל אימון שתסיים יופיע כאן, יחד עם מונה ימי הרצף שלך.</p></div>`;
+    return;
+  }
+  el.innerHTML = state.hist.map(h => {
+    const d = new Date(h.date);
+    const date = d.toLocaleDateString('he-IL', { weekday: 'short', day: 'numeric', month: 'short' });
+    const time = d.toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' });
+    const em = { strength: '🏋️', hypertrophy: '💪', endurance: '🏃', mixed: '⚡' }[h.goal] || '💪';
+    return `<div class="card item">
+      <div class="item-ic">${em}</div>
+      <div class="item-body">
+        <div class="item-title">${GOALS[h.goal]} · ${AREAS[h.area] ? AREAS[h.area].name : ''}</div>
+        <div class="item-sub">${date} · ${time}</div>
+        <div class="item-sub">${LEVELS[h.level]} · ${h.duration} דק׳ מתוכנן${h.actual ? ` · ${h.actual} דק׳ בפועל` : ''}</div>
+      </div>
+      <span class="badge ${h.pct < 100 ? 'part' : ''}">${h.pct >= 100 ? '✓ הושלם' : h.pct + '%'}</span>
+    </div>`;
+  }).join('');
+}
+$('#clearHist').addEventListener('click', () => {
+  if (!confirm('למחוק את כל היסטוריית האימונים? (גם מונה הרצף יתאפס)')) return;
+  state.hist = [];
+  store.set('cg.history', state.hist);
+  renderHistory(); renderStreak();
+});
+
+/* =========================================================
+   Rest timer
+   ========================================================= */
+const T = { end: 0, total: 0, left: 0, paused: false, iv: null, lastBeep: null, ended: false };
+const CIRC = 2 * Math.PI * 42;
+function startTimer(sec, next) {
+  ensureAudio();
+  clearInterval(T.iv);
+  Object.assign(T, { total: sec, end: Date.now() + sec * 1000, paused: false, ended: false, lastBeep: null });
+  $('#tLabel').textContent = 'מנוחה';
+  $('#tNext').textContent = next || '';
+  $('#tPause').textContent = '⏸';
+  $('#timer').classList.remove('ended');
+  $('#timer').classList.add('show');
+  $('#timerFab').style.display = 'none';
+  tick();
+  T.iv = setInterval(tick, 200);
+}
+function remaining() { return T.paused ? T.left : Math.max(0, (T.end - Date.now()) / 1000); }
+function tick() {
+  const left = remaining();
+  $('#tTime').textContent = fmt(left);
+  $('#tFg').style.strokeDashoffset = CIRC * (1 - (T.total ? left / T.total : 0));
+  const s = Math.ceil(left);
+  if (!T.paused && s <= 3 && s > 0 && T.lastBeep !== s) { T.lastBeep = s; playTone([660], 0.08, 0.15); }
+  if (left <= 0 && !T.ended) {
+    T.ended = true;
+    clearInterval(T.iv);
+    $('#tLabel').textContent = 'יאללה, לסט הבא! 💪';
+    $('#timer').classList.add('ended');
+    playTone([880, 880, 1320], 0.22, 0.4);
+    if (navigator.vibrate) navigator.vibrate([250, 120, 250, 120, 400]);
+    setTimeout(() => { if (T.ended) stopTimer(); }, 4000);
+  }
+}
+function stopTimer() {
+  clearInterval(T.iv);
+  T.ended = false;
+  $('#timer').classList.remove('show');
+  $('#timerFab').style.display = '';
+}
+function adjustTimer(d) {
+  if (T.ended) { startTimer(Math.max(5, d), $('#tNext').textContent); return; }
+  if (T.paused) T.left = Math.max(0, T.left + d);
+  else T.end = Math.max(Date.now(), T.end + d * 1000);
+  T.total = Math.max(T.total, remaining());
+  T.lastBeep = null;
+  tick();
+}
+$('#timer').addEventListener('click', e => {
+  const b = e.target.closest('[data-t]');
+  if (!b) return;
+  const a = b.dataset.t;
+  if (a === '-15') adjustTimer(-15);
+  else if (a === '+15') adjustTimer(15);
+  else if (a === 'skip' || a === 'close') stopTimer();
+  else if (a === 'pause') {
+    if (T.ended) return;
+    if (T.paused) { T.end = Date.now() + T.left * 1000; T.paused = false; b.textContent = '⏸'; T.iv = setInterval(tick, 200); }
+    else { T.left = remaining(); T.paused = true; b.textContent = '▶'; clearInterval(T.iv); }
+    tick();
+  }
+});
+$('#tTime').addEventListener('click', () => {
+  const v = prompt('כמה שניות מנוחה?', Math.round(remaining()) || 90);
+  const n = parseInt(v, 10);
+  if (n > 0) startTimer(Math.min(n, 3600), $('#tNext').textContent);
+});
+$('#timerFab').addEventListener('click', () => {
+  const k = state.w ? (state.w.s.goal === 'mixed' ? 'hypertrophy' : state.w.s.goal) : (state.s.goal === 'mixed' ? 'hypertrophy' : state.s.goal);
+  startTimer(SCHEMES[k].rest, 'טיימר ידני – אפשר לשנות עם ‎+15/−15‎ או בהקשה על הזמן');
+});
+
+/* Audio */
+let actx = null;
+function ensureAudio() {
+  try {
+    if (!actx) actx = new (window.AudioContext || window.webkitAudioContext)();
+    if (actx.state === 'suspended') actx.resume();
+  } catch (e) {}
+}
+function playTone(freqs, dur = 0.15, vol = 0.3) {
+  ensureAudio();
+  if (!actx) return;
+  const t0 = actx.currentTime + 0.02;
+  freqs.forEach((f, i) => {
+    const o = actx.createOscillator(), g = actx.createGain();
+    const t = t0 + i * (dur + 0.06);
+    o.type = 'sine'; o.frequency.value = f;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(vol, t + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g); g.connect(actx.destination);
+    o.start(t); o.stop(t + dur + 0.02);
+  });
+}
+document.addEventListener('pointerdown', ensureAudio, { once: true });
+
+/* =========================================================
+   Settings UI
+   ========================================================= */
+function renderSettings() {
+  $$('#settings .chips').forEach(g => {
+    const key = g.dataset.key;
+    $$('.chip', g).forEach(c => {
+      const v = c.dataset.v;
+      let on;
+      if (key === 'equip') on = v === 'none' ? !state.s.equip.length : state.s.equip.includes(v);
+      else on = String(state.s[key]) === v;
+      c.classList.toggle('on', on);
+    });
+  });
+}
+$('#settings').addEventListener('click', e => {
+  const c = e.target.closest('.chip');
+  if (!c) return;
+  const key = c.closest('.chips').dataset.key, v = c.dataset.v;
+  if (key === 'equip') {
+    if (v === 'none') state.s.equip = [];
+    else {
+      const i = state.s.equip.indexOf(v);
+      if (i === -1) state.s.equip.push(v); else state.s.equip.splice(i, 1);
+    }
+  } else state.s[key] = (key === 'level' || key === 'duration') ? +v : v;
+  store.set('cg.settings', state.s);
+  renderSettings();
+});
+$('#genBtn').addEventListener('click', () => {
+  if (state.w && !state.w.logged && totals().done > 0 && !confirm('יש אימון בתהליך. ליצור אימון חדש במקומו?')) return;
+  stopTimer();
+  const b = $('#genBtn');
+  b.classList.remove('spin'); void b.offsetWidth; b.classList.add('spin');
+  generate();
+  renderWorkout(true);
+  setTimeout(() => {
+    const top = $('#workout').getBoundingClientRect().top + scrollY - 70;
+    scrollTo({ top, behavior: 'smooth' });
+  }, 80);
+});
+
+/* =========================================================
+   Theme, nav, toast, confetti
+   ========================================================= */
+function applyTheme(t) {
+  document.documentElement.dataset.theme = t;
+  $('#themeBtn').innerHTML = t === 'dark' ? ICON.sun : ICON.moon;
+  document.querySelector('meta[name="theme-color"]').content = t === 'dark' ? '#0d1016' : '#f4f5f9';
+}
+let theme = store.get('cg.theme', null) || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+applyTheme(theme);
+$('#themeBtn').addEventListener('click', () => {
+  theme = theme === 'dark' ? 'light' : 'dark';
+  store.set('cg.theme', theme);
+  applyTheme(theme);
+  $('#themeBtn').animate([{ transform: 'rotate(-90deg) scale(.6)' }, { transform: 'none' }], { duration: 350, easing: 'ease-out' });
+});
+
+function switchView(v) {
+  $$('.nav button').forEach(b => b.classList.toggle('on', b.dataset.view === v));
+  $$('.view').forEach(s => s.hidden = s.id !== 'view-' + v);
+  if (v === 'history') renderHistory();
+  if (v === 'favs') renderFavs();
+  scrollTo({ top: 0 });
+}
+$$('.nav button').forEach(b => b.addEventListener('click', () => switchView(b.dataset.view)));
+
+let toastT;
+function toast(msg) {
+  const t = $('#toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastT);
+  toastT = setTimeout(() => t.classList.remove('show'), 1800);
+}
+
+function confetti() {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const c = $('#confetti'), ctx = c.getContext('2d'), dpr = devicePixelRatio || 1;
+  const W = innerWidth, H = innerHeight;
+  c.width = W * dpr; c.height = H * dpr;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const colors = ['#ff5a1f', '#ffb020', '#22c55e', '#3b82f6', '#a855f7', '#ef4444', '#06b6d4'];
+  const P = Array.from({ length: 180 }, () => ({
+    x: W / 2 + (Math.random() - .5) * 60, y: H * .38,
+    vx: (Math.random() - .5) * 16, vy: -Math.random() * 15 - 5,
+    s: Math.random() * 7 + 5, r: Math.random() * 6, vr: (Math.random() - .5) * .35,
+    c: rand(colors)
+  }));
+  const t0 = performance.now(), DUR = 3400;
+  (function frame(now) {
+    const el = now - t0;
+    ctx.clearRect(0, 0, W, H);
+    for (const p of P) {
+      p.vy += .32; p.vx *= .99; p.x += p.vx; p.y += p.vy; p.r += p.vr;
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r);
+      ctx.globalAlpha = Math.max(0, 1 - el / DUR);
+      ctx.fillStyle = p.c; ctx.fillRect(-p.s / 2, -p.s / 4, p.s, p.s / 2);
+      ctx.restore();
+    }
+    if (el < DUR) requestAnimationFrame(frame); else ctx.clearRect(0, 0, W, H);
+  })(t0);
+}
+
+/* =========================================================
+   Init
+   ========================================================= */
+if (state.w && (!state.w.main || state.w.main.some(m => !EXM[m.id]))) state.w = null;
+renderSettings();
+renderWorkout(false);
+renderStreak();
+renderHistory();
+renderFavs();
+</script>
+</body>
+</html>
