@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#ff5a1f">
+<meta name="claude:viewport-fit-sides" content="cover">
 <title>מחולל אימוני קליסתניקס</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,6 +20,14 @@
   --nav-h:64px;
   color-scheme:light;
 }
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0d1016; --card:#161a23; --card-2:#1c212c; --text:#eef0f6; --muted:#98a1b3; --line:#262c39;
+  --accent:#ff6a2b; --accent-2:#ffa24d; --accent-soft:#2b1a11; --accent-text:#fff;
+  --ok:#22c55e; --ok-soft:#0f2a1a;
+  --sil:#252b38; --m-base:#353d4d; --m-pri:#ff4747; --m-sec:#c47a7d;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35);
+  color-scheme:dark;
+}}
 :root[data-theme="dark"]{
   --bg:#0d1016; --card:#161a23; --card-2:#1c212c; --text:#eef0f6; --muted:#98a1b3; --line:#262c39;
   --accent:#ff6a2b; --accent-2:#ffa24d; --accent-soft:#2b1a11; --accent-text:#fff;
@@ -30,6 +39,7 @@
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0}
 body{
+  direction:rtl;
   font-family:"Heebo",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
   background:var(--bg); color:var(--text); line-height:1.5; font-size:16px;
   transition:background .3s,color .3s;
@@ -37,10 +47,10 @@ body{
 }
 button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
 h1,h2,h3,p{margin:0}
-.wrap{max-width:680px;margin:0 auto;padding:0 16px}
+.wrap{max-width:680px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 
 /* Header */
-.app-head{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.app-head{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
 .app-head .wrap{display:flex;align-items:center;gap:10px;height:60px}
 .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;flex:1;min-width:0}
 .logo-mark{width:34px;height:34px;border-radius:11px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;color:#fff;flex:none;box-shadow:0 4px 12px color-mix(in srgb,var(--accent) 40%,transparent)}
@@ -84,7 +94,7 @@ h1,h2,h3,p{margin:0}
 .meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
 .pill{font-size:12px;padding:3px 9px;border-radius:999px;background:var(--card-2);border:1px solid var(--line);color:var(--muted);font-weight:500}
 .fav-btn.on svg{fill:#ffb020;stroke:#ffb020}
-.progress{position:sticky;top:60px;z-index:20;margin-top:8px;display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
+.progress{position:sticky;top:calc(60px + env(safe-area-inset-top,0px));z-index:20;margin-top:8px;display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
 .bar{flex:1;height:10px;border-radius:99px;background:var(--card-2);border:1px solid var(--line);overflow:hidden}
 .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:99px;transition:width .45s cubic-bezier(.2,.8,.2,1)}
 .pct{font-weight:800;font-size:14px;min-width:42px;text-align:left}
@@ -190,7 +200,7 @@ button.stat::after{content:"⏱";position:absolute;top:4px;left:6px;font-size:11
 .view[hidden]{display:none}
 
 /* Timer */
-.timer{position:fixed;left:12px;right:12px;bottom:calc(var(--nav-h) + env(safe-area-inset-bottom) + 10px);z-index:45;max-width:656px;margin:0 auto;background:var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:0 16px 40px rgba(0,0,0,.22);padding:14px;transform:translateY(calc(100% + 120px));visibility:hidden;transition:transform .4s cubic-bezier(.2,.8,.2,1),visibility 0s .4s}
+.timer{position:fixed;left:max(12px,env(safe-area-inset-left,0px));right:max(12px,env(safe-area-inset-right,0px));bottom:calc(var(--nav-h) + env(safe-area-inset-bottom) + 10px);z-index:45;max-width:656px;margin:0 auto;background:var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:0 16px 40px rgba(0,0,0,.22);padding:14px;transform:translateY(calc(100% + 120px));visibility:hidden;transition:transform .4s cubic-bezier(.2,.8,.2,1),visibility 0s .4s}
 .timer.show{transform:none;visibility:visible;transition:transform .4s cubic-bezier(.2,.8,.2,1),visibility 0s}
 .timer.ended{border-color:var(--ok)}
 .t-inner{display:flex;align-items:center;gap:14px}
@@ -208,7 +218,7 @@ button.stat::after{content:"⏱";position:absolute;top:4px;left:6px;font-size:11
 .t-btns button{padding:9px 0;border-radius:11px;background:var(--card-2);border:1px solid var(--line);font-weight:700;font-size:14px}
 .t-btns button:active{transform:scale(.94)}
 .t-close{position:absolute;top:8px;left:10px;width:28px;height:28px;border-radius:8px;color:var(--muted);font-size:18px}
-.timer-fab{position:fixed;left:16px;bottom:calc(var(--nav-h) + env(safe-area-inset-bottom) + 14px);z-index:35;width:52px;height:52px;border-radius:50%;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);display:grid;place-items:center;color:var(--accent)}
+.timer-fab{position:fixed;left:max(16px,env(safe-area-inset-left,0px));bottom:calc(var(--nav-h) + env(safe-area-inset-bottom) + 14px);z-index:35;width:52px;height:52px;border-radius:50%;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);display:grid;place-items:center;color:var(--accent)}
 .timer-fab svg{width:24px;height:24px}
 
 /* History / favorites */
@@ -240,8 +250,14 @@ button.stat::after{content:"⏱";position:absolute;top:4px;left:6px;font-size:11
 .modal-stats span{font-size:11.5px;color:var(--muted)}
 .modal-card .btn{width:100%;padding:13px}
 
-.toast{position:fixed;top:72px;left:50%;transform:translate(-50%,-20px);z-index:70;background:var(--text);color:var(--bg);padding:10px 16px;border-radius:12px;font-weight:600;font-size:14px;opacity:0;pointer-events:none;transition:all .3s;box-shadow:var(--shadow);max-width:90vw;text-align:center}
+.toast{position:fixed;top:calc(72px + env(safe-area-inset-top,0px));left:50%;transform:translate(-50%,-20px);z-index:70;background:var(--text);color:var(--bg);padding:10px 16px;border-radius:12px;font-weight:600;font-size:14px;opacity:0;pointer-events:none;transition:all .3s;box-shadow:var(--shadow);max-width:90vw;text-align:center}
 .toast.show{opacity:1;transform:translate(-50%,0)}
+.ask-card p{color:var(--text);font-size:17px;font-weight:600;margin:0 0 16px}
+.ask-card input{width:100%;padding:12px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--card-2);color:var(--text);font:inherit;font-size:20px;font-weight:700;text-align:center;margin-bottom:16px}
+.ask-card input:focus{outline:none;border-color:var(--accent)}
+.ask-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ask-btns .btn{padding:13px}
+button:focus-visible,.chip:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 #confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:80}
 .note{font-size:13px;color:var(--muted);margin-top:10px;text-align:center}
 
@@ -393,11 +409,20 @@ button.stat::after{content:"⏱";position:absolute;top:4px;left:6px;font-size:11
     <button class="btn primary" id="doneClose">יאללה, סגור</button>
   </div>
 </div>
+<div class="modal" id="askModal">
+  <div class="modal-card ask-card">
+    <p id="askMsg"></p>
+    <input id="askInput" type="number" inputmode="numeric" min="5" max="3600" hidden>
+    <div class="ask-btns"><button class="btn primary" id="askYes">אישור</button><button class="btn" id="askNo">ביטול</button></div>
+  </div>
+</div>
 <div class="toast" id="toast"></div>
 <canvas id="confetti"></canvas>
 
 <script>
 'use strict';
+document.documentElement.lang = 'he';
+document.documentElement.dir = 'rtl';
 /* =========================================================
    Utilities & storage
    ========================================================= */
@@ -413,6 +438,23 @@ const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 const fmt = s => { s = Math.max(0, Math.ceil(s)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
 const dayKey = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+// In-page confirm/prompt (native dialogs are blocked in embedded viewers)
+function ask(msg, opts = {}) {
+  return new Promise(res => {
+    const m = $('#askModal'), inp = $('#askInput'), yes = $('#askYes'), no = $('#askNo');
+    $('#askMsg').textContent = msg;
+    yes.textContent = opts.yes || 'אישור';
+    inp.hidden = !opts.input;
+    if (opts.input) inp.value = opts.value != null ? opts.value : '';
+    m.classList.add('show');
+    setTimeout(() => (opts.input ? inp : yes).focus(), 60);
+    const done = v => { m.classList.remove('show'); yes.onclick = no.onclick = m.onclick = inp.onkeydown = null; res(v); };
+    yes.onclick = () => done(opts.input ? inp.value : true);
+    no.onclick = () => done(opts.input ? null : false);
+    m.onclick = e => { if (e.target === m) done(opts.input ? null : false); };
+    inp.onkeydown = e => { if (e.key === 'Enter') yes.onclick(); };
+  });
+}
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
 /* =========================================================
@@ -974,7 +1016,7 @@ function updateProgress(t = totals()) {
 /* =========================================================
    Interactions – workout
    ========================================================= */
-$('#workout').addEventListener('click', e => {
+$('#workout').addEventListener('click', async e => {
   const b = e.target.closest('[data-act]');
   if (!b || !state.w) return;
   const w = state.w, act = b.dataset.act;
@@ -1015,8 +1057,8 @@ $('#workout').addEventListener('click', e => {
     toggleFav(b);
   } else if (act === 'finish') {
     const t = totals();
-    if (t.done === 0) { if (confirm('עוד לא סימנת אף סט. למחוק את האימון?')) { state.w = null; saveW(); renderWorkout(); } return; }
-    if (confirm('לסיים את האימון עכשיו ולשמור אותו בהיסטוריה?')) finishWorkout(false);
+    if (t.done === 0) { if (await ask('עוד לא סימנת אף סט. למחוק את האימון?', { yes: 'מחק' })) { state.w = null; saveW(); renderWorkout(); } return; }
+    if (await ask('לסיים את האימון עכשיו ולשמור אותו בהיסטוריה?', { yes: 'סיים ושמור' })) finishWorkout(false);
   }
 });
 
@@ -1095,10 +1137,10 @@ function toggleFav(btn) {
   saveW();
   renderFavs();
 }
-function loadFav(id) {
+async function loadFav(id) {
   const f = state.favs.find(f => f.id === id);
   if (!f) return;
-  if (state.w && !state.w.logged && totals().done > 0 && !confirm('יש אימון פעיל. להחליף אותו באימון המועדף?')) return;
+  if (state.w && !state.w.logged && totals().done > 0 && !(await ask('יש אימון פעיל. להחליף אותו באימון המועדף?', { yes: 'החלף' }))) return;
   const d = f.data;
   state.w = {
     id: uid(), created: Date.now(), s: d.s,
@@ -1133,10 +1175,10 @@ function renderFavs() {
       </div></div>`;
   }).join('');
 }
-$('#favList').addEventListener('click', e => {
+$('#favList').addEventListener('click', async e => {
   const l = e.target.closest('[data-load]'), d = e.target.closest('[data-del]');
   if (l) loadFav(l.dataset.load);
-  if (d && confirm('למחוק את האימון מהמועדפים?')) {
+  if (d && await ask('למחוק את האימון מהמועדפים?', { yes: 'מחק' })) {
     state.favs = state.favs.filter(f => f.id !== d.dataset.del);
     store.set('cg.favs', state.favs);
     if (state.w && state.w.favId === d.dataset.del) { state.w.favId = null; saveW(); }
@@ -1196,8 +1238,8 @@ function renderHistory() {
     </div>`;
   }).join('');
 }
-$('#clearHist').addEventListener('click', () => {
-  if (!confirm('למחוק את כל היסטוריית האימונים? (גם מונה הרצף יתאפס)')) return;
+$('#clearHist').addEventListener('click', async () => {
+  if (!(await ask('למחוק את כל היסטוריית האימונים? גם מונה הרצף יתאפס.', { yes: 'מחק הכל' }))) return;
   state.hist = [];
   store.set('cg.history', state.hist);
   renderHistory(); renderStreak();
@@ -1234,7 +1276,7 @@ function tick() {
     $('#tLabel').textContent = 'יאללה, לסט הבא! 💪';
     $('#timer').classList.add('ended');
     playTone([880, 880, 1320], 0.22, 0.4);
-    if (navigator.vibrate) navigator.vibrate([250, 120, 250, 120, 400]);
+    try { if (navigator.vibrate) navigator.vibrate([250, 120, 250, 120, 400]); } catch (e) {}
     setTimeout(() => { if (T.ended) stopTimer(); }, 4000);
   }
 }
@@ -1266,8 +1308,8 @@ $('#timer').addEventListener('click', e => {
     tick();
   }
 });
-$('#tTime').addEventListener('click', () => {
-  const v = prompt('כמה שניות מנוחה?', Math.round(remaining()) || 90);
+$('#tTime').addEventListener('click', async () => {
+  const v = await ask('כמה שניות מנוחה?', { input: true, value: Math.round(remaining()) || 90, yes: 'הפעל' });
   const n = parseInt(v, 10);
   if (n > 0) startTimer(Math.min(n, 3600), $('#tNext').textContent);
 });
@@ -1330,8 +1372,8 @@ $('#settings').addEventListener('click', e => {
   store.set('cg.settings', state.s);
   renderSettings();
 });
-$('#genBtn').addEventListener('click', () => {
-  if (state.w && !state.w.logged && totals().done > 0 && !confirm('יש אימון בתהליך. ליצור אימון חדש במקומו?')) return;
+$('#genBtn').addEventListener('click', async () => {
+  if (state.w && !state.w.logged && totals().done > 0 && !(await ask('יש אימון בתהליך. ליצור אימון חדש במקומו?', { yes: 'צור חדש' }))) return;
   stopTimer();
   const b = $('#genBtn');
   b.classList.remove('spin'); void b.offsetWidth; b.classList.add('spin');
