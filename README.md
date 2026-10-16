@@ -1,12 +1,12 @@
 # calistenics
 
-יוצר אימוני קליסתניקס – אפליקציית ווב בקובץ אחד (`index.html`).
+Calisthenics Workout Builder – a web app in a single file (`index.html`).
 
-פשוט פותחים את `index.html` בדפדפן (גם בטלפון). אין צורך בהתקנה או בשרת.
+Open `index.html` in any browser (phone included). No install or server needed.
 
-- מטרה (כוח / היפרטרופיה / סיבולת / משולב), רמה, אזור גוף, ציוד ומשך אימון
-- מאגר של 120+ תרגילים, כולל שלבי התקדמות לסקילס (פרונט לבר, בק לבר, פלאנש, עמידת ידיים, מאסל אפ, מתח ביד אחת, הומן פלאג ועוד)
-- חימום ומתיחות, מפת שרירים לכל תרגיל וסיכום שרירים לאימון כולו
-- החלפת תרגיל, סימון סטים, פס התקדמות וטיימר מנוחה עם צליל
-- היסטוריה, מועדפים ומונה ימי רצף (נשמרים ב־localStorage)
-- מצב כהה / בהיר
+- Goal (strength / hypertrophy / endurance / mixed), level, body area, equipment and workout length
+- 120+ exercises, including skill progressions (front lever, back lever, planche, handstand, muscle-up, one-arm pull-up, human flag and more)
+- Warm-up and stretches, a muscle map for every exercise and a muscle summary for the whole workout
+- Swap any exercise, mark sets as done, progress bar and a rest timer with sound
+- History, favorites and a day-streak counter (saved in localStorage)
+- Dark / light mode

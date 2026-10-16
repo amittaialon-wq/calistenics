@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="he" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0c111b">
 <meta name="claude:viewport-fit-sides" content="cover">
-<title>יוצר אימוני קליסתניקס</title>
+<title>Calisthenics Workout Builder</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&display=swap" rel="stylesheet">
@@ -45,7 +45,6 @@
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0}
 body{
-  direction:rtl;
   font-family:var(--font-body);
   background:var(--bg); color:var(--text); line-height:1.5; font-size:16px;
   transition:background .3s,color .3s;
@@ -105,7 +104,7 @@ h1,h2,h3,p{margin:0}
 .progress{position:sticky;top:calc(60px + env(safe-area-inset-top,0px));z-index:20;margin-top:8px;display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
 .bar{flex:1;height:10px;border-radius:99px;background:var(--card-2);border:1px solid var(--line);overflow:hidden}
 .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:99px;transition:width .45s cubic-bezier(.2,.8,.2,1)}
-.pct{font-family:var(--font-display);font-weight:700;font-size:24px;line-height:1;font-variant-numeric:tabular-nums;min-width:42px;text-align:left}
+.pct{font-family:var(--font-display);font-weight:700;font-size:24px;line-height:1;font-variant-numeric:tabular-nums;min-width:42px;text-align:right}
 .wk-actions{display:flex;gap:8px;margin-top:12px}
 .btn{padding:10px 14px;border-radius:12px;font-weight:700;font-size:14px;background:var(--card-2);border:1px solid var(--line);display:inline-flex;align-items:center;gap:6px;justify-content:center;transition:transform .15s}
 .btn:active{transform:scale(.96)}
@@ -135,7 +134,7 @@ h1,h2,h3,p{margin:0}
 /* Exercise card */
 .ex{position:relative;overflow:hidden;transition:border-color .3s}
 .ex.complete{border-color:var(--ok)}
-.ex.complete::after{content:"✓";position:absolute;top:12px;left:12px;width:26px;height:26px;border-radius:50%;background:var(--ok);color:var(--accent-text);display:grid;place-items:center;font-weight:800;font-size:14px;animation:pop .4s ease}
+.ex.complete::after{content:"✓";position:absolute;top:12px;right:12px;width:26px;height:26px;border-radius:50%;background:var(--ok);color:var(--accent-text);display:grid;place-items:center;font-weight:800;font-size:14px;animation:pop .4s ease}
 .ex-head{display:flex;align-items:flex-start;gap:10px}
 .ex-num{width:34px;height:38px;border-radius:9px;background:var(--ink);color:var(--on-ink);font-family:var(--font-display);font-weight:700;font-size:26px;line-height:1;display:grid;place-items:center;flex:none;padding-top:2px}
 .ex-title{flex:1;min-width:0}
@@ -147,7 +146,7 @@ h1,h2,h3,p{margin:0}
 .tag.k-hypertrophy{color:var(--accent);border-color:var(--accent)}
 .tag.k-endurance{color:var(--text);border-style:dashed}
 .swap-btn{display:flex;align-items:center;gap:4px;font-size:13px;font-weight:700;padding:7px 10px;border-radius:10px;background:var(--card-2);border:1px solid var(--line);flex:none}
-.ex.complete .swap-btn{margin-left:30px}
+.ex.complete .swap-btn{margin-right:30px}
 .swap-btn svg{width:15px;height:15px}
 .swap-btn:active{transform:scale(.94)}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
@@ -155,7 +154,7 @@ h1,h2,h3,p{margin:0}
 .stat b{direction:ltr;display:block;font-family:var(--font-display);font-size:28px;font-weight:700;line-height:1;padding-top:2px;font-variant-numeric:tabular-nums}
 .stat span{font-size:11.5px;color:var(--muted)}
 button.stat{position:relative}
-button.stat::after{content:"⏱";position:absolute;top:4px;left:6px;font-size:11px;opacity:.6}
+button.stat::after{content:"⏱";position:absolute;top:4px;right:6px;font-size:11px;opacity:.6}
 .desc{font-size:14px;color:var(--text);opacity:.85;margin-top:12px}
 .muscles{display:grid;grid-template-columns:1fr 150px;gap:10px;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
 .mus-line{font-size:13.5px;display:flex;gap:6px;align-items:baseline;line-height:1.45}
@@ -226,8 +225,8 @@ button.stat::after{content:"⏱";position:absolute;top:4px;left:6px;font-size:11
 .t-btns{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px}
 .t-btns button{padding:9px 0;border-radius:11px;background:var(--card-2);border:1px solid var(--line);font-weight:700;font-size:14px}
 .t-btns button:active{transform:scale(.94)}
-.t-close{position:absolute;top:8px;left:10px;width:28px;height:28px;border-radius:8px;color:var(--muted);font-size:18px}
-.timer-fab{background:var(--ink)!important;color:var(--on-ink)!important;border-color:var(--ink)!important;position:fixed;left:max(16px,env(safe-area-inset-left,0px));bottom:calc(var(--nav-h) + env(safe-area-inset-bottom) + 14px);z-index:35;width:52px;height:52px;border-radius:50%;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);display:grid;place-items:center;color:var(--accent)}
+.t-close{position:absolute;top:8px;right:10px;width:28px;height:28px;border-radius:8px;color:var(--muted);font-size:18px}
+.timer-fab{background:var(--ink)!important;color:var(--on-ink)!important;border-color:var(--ink)!important;position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(var(--nav-h) + env(safe-area-inset-bottom) + 14px);z-index:35;width:52px;height:52px;border-radius:50%;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);display:grid;place-items:center;color:var(--accent)}
 .timer-fab svg{width:24px;height:24px}
 
 /* History / favorites */
@@ -287,10 +286,10 @@ button:focus-visible,.chip:focus-visible{outline:2px solid var(--accent);outline
   <div class="wrap">
     <div class="logo">
       <div class="logo-mark"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M3 5h18"/><path d="M7 5v4M17 5v4"/><circle cx="12" cy="11" r="2"/><path d="M12 13v4M9 21l3-4 3 4M8 9l4 3 4-3"/></svg></div>
-      <span>קליסתניקס</span>
+      <span>Calisthenics</span>
     </div>
-    <div class="streak" id="streakPill" title="ימי אימון ברצף">🔥 <span id="streakNum">0</span></div>
-    <button class="icon-btn" id="themeBtn" aria-label="החלפת מצב כהה/בהיר"></button>
+    <div class="streak" id="streakPill" title="Workout day streak">🔥 <span id="streakNum">0</span></div>
+    <button class="icon-btn" id="themeBtn" aria-label="Toggle dark/light mode"></button>
   </div>
 </header>
 
@@ -300,56 +299,56 @@ button:focus-visible,.chip:focus-visible{outline:2px solid var(--accent);outline
     <div class="section">
       <div class="card" id="settings">
         <div class="field">
-          <div class="label">🎯 מטרת אימון</div>
+          <div class="label">🎯 Training goal</div>
           <div class="chips grid-2" data-key="goal">
-            <button class="chip" data-v="strength">כוח<small><bdi dir="ltr">3–6</bdi> חזרות · מנוחה <bdi dir="ltr">2–4</bdi> דק׳</small></button>
-            <button class="chip" data-v="hypertrophy">היפרטרופיה<small><bdi dir="ltr">8–12</bdi> חזרות · <bdi dir="ltr">60–90</bdi> שנ׳</small></button>
-            <button class="chip" data-v="endurance">סיבולת<small><bdi dir="ltr">15+</bdi> חזרות · <bdi dir="ltr">30–45</bdi> שנ׳</small></button>
-            <button class="chip" data-v="mixed">משולב<small>כוח ← היפרטרופיה ← סיבולת</small></button>
+            <button class="chip" data-v="strength">Strength<small>3–6 reps · 2–4 min rest</small></button>
+            <button class="chip" data-v="hypertrophy">Hypertrophy<small>8–12 reps · 60–90 s rest</small></button>
+            <button class="chip" data-v="endurance">Endurance<small>15+ reps · 30–45 s rest</small></button>
+            <button class="chip" data-v="mixed">Mixed<small>Strength → Hypertrophy → Endurance</small></button>
           </div>
         </div>
         <div class="field">
-          <div class="label">📈 רמה</div>
+          <div class="label">📈 Level</div>
           <div class="chips grid-4" data-key="level">
-            <button class="chip" data-v="1">מתחיל</button>
-            <button class="chip" data-v="2">בינוני</button>
-            <button class="chip" data-v="3">מתקדם</button>
-            <button class="chip" data-v="4">מקצוען</button>
+            <button class="chip" data-v="1">Beginner</button>
+            <button class="chip" data-v="2">Intermediate</button>
+            <button class="chip" data-v="3">Advanced</button>
+            <button class="chip" data-v="4">Pro</button>
           </div>
         </div>
         <div class="field">
-          <div class="label">💪 אזור גוף</div>
+          <div class="label">💪 Body area</div>
           <div class="chips" data-key="area" style="display:grid;grid-template-columns:repeat(3,1fr)">
-            <button class="chip" data-v="upper">פלג עליון</button>
-            <button class="chip" data-v="push">דחיפה</button>
-            <button class="chip" data-v="pull">משיכה</button>
-            <button class="chip" data-v="legs">רגליים</button>
-            <button class="chip" data-v="core">בטן וליבה</button>
-            <button class="chip" data-v="full">כל הגוף</button>
+            <button class="chip" data-v="upper">Upper body</button>
+            <button class="chip" data-v="push">Push</button>
+            <button class="chip" data-v="pull">Pull</button>
+            <button class="chip" data-v="legs">Legs</button>
+            <button class="chip" data-v="core">Abs & core</button>
+            <button class="chip" data-v="full">Full body</button>
           </div>
         </div>
         <div class="field">
-          <div class="label">🧰 ציוד זמין <small>(אפשר לבחור כמה)</small></div>
+          <div class="label">🧰 Available equipment <small>(pick any)</small></div>
           <div class="chips" data-key="equip" data-multi="1">
-            <button class="chip" data-v="none">בלי ציוד</button>
-            <button class="chip" data-v="bar">מתח</button>
-            <button class="chip" data-v="dip">מקבילים</button>
-            <button class="chip" data-v="rings">טבעות</button>
-            <button class="chip" data-v="belt">חגורת משקל</button>
+            <button class="chip" data-v="none">No equipment</button>
+            <button class="chip" data-v="bar">Pull-up bar</button>
+            <button class="chip" data-v="dip">Parallel bars</button>
+            <button class="chip" data-v="rings">Rings</button>
+            <button class="chip" data-v="belt">Weight belt</button>
           </div>
         </div>
         <div class="field">
-          <div class="label">⏱️ משך אימון</div>
+          <div class="label">⏱️ Workout length</div>
           <div class="chips grid-4" data-key="duration">
-            <button class="chip" data-v="15">15 דק׳</button>
-            <button class="chip" data-v="30">30 דק׳</button>
-            <button class="chip" data-v="45">45 דק׳</button>
-            <button class="chip" data-v="60">60 דק׳</button>
+            <button class="chip" data-v="15">15 min</button>
+            <button class="chip" data-v="30">30 min</button>
+            <button class="chip" data-v="45">45 min</button>
+            <button class="chip" data-v="60">60 min</button>
           </div>
         </div>
         <button class="gen-btn" id="genBtn">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg>
-          צור אימון
+          Build workout
         </button>
       </div>
     </div>
@@ -363,8 +362,8 @@ button:focus-visible,.chip:focus-visible{outline:2px solid var(--accent);outline
     </div>
     <div class="section">
       <div style="display:flex;align-items:center;margin-bottom:8px">
-        <div class="h2" style="flex:1">היסטוריית אימונים</div>
-        <button class="btn ghost danger" id="clearHist">נקה</button>
+        <div class="h2" style="flex:1">Workout history</div>
+        <button class="btn ghost danger" id="clearHist">Clear</button>
       </div>
       <div id="histList"></div>
     </div>
@@ -373,29 +372,29 @@ button:focus-visible,.chip:focus-visible{outline:2px solid var(--accent);outline
   <!-- FAVORITES VIEW -->
   <section class="view" id="view-favs" hidden>
     <div class="section">
-      <div class="h2" style="margin-bottom:8px">אימונים מועדפים</div>
+      <div class="h2" style="margin-bottom:8px">Favorite workouts</div>
       <div id="favList"></div>
     </div>
   </section>
 </main>
 
-<button class="timer-fab" id="timerFab" aria-label="פתח טיימר מנוחה"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6M12 2v3"/></svg></button>
+<button class="timer-fab" id="timerFab" aria-label="Open rest timer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6M12 2v3"/></svg></button>
 
 <div class="timer" id="timer" aria-live="polite">
-  <button class="t-close" data-t="close" aria-label="סגור">✕</button>
+  <button class="t-close" data-t="close" aria-label="Close">✕</button>
   <div class="t-inner">
     <div class="t-ring">
       <svg viewBox="0 0 100 100"><circle class="t-bg" cx="50" cy="50" r="42"/><circle class="t-fg" id="tFg" cx="50" cy="50" r="42" stroke-dasharray="263.9" stroke-dashoffset="0"/></svg>
-      <div class="t-time" id="tTime" title="הקש כדי לקבוע זמן ידנית">0:00</div>
+      <div class="t-time" id="tTime" title="Tap to set the time manually">0:00</div>
     </div>
     <div class="t-side">
-      <div class="t-label" id="tLabel">מנוחה</div>
+      <div class="t-label" id="tLabel">Rest</div>
       <div class="t-next" id="tNext"></div>
       <div class="t-btns">
         <button data-t="-15">−15</button>
         <button data-t="pause" id="tPause">⏸</button>
         <button data-t="+15">+15</button>
-        <button data-t="skip">דלג</button>
+        <button data-t="skip">Skip</button>
       </div>
     </div>
   </div>
@@ -403,26 +402,26 @@ button:focus-visible,.chip:focus-visible{outline:2px solid var(--accent);outline
 
 <nav class="nav">
   <div class="wrap">
-    <button class="on" data-view="workout"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6.5 6.5v11M17.5 6.5v11M3 9v6M21 9v6M6.5 12h11"/></svg>אימון</button>
-    <button data-view="history"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/></svg>היסטוריה</button>
-    <button data-view="favs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.2l1-6.2L3 9.6l6.2-.9z"/></svg>מועדפים</button>
+    <button class="on" data-view="workout"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6.5 6.5v11M17.5 6.5v11M3 9v6M21 9v6M6.5 12h11"/></svg>Workout</button>
+    <button data-view="history"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/></svg>History</button>
+    <button data-view="favs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.2l1-6.2L3 9.6l6.2-.9z"/></svg>Favorites</button>
   </div>
 </nav>
 
 <div class="modal" id="doneModal">
   <div class="modal-card">
     <div class="trophy">🏆</div>
-    <h2>כל הכבוד!</h2>
-    <p id="doneMsg">סיימת את האימון. הגוף שלך מודה לך!</p>
+    <h2>Great job!</h2>
+    <p id="doneMsg">You finished the workout. Your body thanks you!</p>
     <div class="modal-stats" id="doneStats"></div>
-    <button class="btn primary" id="doneClose">יאללה, סגור</button>
+    <button class="btn primary" id="doneClose">Close</button>
   </div>
 </div>
 <div class="modal" id="askModal">
   <div class="modal-card ask-card">
     <p id="askMsg"></p>
     <input id="askInput" type="number" inputmode="numeric" min="5" max="3600" hidden>
-    <div class="ask-btns"><button class="btn primary" id="askYes">אישור</button><button class="btn" id="askNo">ביטול</button></div>
+    <div class="ask-btns"><button class="btn primary" id="askYes">OK</button><button class="btn" id="askNo">Cancel</button></div>
   </div>
 </div>
 <div class="toast" id="toast"></div>
@@ -430,8 +429,8 @@ button:focus-visible,.chip:focus-visible{outline:2px solid var(--accent);outline
 
 <script>
 'use strict';
-document.documentElement.lang = 'he';
-document.documentElement.dir = 'rtl';
+document.documentElement.lang = 'en';
+document.documentElement.dir = 'ltr';
 /* =========================================================
    Utilities & storage
    ========================================================= */
@@ -452,7 +451,7 @@ function ask(msg, opts = {}) {
   return new Promise(res => {
     const m = $('#askModal'), inp = $('#askInput'), yes = $('#askYes'), no = $('#askNo');
     $('#askMsg').textContent = msg;
-    yes.textContent = opts.yes || 'אישור';
+    yes.textContent = opts.yes || 'OK';
     inp.hidden = !opts.input;
     if (opts.input) inp.value = opts.value != null ? opts.value : '';
     m.classList.add('show');
@@ -470,27 +469,27 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;',
    Static data
    ========================================================= */
 const MUSCLES = {
-  chest: 'חזה', shoulders: 'כתפיים', rearDelt: 'כתף אחורית', triceps: 'יד אחורית (תלת־ראשי)',
-  biceps: 'יד קדמית (דו־ראשי)', forearms: 'אמות', lats: 'גב רחב', traps: 'טרפזים',
-  rhomboids: 'גב עליון', lowerBack: 'גב תחתון', abs: 'בטן', obliques: 'אלכסוניים',
-  hipFlexors: 'מכופפי ירך', quads: 'ארבע־ראשי', hamstrings: 'המסטרינג', glutes: 'ישבן',
-  calves: 'שוקיים', adductors: 'מקרבים'
+  chest: 'Chest', shoulders: 'Shoulders', rearDelt: 'Rear delts', triceps: 'Triceps',
+  biceps: 'Biceps', forearms: 'Forearms', lats: 'Lats', traps: 'Traps',
+  rhomboids: 'Upper back', lowerBack: 'Lower back', abs: 'Abs', obliques: 'Obliques',
+  hipFlexors: 'Hip flexors', quads: 'Quads', hamstrings: 'Hamstrings', glutes: 'Glutes',
+  calves: 'Calves', adductors: 'Adductors'
 };
-const GOALS = { strength: 'כוח', hypertrophy: 'היפרטרופיה', endurance: 'סיבולת', mixed: 'משולב' };
-const LEVELS = { 1: 'מתחיל', 2: 'בינוני', 3: 'מתקדם', 4: 'מקצוען' };
+const GOALS = { strength: 'Strength', hypertrophy: 'Hypertrophy', endurance: 'Endurance', mixed: 'Mixed' };
+const LEVELS = { 1: 'Beginner', 2: 'Intermediate', 3: 'Advanced', 4: 'Pro' };
 const AREAS = {
-  upper: { name: 'פלג עליון', cats: ['push', 'pull'], rot: ['push', 'pull'] },
-  push: { name: 'דחיפה', cats: ['push'], rot: ['push'] },
-  pull: { name: 'משיכה', cats: ['pull'], rot: ['pull'] },
-  legs: { name: 'רגליים', cats: ['legs'], rot: ['legs'] },
-  core: { name: 'בטן וליבה', cats: ['core'], rot: ['core'] },
-  full: { name: 'כל הגוף', cats: ['push', 'pull', 'legs', 'core', 'full'], rot: ['legs', 'push', 'pull', 'core', 'push', 'pull', 'full', 'legs'] }
+  upper: { name: 'Upper body', cats: ['push', 'pull'], rot: ['push', 'pull'] },
+  push: { name: 'Push', cats: ['push'], rot: ['push'] },
+  pull: { name: 'Pull', cats: ['pull'], rot: ['pull'] },
+  legs: { name: 'Legs', cats: ['legs'], rot: ['legs'] },
+  core: { name: 'Abs & core', cats: ['core'], rot: ['core'] },
+  full: { name: 'Full body', cats: ['push', 'pull', 'legs', 'core', 'full'], rot: ['legs', 'push', 'pull', 'core', 'push', 'pull', 'full', 'legs'] }
 };
 // Prescription per training goal
 const SCHEMES = {
-  strength:    { name: 'כוח',        reps: '3–6',   hold: '20–30', skillHold: '5–10', rest: 150, work: 30, sets: { 15: 3, 30: 3, 45: 4, 60: 4 } },
-  hypertrophy: { name: 'היפרטרופיה', reps: '8–12',  hold: '30–45', rest: 75, work: 40, sets: { 15: 3, 30: 3, 45: 4, 60: 4 } },
-  endurance:   { name: 'סיבולת',     reps: '15–20', hold: '45–60', rest: 40, work: 50, sets: { 15: 2, 30: 3, 45: 3, 60: 4 } }
+  strength:    { name: 'Strength',    reps: '3–6',   hold: '20–30', skillHold: '5–10', rest: 150, work: 30, sets: { 15: 3, 30: 3, 45: 4, 60: 4 } },
+  hypertrophy: { name: 'Hypertrophy', reps: '8–12',  hold: '30–45', rest: 75, work: 40, sets: { 15: 3, 30: 3, 45: 4, 60: 4 } },
+  endurance:   { name: 'Endurance',   reps: '15–20', hold: '45–60', rest: 40, work: 50, sets: { 15: 2, 30: 3, 45: 3, 60: 4 } }
 };
 
 /* Exercise database.
@@ -502,183 +501,183 @@ function E(id, name, cat, eq, min, max, t, pri, sec, desc, o = {}) {
   EX.push(Object.assign({ id, name, cat, eq, min, max, t, pri, sec: sec ? sec.split(',') : [], desc }, o));
 }
 // ---------- PUSH ----------
-E('pushup_knee', 'שכיבות סמיכה על הברכיים', 'push', '', 1, 1, 'r', 'chest', 'triceps,shoulders', 'גוף ישר מהברכיים ועד הראש, ידיים מעט רחבות מהכתפיים. רדו עד שהחזה כמעט נוגע ברצפה ודחפו חזרה.');
-E('pushup_incline', 'שכיבות סמיכה בשיפוע (ידיים מוגבהות)', 'push', '', 1, 2, 'r', 'chest', 'triceps,shoulders', 'ידיים על ספסל או שולחן יציב. גוף בקו ישר, מרפקים בזווית של כ־45° מהגוף, ורדו עד שהחזה מתקרב למשטח.');
-E('pushup', 'שכיבות סמיכה', 'push', '', 1, 3, 'r', 'chest', 'triceps,shoulders,abs', 'כפות ידיים מתחת לכתפיים, בטן וישבן מכווצים. רדו בשליטה עד שהחזה כמעט נוגע ברצפה ודחפו עד יישור מרפקים.');
-E('pushup_wide', 'שכיבות סמיכה רחבות', 'push', '', 1, 3, 'r', 'chest', 'shoulders,triceps', 'ידיים רחבות משמעותית מהכתפיים. רדו לאט תוך שמירה על גוף ישר והרגישו מתיחה בחזה בתחתית התנועה.');
-E('pushup_diamond', 'שכיבות סמיכה יהלום', 'push', '', 2, 3, 'r', 'triceps', 'chest,shoulders', 'האגודלים והאצבעות המורות נוגעים ויוצרים משולש מתחת לחזה. שמרו על מרפקים קרובים לגוף לאורך כל התנועה.');
-E('pushup_decline', 'שכיבות סמיכה בשיפוע שלילי (רגליים מוגבהות)', 'push', '', 2, 3, 'r', 'chest', 'shoulders,triceps', 'רגליים על כיסא או ספסל וידיים על הרצפה. גוף ישר, רדו עד שהחזה מתקרב לרצפה – מדגיש חזה עליון וכתפיים.');
-E('pike_pushup', 'שכיבות סמיכה פייק', 'push', '', 1, 3, 'r', 'shoulders', 'triceps,traps', 'ישבן גבוה והגוף בצורת V הפוכה. כופפו מרפקים והורידו את הראש לנקודה שלפני כפות הידיים, ודחפו חזרה.');
-E('pike_elevated', 'פייק מוגבה (רגליים על כיסא)', 'push', '', 2, 3, 'r', 'shoulders', 'triceps,traps', 'רגליים על משטח מוגבה כך שהגב כמעט אנכי. הורידו את הראש בשליטה אל המשולש שיוצרות הידיים. שלב מקדים לעמידת ידיים.');
-E('archer_pushup', 'שכיבות סמיכה ארצ׳ר', 'push', '', 3, 4, 'r', 'chest', 'triceps,shoulders', 'ידיים רחבות מאוד. רדו לכיוון יד אחת בעוד היד השנייה נשארת ישרה ככל האפשר. החליפו צד בכל חזרה.', { side: 1 });
-E('pseudo_planche_pushup', 'שכיבות סמיכה פסאודו־פלאנש', 'push', '', 3, 4, 'r', 'shoulders', 'chest,triceps,abs', 'כפות ידיים ליד המותניים, אצבעות מופנות לרגליים, והגוף נוטה קדימה. שמרו על הנטייה קדימה לאורך כל החזרה.');
-E('clap_pushup', 'שכיבות סמיכה מתפוצצות (מחיאת כף)', 'push', '', 3, 4, 'r', 'chest', 'triceps,shoulders', 'רדו בשליטה ודחפו בעוצמה כך שהידיים עוזבות את הרצפה. מחאו כף ונחתו רך עם מרפקים מעט כפופים.');
-E('bench_dips', 'דיפס על כיסא', 'push', '', 1, 2, 'r', 'triceps', 'chest,shoulders', 'ידיים על קצה כיסא מאחוריכם ורגליים קדימה. כופפו מרפקים עד 90° ודחפו חזרה, כשהגב נשאר קרוב לכיסא.');
-E('dips_neg', 'דיפס שליליים', 'push', 'dip', 1, 1, 'r', 'triceps', 'chest,shoulders', 'קפצו למצב תמיכה עליון במקבילים ורדו לאט מאוד (3–5 שניות) עד זווית של 90° במרפק.');
-E('support_hold', 'החזקת תמיכה במקבילים', 'push', 'dip', 1, 2, 'h', 'triceps', 'shoulders,abs', 'ידיים ישרות ונעולות, כתפיים לחוצות למטה הרחק מהאוזניים, גוף ישר ויציב.', { iso: 1 });
-E('dips', 'דיפס במקבילים', 'push', 'dip', 2, 3, 'r', 'triceps', 'chest,shoulders', 'התחילו בתמיכה עם ידיים ישרות. רדו עד שהכתף מעט מתחת למרפק, נטו מעט קדימה, ודחפו עד יישור מלא.');
-E('ring_support', 'החזקת תמיכה בטבעות', 'push', 'rings', 2, 3, 'h', 'shoulders', 'triceps,chest,abs', 'ידיים ישרות לצד הגוף, טבעות צמודות לירכיים, ונסו לסובב את הטבעות החוצה. שלטו ברעידות.', { iso: 1 });
-E('ring_pushup', 'שכיבות סמיכה בטבעות', 'push', 'rings', 2, 3, 'r', 'chest', 'triceps,shoulders,abs', 'טבעות נמוכות סמוך לרצפה. רדו בשליטה עד שהידיים ליד החזה, ובסוף כל חזרה סובבו את הטבעות החוצה.');
-E('ring_dips', 'דיפס בטבעות', 'push', 'rings', 3, 4, 'r', 'triceps', 'chest,shoulders', 'בתמיכה על הטבעות, צמדו אותן לגוף ורדו בשליטה עד 90°. דחפו למעלה וסובבו את הטבעות החוצה בנעילה.');
-E('straight_bar_dips', 'דיפס על מוט ישר', 'push', 'bar', 3, 4, 'r', 'triceps', 'chest,shoulders', 'בתמיכה מעל מוט המתח, רגליים מעט קדימה. רדו עד שהמוט ליד החזה ודחפו חזרה. חיוני לשלב הסיום של המאסל אפ.');
-E('korean_dips', 'דיפס קוריאני', 'push', 'bar', 4, 4, 'r', 'shoulders', 'triceps,chest', 'המוט מאחורי הגב והידיים אוחזות בו מאחור. רדו בשליטה עד שהמוט מתחת לישבן ודחפו חזרה. דורש גמישות כתפיים.');
-E('weighted_dips', 'דיפס עם משקל', 'push', 'dip+belt', 3, 4, 'r', 'triceps', 'chest,shoulders', 'חגרו משקל לחגורה ובצעו דיפס מלא עם טכניקה מושלמת. אם הטכניקה נשברת – הפחיתו משקל.', { s: 1 });
+E('pushup_knee', 'Knee push-ups', 'push', '', 1, 1, 'r', 'chest', 'triceps,shoulders', 'Body straight from knees to head, hands slightly wider than shoulders. Lower until your chest almost touches the floor, then push back up.');
+E('pushup_incline', 'Incline push-ups (hands elevated)', 'push', '', 1, 2, 'r', 'chest', 'triceps,shoulders', 'Hands on a sturdy bench or table. Keep a straight line, elbows about 45° from your body, and lower until your chest nears the surface.');
+E('pushup', 'Push-ups', 'push', '', 1, 3, 'r', 'chest', 'triceps,shoulders,abs', 'Hands under shoulders, abs and glutes tight. Lower with control until your chest almost touches the floor and press to full lockout.');
+E('pushup_wide', 'Wide push-ups', 'push', '', 1, 3, 'r', 'chest', 'shoulders,triceps', 'Hands well outside shoulder width. Lower slowly with a straight body and feel the stretch in your chest at the bottom.');
+E('pushup_diamond', 'Diamond push-ups', 'push', '', 2, 3, 'r', 'triceps', 'chest,shoulders', 'Thumbs and index fingers touch to form a diamond under your chest. Keep elbows close to your body the whole time.');
+E('pushup_decline', 'Decline push-ups (feet elevated)', 'push', '', 2, 3, 'r', 'chest', 'shoulders,triceps', 'Feet on a chair or bench, hands on the floor. Keep a straight body and lower your chest toward the floor. Targets upper chest and shoulders.');
+E('pike_pushup', 'Pike push-ups', 'push', '', 1, 3, 'r', 'shoulders', 'triceps,traps', 'Hips high so your body forms an upside-down V. Bend your elbows to lower your head to a point in front of your hands, then press back up.');
+E('pike_elevated', 'Elevated pike push-ups', 'push', '', 2, 3, 'r', 'shoulders', 'triceps,traps', 'Feet on a raised surface so your back is nearly vertical. Lower your head with control into the triangle formed by your hands. A step toward handstand push-ups.');
+E('archer_pushup', 'Archer push-ups', 'push', '', 3, 4, 'r', 'chest', 'triceps,shoulders', 'Hands very wide. Lower toward one hand while the other arm stays as straight as possible. Alternate sides each rep.', { side: 1 });
+E('pseudo_planche_pushup', 'Pseudo planche push-ups', 'push', '', 3, 4, 'r', 'shoulders', 'chest,triceps,abs', 'Hands next to your hips, fingers pointing toward your feet, body leaning forward. Keep the forward lean through the whole rep.');
+E('clap_pushup', 'Clap push-ups', 'push', '', 3, 4, 'r', 'chest', 'triceps,shoulders', 'Lower with control and push explosively so your hands leave the floor. Clap and land softly with slightly bent elbows.');
+E('bench_dips', 'Bench dips', 'push', '', 1, 2, 'r', 'triceps', 'chest,shoulders', 'Hands on the edge of a chair behind you, legs out front. Bend elbows to 90° and push back up, keeping your back close to the chair.');
+E('dips_neg', 'Negative dips', 'push', 'dip', 1, 1, 'r', 'triceps', 'chest,shoulders', 'Jump to the top support position on the parallel bars and lower very slowly (3–5 seconds) until your elbows reach 90°.');
+E('support_hold', 'Parallel bar support hold', 'push', 'dip', 1, 2, 'h', 'triceps', 'shoulders,abs', 'Arms straight and locked, shoulders pressed down away from your ears, body straight and steady.', { iso: 1 });
+E('dips', 'Parallel bar dips', 'push', 'dip', 2, 3, 'r', 'triceps', 'chest,shoulders', 'Start in support with straight arms. Lower until your shoulders are slightly below your elbows, lean forward a little, and press to full lockout.');
+E('ring_support', 'Ring support hold', 'push', 'rings', 2, 3, 'h', 'shoulders', 'triceps,chest,abs', 'Arms straight at your sides, rings close to your thighs, and try to turn the rings out. Control the shaking.', { iso: 1 });
+E('ring_pushup', 'Ring push-ups', 'push', 'rings', 2, 3, 'r', 'chest', 'triceps,shoulders,abs', 'Rings set low near the floor. Lower with control until your hands are by your chest, and turn the rings out at the top of each rep.');
+E('ring_dips', 'Ring dips', 'push', 'rings', 3, 4, 'r', 'triceps', 'chest,shoulders', 'In support on the rings, keep them close to your body and lower with control to 90°. Press up and turn the rings out at lockout.');
+E('straight_bar_dips', 'Straight bar dips', 'push', 'bar', 3, 4, 'r', 'triceps', 'chest,shoulders', 'In support over the pull-up bar, legs slightly forward. Lower until the bar is near your chest and press back up. Key for finishing a muscle-up.');
+E('korean_dips', 'Korean dips', 'push', 'bar', 4, 4, 'r', 'shoulders', 'triceps,chest', 'Bar behind your back, hands gripping it from behind. Lower with control until the bar is below your glutes and press back up. Needs shoulder mobility.');
+E('weighted_dips', 'Weighted dips', 'push', 'dip+belt', 3, 4, 'r', 'triceps', 'chest,shoulders', 'Attach weight to your belt and do full dips with perfect form. If your form breaks, reduce the weight.', { s: 1 });
 // Handstand progression
-E('hs_pike_hold', 'החזקת פייק מוגבה (הכנה לעמידת ידיים)', 'push', '', 1, 4, 'h', 'shoulders', 'triceps,traps,abs', 'רגליים על כיסא, ישבן גבוה מעל הכתפיים. דחפו את הרצפה והכניסו את הראש בין הידיים.', { f: 'hs', s: 1 });
-E('hs_wall', 'עמידת ידיים מול קיר (בטן לקיר)', 'push', '', 2, 4, 'h', 'shoulders', 'triceps,traps,abs', 'טפסו עם הרגליים על הקיר עד שהגוף כמעט אנכי. ידיים ישרות, דחיפה חזקה מהכתפיים, בטן וישבן מכווצים.', { f: 'hs', s: 1 });
-E('hs_free', 'עמידת ידיים חופשית – תרגול איזון', 'push', '', 3, 4, 'h', 'shoulders', 'triceps,traps,forearms,abs', 'בעטו לעמידת ידיים ושמרו על איזון בעזרת לחץ אצבעות. החזיקו כמה שניתן וצאו בבטחה בסיבוב הצידה.', { f: 'hs', s: 1 });
-E('hs_free_hold', 'עמידת ידיים חופשית – החזקה מלאה', 'push', '', 4, 4, 'h', 'shoulders', 'triceps,traps,forearms,abs', 'עמידת ידיים ישרה לגמרי: ידיים נעולות, כתפיים פתוחות ליד האוזניים, הגוף בקו אחד מהידיים ועד הבהונות.', { f: 'hs', s: 1 });
+E('hs_pike_hold', 'Elevated pike hold (handstand prep)', 'push', '', 1, 4, 'h', 'shoulders', 'triceps,traps,abs', 'Feet on a chair, hips high over your shoulders. Push the floor away and bring your head between your arms.', { f: 'hs', s: 1 });
+E('hs_wall', 'Wall handstand (chest to wall)', 'push', '', 2, 4, 'h', 'shoulders', 'triceps,traps,abs', 'Walk your feet up the wall until your body is nearly vertical. Arms straight, push hard through your shoulders, abs and glutes tight.', { f: 'hs', s: 1 });
+E('hs_free', 'Freestanding handstand – balance practice', 'push', '', 3, 4, 'h', 'shoulders', 'triceps,traps,forearms,abs', 'Kick up to a handstand and balance using finger pressure. Hold as long as you can and bail out safely by turning to the side.', { f: 'hs', s: 1 });
+E('hs_free_hold', 'Freestanding handstand – full hold', 'push', '', 4, 4, 'h', 'shoulders', 'triceps,traps,forearms,abs', 'A fully straight handstand: arms locked, shoulders open by your ears, body in one line from hands to toes.', { f: 'hs', s: 1 });
 // Handstand push-up progression
-E('hspu_neg', 'שכיבות סמיכה בעמידת ידיים – שליליות מול קיר', 'push', '', 2, 4, 'r', 'shoulders', 'triceps,traps', 'מעמידת ידיים מול הקיר, רדו לאט (3–5 שניות) עד שהראש נוגע ברצפה. רדו מהקיר ועלו שוב לחזרה הבאה.', { f: 'hspu', s: 1 });
-E('hspu_wall', 'שכיבות סמיכה בעמידת ידיים מול קיר', 'push', '', 3, 4, 'r', 'shoulders', 'triceps,traps', 'בעמידת ידיים מול קיר, רדו עד שהראש נוגע קלות ברצפה ודחפו עד יישור מלא בלי לקשת את הגב.', { f: 'hspu', s: 1 });
-E('hspu_deficit', 'שכיבות סמיכה בעמידת ידיים בטווח עמוק (מקבילים)', 'push', 'dip', 4, 4, 'r', 'shoulders', 'triceps,traps,chest', 'עמידת ידיים על המקבילים עם רגליים על קיר. רדו מתחת לגובה הידיים לטווח מלא ודחפו חזרה למעלה.', { f: 'hspu', s: 1 });
-E('hspu_free', 'שכיבות סמיכה בעמידת ידיים חופשית', 'push', '', 4, 4, 'r', 'shoulders', 'triceps,traps,abs,forearms', 'בעמידת ידיים חופשית, רדו בשליטה עד שהראש כמעט נוגע ברצפה ודחפו חזרה תוך שמירה על איזון.', { f: 'hspu', s: 1 });
+E('hspu_neg', 'Negative wall handstand push-ups', 'push', '', 2, 4, 'r', 'shoulders', 'triceps,traps', 'From a wall handstand, lower slowly (3–5 seconds) until your head touches the floor. Come down off the wall and kick up again for the next rep.', { f: 'hspu', s: 1 });
+E('hspu_wall', 'Wall handstand push-ups', 'push', '', 3, 4, 'r', 'shoulders', 'triceps,traps', 'In a wall handstand, lower until your head lightly touches the floor and press to full lockout without arching your back.', { f: 'hspu', s: 1 });
+E('hspu_deficit', 'Deficit handstand push-ups (parallel bars)', 'push', 'dip', 4, 4, 'r', 'shoulders', 'triceps,traps,chest', 'Handstand on the parallel bars with feet on a wall. Lower below hand level for full range and press back up.', { f: 'hspu', s: 1 });
+E('hspu_free', 'Freestanding handstand push-ups', 'push', '', 4, 4, 'r', 'shoulders', 'triceps,traps,abs,forearms', 'In a freestanding handstand, lower with control until your head nearly touches the floor and press back up while keeping your balance.', { f: 'hspu', s: 1 });
 // Planche progression
-E('pl_lean', 'פלאנש לין', 'push', '', 2, 4, 'h', 'shoulders', 'chest,triceps,abs,forearms', 'במצב שכיבת סמיכה עם ידיים ישרות, הטו את הגוף קדימה כך שהכתפיים עוברות את כפות הידיים. כתפיים מעוגלות קדימה.', { f: 'pl', s: 1 });
-E('pl_tuck', 'טאק פלאנש', 'push', '', 3, 4, 'h', 'shoulders', 'chest,triceps,abs,forearms', 'ידיים ישרות על הרצפה או מקבילונים, ברכיים צמודות לחזה. הטו קדימה ודחפו את הרצפה עד שהרגליים מתרוממות.', { f: 'pl', s: 1 });
-E('pl_advtuck', 'אדבנס טאק פלאנש', 'push', '', 4, 4, 'h', 'shoulders', 'chest,triceps,abs,lowerBack', 'כמו טאק פלאנש, אבל עם גב ישר ושטוח והירכיים בגובה הכתפיים. ידיים נעולות לחלוטין.', { f: 'pl', s: 1 });
-E('pl_straddle', 'סטרדל פלאנש', 'push', '', 4, 4, 'h', 'shoulders', 'chest,triceps,abs,glutes', 'רגליים ישרות ופשוקות לצדדים, הגוף מקביל לרצפה ונשען רק על הידיים. דורש כוח כתפיים קיצוני.', { f: 'pl', s: 1 });
+E('pl_lean', 'Planche lean', 'push', '', 2, 4, 'h', 'shoulders', 'chest,triceps,abs,forearms', 'In a push-up position with straight arms, lean forward so your shoulders pass your hands. Keep your shoulders rounded forward.', { f: 'pl', s: 1 });
+E('pl_tuck', 'Tuck planche', 'push', '', 3, 4, 'h', 'shoulders', 'chest,triceps,abs,forearms', 'Straight arms on the floor or parallettes, knees tucked to your chest. Lean forward and push the floor away until your feet lift.', { f: 'pl', s: 1 });
+E('pl_advtuck', 'Advanced tuck planche', 'push', '', 4, 4, 'h', 'shoulders', 'chest,triceps,abs,lowerBack', 'Like the tuck planche, but with a flat back and hips at shoulder height. Arms fully locked.', { f: 'pl', s: 1 });
+E('pl_straddle', 'Straddle planche', 'push', '', 4, 4, 'h', 'shoulders', 'chest,triceps,abs,glutes', 'Legs straight and spread wide, body parallel to the floor, supported only by your hands. Takes extreme shoulder strength.', { f: 'pl', s: 1 });
 
 // ---------- PULL ----------
-E('scap_pull', 'משיכות שכמות בתלייה', 'pull', 'bar|rings', 1, 2, 'r', 'rhomboids', 'lats,traps', 'תלו מהמוט עם ידיים ישרות. משכו את השכמות למטה ואחורה כך שהגוף עולה מעט – בלי לכופף מרפקים.', { iso: 1 });
-E('dead_hang', 'תלייה חופשית', 'pull', 'bar|rings', 1, 2, 'h', 'forearms', 'lats,shoulders', 'תלו באחיזה מלאה, כתפיים פעילות (לא צמודות לאוזניים), גוף רגוע וישר. מחזק אחיזה ופותח כתפיים.', { iso: 1 });
-E('aus_row', 'חתירה אוסטרלית (מתח נמוך)', 'pull', 'bar', 1, 3, 'r', 'rhomboids', 'lats,biceps,rearDelt', 'מתחת למוט נמוך, גוף ישר ועקבים על הרצפה. משכו את החזה אל המוט, צמדו שכמות, ורדו לאט.');
-E('ring_row', 'חתירה בטבעות', 'pull', 'rings', 1, 3, 'r', 'rhomboids', 'lats,biceps,rearDelt', 'אחזו בטבעות ונטו לאחור עם גוף ישר. משכו עד שהטבעות ליד החזה. ככל שהגוף אופקי יותר – קשה יותר.');
-E('table_row', 'חתירה מתחת לשולחן', 'pull', '', 1, 2, 'r', 'rhomboids', 'lats,biceps', 'שכבו מתחת לשולחן יציב ואחזו בקצהו. משכו את החזה לכיוון השולחן תוך שמירה על גוף ישר. ודאו שהשולחן לא מתהפך!');
-E('towel_row', 'חתירת מגבת בדלת', 'pull', '', 1, 2, 'r', 'lats', 'biceps,forearms,rhomboids', 'כרכו מגבת סביב ידית של דלת סגורה ונעולה. נטו לאחור ומשכו את עצמכם לכיוון הדלת עם מרפקים ליד הגוף.');
-E('superman', 'סופרמן', 'pull', '', 1, 2, 'r', 'lowerBack', 'glutes,rhomboids', 'שכבו על הבטן, הרימו בו־זמנית ידיים, חזה ורגליים מהרצפה, החזיקו שנייה ורדו לאט.', { iso: 1 });
-E('prone_ytw', 'הרמות Y‑T‑W בשכיבה', 'pull', '', 1, 3, 'r', 'rearDelt', 'rhomboids,traps', 'שכבו על הבטן ויצרו עם הידיים את האותיות Y, T ו־W ברצף תוך כיווץ שכמות. כל רצף = חזרה אחת.', { iso: 1 });
-E('snow_angel', 'מלאך שלג הפוך', 'pull', '', 1, 2, 'r', 'rhomboids', 'rearDelt,lowerBack', 'על הבטן, ידיים מורמות מעט מהרצפה. העבירו אותן בקשת מהמותניים אל מעל הראש וחזרה, לאט.', { iso: 1 });
-E('pullup_neg', 'מתח שלילי', 'pull', 'bar', 1, 2, 'r', 'lats', 'biceps,forearms', 'קפצו לנקודה העליונה של המתח (סנטר מעל המוט) ורדו לאט ככל האפשר – 3 עד 5 שניות.');
-E('chinup', 'מתח באחיזה הפוכה (צ׳ין אפ)', 'pull', 'bar|rings', 2, 3, 'r', 'biceps', 'lats,forearms', 'אחיזה ברוחב כתפיים, כפות ידיים מופנות אליכם. משכו עד שהסנטר מעל המוט ורדו עד יישור מלא.');
-E('pullup', 'מתח', 'pull', 'bar', 2, 3, 'r', 'lats', 'biceps,rhomboids,forearms', 'אחיזה מעט רחבה מהכתפיים. התחילו מתלייה מלאה, משכו את השכמות למטה ועלו עד שהסנטר מעל המוט, בלי תנופה.');
-E('wide_pullup', 'מתח רחב', 'pull', 'bar', 2, 4, 'r', 'lats', 'rhomboids,biceps,rearDelt', 'אחיזה רחבה בהרבה מהכתפיים. משכו את המרפקים למטה ולצדדים עד שהסנטר מעל המוט. רדו בשליטה.');
-E('ring_pullup', 'מתח בטבעות', 'pull', 'rings', 2, 4, 'r', 'lats', 'biceps,forearms,rhomboids', 'מתח בטבעות עם סיבוב טבעי של כפות הידיים. עלו עד שהטבעות ליד החזה ורדו בשליטה מלאה.');
-E('chest_pullup', 'מתח מתפוצץ (חזה למוט)', 'pull', 'bar', 3, 4, 'r', 'lats', 'biceps,rhomboids,abs', 'משכו בעוצמה מקסימלית כך שהחזה מגיע למוט. התרגיל החשוב ביותר בדרך למאסל אפ.');
-E('l_pullup', 'מתח בישיבת L', 'pull', 'bar', 3, 4, 'r', 'lats', 'abs,hipFlexors,biceps', 'החזיקו את הרגליים ישרות לפנים במצב L לאורך כל המתח, בלי לתת להן לרדת.');
-E('weighted_pullup', 'מתח עם משקל', 'pull', 'bar+belt', 3, 4, 'r', 'lats', 'biceps,forearms,rhomboids', 'חגרו משקל לחגורה ובצעו מתח בטווח מלא. התחילו במשקל קל והגדילו בהדרגה.', { s: 1 });
-E('weighted_chinup', 'צ׳ין אפ עם משקל', 'pull', 'bar+belt', 3, 4, 'r', 'biceps', 'lats,forearms', 'צ׳ין אפ מלא עם משקל על החגורה. שמרו על טווח מלא – מיישור מלא ועד סנטר מעל המוט.', { s: 1 });
-E('typewriter', 'מתח טייפרייטר', 'pull', 'bar', 4, 4, 'r', 'lats', 'biceps,rhomboids,forearms', 'עלו למתח רחב, ובנקודה העליונה העבירו את הגוף מצד לצד לאורך המוט כשהיד השנייה מתיישרת.');
-E('bw_curl', 'כפיפת מרפקים במשקל גוף', 'pull', 'bar|rings', 2, 3, 'r', 'biceps', 'forearms', 'אחזו במוט נמוך או בטבעות באחיזה הפוכה ונטו לאחור. כופפו רק את המרפקים ומשכו את המצח לכיוון הידיים.', { iso: 1 });
-E('face_pull', 'פייס פול בטבעות', 'pull', 'rings', 2, 3, 'r', 'rearDelt', 'rhomboids,traps', 'אחזו בטבעות ונטו לאחור. משכו את הטבעות לכיוון הפנים עם מרפקים גבוהים ופתחו את הידיים לצדדים.', { iso: 1 });
-E('fl_raise', 'הרמות פרונט לבר (טאק)', 'pull', 'bar|rings', 3, 4, 'r', 'lats', 'abs,rhomboids,rearDelt', 'מתלייה הפוכה, הורידו את הגוף בטאק עד מקביל לרצפה עם ידיים ישרות, ועלו חזרה בשליטה.');
+E('scap_pull', 'Scapular pull-ups', 'pull', 'bar|rings', 1, 2, 'r', 'rhomboids', 'lats,traps', 'Hang from the bar with straight arms. Pull your shoulder blades down and back so your body rises slightly, without bending your elbows.', { iso: 1 });
+E('dead_hang', 'Dead hang', 'pull', 'bar|rings', 1, 2, 'h', 'forearms', 'lats,shoulders', 'Hang with a full grip, shoulders active (not shrugged to your ears), body relaxed and straight. Builds grip and opens the shoulders.', { iso: 1 });
+E('aus_row', 'Australian rows (low bar)', 'pull', 'bar', 1, 3, 'r', 'rhomboids', 'lats,biceps,rearDelt', 'Under a low bar, body straight and heels on the floor. Pull your chest to the bar, squeeze your shoulder blades, and lower slowly.');
+E('ring_row', 'Ring rows', 'pull', 'rings', 1, 3, 'r', 'rhomboids', 'lats,biceps,rearDelt', 'Hold the rings and lean back with a straight body. Pull until the rings reach your chest. The more horizontal your body, the harder it gets.');
+E('table_row', 'Table rows', 'pull', '', 1, 2, 'r', 'rhomboids', 'lats,biceps', 'Lie under a sturdy table and grip its edge. Pull your chest toward the table while keeping your body straight. Make sure the table cannot tip!');
+E('towel_row', 'Door towel rows', 'pull', '', 1, 2, 'r', 'lats', 'biceps,forearms,rhomboids', 'Wrap a towel around the handle of a closed, locked door. Lean back and pull yourself toward the door with elbows close to your body.');
+E('superman', 'Superman', 'pull', '', 1, 2, 'r', 'lowerBack', 'glutes,rhomboids', 'Lie on your stomach, lift your arms, chest and legs off the floor at the same time, hold for a second and lower slowly.', { iso: 1 });
+E('prone_ytw', 'Prone Y-T-W raises', 'pull', '', 1, 3, 'r', 'rearDelt', 'rhomboids,traps', 'Lie on your stomach and form the letters Y, T and W with your arms in sequence, squeezing your shoulder blades. Each sequence = one rep.', { iso: 1 });
+E('snow_angel', 'Reverse snow angels', 'pull', '', 1, 2, 'r', 'rhomboids', 'rearDelt,lowerBack', 'On your stomach, arms slightly off the floor. Sweep them in an arc from your hips to overhead and back, slowly.', { iso: 1 });
+E('pullup_neg', 'Negative pull-ups', 'pull', 'bar', 1, 2, 'r', 'lats', 'biceps,forearms', 'Jump to the top of a pull-up (chin over the bar) and lower as slowly as possible – 3 to 5 seconds.');
+E('chinup', 'Chin-ups', 'pull', 'bar|rings', 2, 3, 'r', 'biceps', 'lats,forearms', 'Shoulder-width grip, palms facing you. Pull until your chin is over the bar and lower to full extension.');
+E('pullup', 'Pull-ups', 'pull', 'bar', 2, 3, 'r', 'lats', 'biceps,rhomboids,forearms', 'Grip slightly wider than shoulders. Start from a dead hang, pull your shoulder blades down and rise until your chin clears the bar, no swinging.');
+E('wide_pullup', 'Wide-grip pull-ups', 'pull', 'bar', 2, 4, 'r', 'lats', 'rhomboids,biceps,rearDelt', 'Grip much wider than your shoulders. Drive your elbows down and out until your chin clears the bar. Lower with control.');
+E('ring_pullup', 'Ring pull-ups', 'pull', 'rings', 2, 4, 'r', 'lats', 'biceps,forearms,rhomboids', 'Pull-ups on rings, letting your palms rotate naturally. Rise until the rings reach your chest and lower with full control.');
+E('chest_pullup', 'Explosive chest-to-bar pull-ups', 'pull', 'bar', 3, 4, 'r', 'lats', 'biceps,rhomboids,abs', 'Pull with maximum power so your chest reaches the bar. The most important exercise on the way to a muscle-up.');
+E('l_pullup', 'L-sit pull-ups', 'pull', 'bar', 3, 4, 'r', 'lats', 'abs,hipFlexors,biceps', 'Hold your legs straight out in an L position for the entire pull-up without letting them drop.');
+E('weighted_pullup', 'Weighted pull-ups', 'pull', 'bar+belt', 3, 4, 'r', 'lats', 'biceps,forearms,rhomboids', 'Attach weight to your belt and do full-range pull-ups. Start light and add weight gradually.', { s: 1 });
+E('weighted_chinup', 'Weighted chin-ups', 'pull', 'bar+belt', 3, 4, 'r', 'biceps', 'lats,forearms', 'Full chin-ups with weight on your belt. Keep the full range – from a dead hang to chin over the bar.', { s: 1 });
+E('typewriter', 'Typewriter pull-ups', 'pull', 'bar', 4, 4, 'r', 'lats', 'biceps,rhomboids,forearms', 'Pull up with a wide grip, then at the top shift your body side to side along the bar while the other arm straightens.');
+E('bw_curl', 'Bodyweight curls', 'pull', 'bar|rings', 2, 3, 'r', 'biceps', 'forearms', 'Hold a low bar or rings with an underhand grip and lean back. Bend only your elbows, pulling your forehead toward your hands.', { iso: 1 });
+E('face_pull', 'Ring face pulls', 'pull', 'rings', 2, 3, 'r', 'rearDelt', 'rhomboids,traps', 'Hold the rings and lean back. Pull the rings toward your face with high elbows and spread your hands apart.', { iso: 1 });
+E('fl_raise', 'Tuck front lever raises', 'pull', 'bar|rings', 3, 4, 'r', 'lats', 'abs,rhomboids,rearDelt', 'From an inverted hang, lower your body in a tuck until it is parallel to the floor with straight arms, then raise back up with control.');
 // One-arm pull-up progression
-E('oap_archer', 'מתח ארצ׳ר', 'pull', 'bar', 3, 4, 'r', 'lats', 'biceps,forearms,rhomboids', 'אחיזה רחבה מאוד. משכו לכיוון יד אחת בעוד השנייה מתיישרת לאורך המוט. החליפו צד בכל חזרה.', { f: 'oap', s: 1, side: 1 });
-E('oap_neg', 'מתח ביד אחת – שלילי', 'pull', 'bar', 4, 4, 'r', 'lats', 'biceps,forearms,abs', 'עלו למתח בשתי ידיים, עזבו יד אחת ורדו לאט ככל האפשר על יד אחת. שמרו על הגוף צמוד ויציב.', { f: 'oap', s: 1, side: 1 });
-E('oap', 'מתח ביד אחת', 'pull', 'bar', 4, 4, 'r', 'lats', 'biceps,forearms,abs', 'מתלייה מלאה על יד אחת, משכו עד שהסנטר מעל המוט. היד החופשית ליד הגוף, בלי סיבוב מוגזם.', { f: 'oap', s: 1, side: 1 });
+E('oap_archer', 'Archer pull-ups', 'pull', 'bar', 3, 4, 'r', 'lats', 'biceps,forearms,rhomboids', 'Very wide grip. Pull toward one hand while the other arm straightens along the bar. Alternate sides each rep.', { f: 'oap', s: 1, side: 1 });
+E('oap_neg', 'Negative one-arm pull-ups', 'pull', 'bar', 4, 4, 'r', 'lats', 'biceps,forearms,abs', 'Pull up with two hands, let go with one, and lower as slowly as possible on one arm. Keep your body tight and steady.', { f: 'oap', s: 1, side: 1 });
+E('oap', 'One-arm pull-ups', 'pull', 'bar', 4, 4, 'r', 'lats', 'biceps,forearms,abs', 'From a full hang on one arm, pull until your chin clears the bar. Free hand by your body, without excessive rotation.', { f: 'oap', s: 1, side: 1 });
 // Muscle-up progression
-E('mu_neg', 'מאסל אפ שלילי', 'pull', 'bar', 2, 4, 'r', 'lats', 'triceps,chest,biceps', 'קפצו לתמיכה מעל המוט ורדו לאט דרך שלב המעבר ועד תלייה מלאה. מלמד את תבנית התנועה.', { f: 'mu', s: 1 });
-E('mu', 'מאסל אפ', 'pull', 'bar', 3, 4, 'r', 'lats', 'triceps,chest,biceps,abs', 'מתלייה, משכו בעוצמה עם תנופה קלה אל מעל המוט, העבירו את החזה מעליו ודחפו עד תמיכה מלאה.', { f: 'mu', s: 1 });
-E('mu_strict', 'מאסל אפ סטריקט', 'pull', 'bar', 4, 4, 'r', 'lats', 'triceps,chest,biceps,forearms', 'מאסל אפ ללא תנופה וללא בעיטה – משיכה איטית ונקייה, מעבר שקט מעל המוט ודחיפה מלאה.', { f: 'mu', s: 1 });
-E('mu_rings', 'מאסל אפ בטבעות', 'pull', 'rings', 4, 4, 'r', 'lats', 'triceps,chest,biceps', 'אחיזה כוזבת (False Grip) בטבעות, משיכה לחזה, מעבר מהיר של המרפקים מעל הטבעות ודיפס עד נעילה.', { f: 'mu', s: 1 });
+E('mu_neg', 'Negative muscle-ups', 'pull', 'bar', 2, 4, 'r', 'lats', 'triceps,chest,biceps', 'Jump to support above the bar and lower slowly through the transition to a full hang. Teaches the movement pattern.', { f: 'mu', s: 1 });
+E('mu', 'Muscle-ups', 'pull', 'bar', 3, 4, 'r', 'lats', 'triceps,chest,biceps,abs', 'From a hang, pull explosively with a slight swing over the bar, bring your chest over it and press to full support.', { f: 'mu', s: 1 });
+E('mu_strict', 'Strict muscle-ups', 'pull', 'bar', 4, 4, 'r', 'lats', 'triceps,chest,biceps,forearms', 'A muscle-up with no swing and no kick – a slow, clean pull, a quiet transition over the bar and a full press.', { f: 'mu', s: 1 });
+E('mu_rings', 'Ring muscle-ups', 'pull', 'rings', 4, 4, 'r', 'lats', 'triceps,chest,biceps', 'False grip on the rings, pull to your chest, quickly turn your elbows over the rings and dip to lockout.', { f: 'mu', s: 1 });
 // Front lever progression
-E('fl_tuck', 'טאק פרונט לבר', 'pull', 'bar|rings', 2, 4, 'h', 'lats', 'abs,rhomboids,rearDelt', 'בתלייה, משכו את הברכיים לחזה והרימו את הגוף עד שהגב מקביל לרצפה. ידיים ישרות, שכמות לחוצות למטה.', { f: 'fl', s: 1 });
-E('fl_advtuck', 'אדבנס טאק פרונט לבר', 'pull', 'bar|rings', 3, 4, 'h', 'lats', 'abs,rhomboids,rearDelt', 'כמו טאק, אך הגב ישר לגמרי והירכיים בזווית 90° לגוף. אגן ניטרלי וידיים נעולות.', { f: 'fl', s: 1 });
-E('fl_straddle', 'סטרדל פרונט לבר', 'pull', 'bar|rings', 4, 4, 'h', 'lats', 'abs,rhomboids,rearDelt,lowerBack', 'רגליים ישרות ופשוקות וכל הגוף אופקי ומקביל לרצפה. ככל שהרגליים פשוקות יותר – קל יותר.', { f: 'fl', s: 1 });
-E('fl_full', 'פרונט לבר מלא', 'pull', 'bar|rings', 4, 4, 'h', 'lats', 'abs,rhomboids,rearDelt,glutes', 'הגוף כולו ישר ואופקי, רגליים צמודות, ידיים ישרות. דחפו את המוט כלפי מטה וכווצו בטן וישבן.', { f: 'fl', s: 1 });
+E('fl_tuck', 'Tuck front lever', 'pull', 'bar|rings', 2, 4, 'h', 'lats', 'abs,rhomboids,rearDelt', 'From a hang, pull your knees to your chest and raise your body until your back is parallel to the floor. Arms straight, shoulder blades pressed down.', { f: 'fl', s: 1 });
+E('fl_advtuck', 'Advanced tuck front lever', 'pull', 'bar|rings', 3, 4, 'h', 'lats', 'abs,rhomboids,rearDelt', 'Like the tuck, but with a fully flat back and hips at 90° to your torso. Neutral pelvis, arms locked.', { f: 'fl', s: 1 });
+E('fl_straddle', 'Straddle front lever', 'pull', 'bar|rings', 4, 4, 'h', 'lats', 'abs,rhomboids,rearDelt,lowerBack', 'Legs straight and spread, whole body horizontal and parallel to the floor. The wider the legs, the easier it is.', { f: 'fl', s: 1 });
+E('fl_full', 'Full front lever', 'pull', 'bar|rings', 4, 4, 'h', 'lats', 'abs,rhomboids,rearDelt,glutes', 'Whole body straight and horizontal, legs together, arms straight. Press the bar down and squeeze your abs and glutes.', { f: 'fl', s: 1 });
 // Back lever progression
-E('bl_skin', 'סקין דה קאט', 'pull', 'bar|rings', 2, 4, 'r', 'shoulders', 'lats,biceps,abs', 'מתלייה, הרימו את הרגליים ועברו דרך הידיים לתלייה הפוכה (גרמן הנג), ואז חזרו לאט באותה הדרך.', { f: 'bl', s: 1 });
-E('bl_tuck', 'טאק בק לבר', 'pull', 'bar|rings', 3, 4, 'h', 'lats', 'shoulders,biceps,chest,lowerBack', 'מתלייה הפוכה, הורידו את הגוף בטאק עד שהגב מקביל לרצפה, פנים כלפי מטה. ידיים ישרות לחלוטין.', { f: 'bl', s: 1 });
-E('bl_straddle', 'סטרדל בק לבר', 'pull', 'bar|rings', 4, 4, 'h', 'lats', 'shoulders,biceps,chest,lowerBack,glutes', 'הגוף אופקי עם רגליים ישרות ופשוקות, פנים לרצפה. אגן ישר – אל תתנו לו לשקוע.', { f: 'bl', s: 1 });
-E('bl_full', 'בק לבר מלא', 'pull', 'bar|rings', 4, 4, 'h', 'lats', 'shoulders,biceps,chest,lowerBack,glutes', 'כל הגוף ישר ואופקי עם רגליים צמודות. כווצו ישבן ובטן ושמרו על כתפיים יציבות.', { f: 'bl', s: 1 });
+E('bl_skin', 'Skin the cat', 'pull', 'bar|rings', 2, 4, 'r', 'shoulders', 'lats,biceps,abs', 'From a hang, lift your legs and pass them through your arms into an inverted hang (German hang), then return slowly the same way.', { f: 'bl', s: 1 });
+E('bl_tuck', 'Tuck back lever', 'pull', 'bar|rings', 3, 4, 'h', 'lats', 'shoulders,biceps,chest,lowerBack', 'From an inverted hang, lower your body in a tuck until your back is parallel to the floor, facing down. Arms completely straight.', { f: 'bl', s: 1 });
+E('bl_straddle', 'Straddle back lever', 'pull', 'bar|rings', 4, 4, 'h', 'lats', 'shoulders,biceps,chest,lowerBack,glutes', 'Body horizontal with legs straight and spread, facing the floor. Keep your hips level – don\'t let them sag.', { f: 'bl', s: 1 });
+E('bl_full', 'Full back lever', 'pull', 'bar|rings', 4, 4, 'h', 'lats', 'shoulders,biceps,chest,lowerBack,glutes', 'Whole body straight and horizontal with legs together. Squeeze your glutes and abs and keep your shoulders stable.', { f: 'bl', s: 1 });
 
 // ---------- LEGS ----------
-E('squat', 'סקוואט', 'legs', '', 1, 2, 'r', 'quads', 'glutes,hamstrings', 'רגליים ברוחב כתפיים וחזה זקוף. רדו כאילו מתיישבים על כיסא עד שהירכיים מקבילות לרצפה, ועלו דרך העקבים.');
-E('jump_squat', 'סקוואט קפיצה', 'legs', '', 1, 3, 'r', 'quads', 'glutes,calves', 'רדו לסקוואט וקפצו בפיצוץ למעלה. נחתו רך על כריות כפות הרגליים ועברו ישר לחזרה הבאה.');
-E('lunge', 'לאנג׳ (מכרע קדמי)', 'legs', '', 1, 2, 'r', 'quads', 'glutes,hamstrings', 'צעד גדול קדימה ורדו עד שהברך האחורית כמעט נוגעת ברצפה. ברך קדמית מעל הקרסול. החליפו רגליים.', { side: 1 });
-E('rev_lunge', 'מכרע אחורי', 'legs', '', 1, 3, 'r', 'glutes', 'quads,hamstrings', 'צעד גדול אחורה ורדו בשליטה. דחפו דרך העקב הקדמי כדי לחזור לעמידה.', { side: 1 });
-E('lat_lunge', 'מכרע צידי', 'legs', '', 1, 2, 'r', 'adductors', 'quads,glutes', 'צעד רחב לצד, שבו לאחור על הרגל הכפופה בעוד השנייה ישרה. דחפו חזרה למרכז.', { side: 1 });
-E('step_up', 'עליות על מדרגה', 'legs', '', 1, 2, 'r', 'quads', 'glutes', 'עלו על כיסא יציב או מדרגה גבוהה בעזרת הרגל העליונה בלבד, בלי לדחוף מהרגל התחתונה.', { side: 1 });
-E('wall_sit', 'ישיבה על קיר', 'legs', '', 1, 2, 'h', 'quads', 'glutes', 'גב צמוד לקיר, ברכיים ב־90° וירכיים מקבילות לרצפה. החזיקו את התנוחה ונשמו באופן קבוע.', { iso: 1 });
-E('glute_bridge', 'גשר ישבן', 'legs', '', 1, 2, 'r', 'glutes', 'hamstrings,lowerBack', 'שכבו על הגב עם ברכיים כפופות. דחפו דרך העקבים והרימו את האגן עד קו ישר מהברכיים לכתפיים. כווצו ישבן למעלה.', { iso: 1 });
-E('sl_bridge', 'גשר ישבן על רגל אחת', 'legs', '', 2, 3, 'r', 'glutes', 'hamstrings', 'כמו גשר ישבן, אך רגל אחת ישרה באוויר. הרימו את האגן בלי לסובב אותו לצדדים.', { side: 1, iso: 1 });
-E('calf_raise', 'הרמות עקבים', 'legs', '', 1, 3, 'r', 'calves', '', 'עמדו על קצה מדרגה, רדו עם העקבים למתיחה ועלו גבוה ככל האפשר על קצות האצבעות. החזיקו שנייה למעלה.', { iso: 1 });
-E('sl_calf', 'הרמות עקבים על רגל אחת', 'legs', '', 2, 4, 'r', 'calves', '', 'על רגל אחת על קצה מדרגה. טווח מלא – מתיחה עמוקה למטה ועלייה מלאה למעלה, בקצב איטי.', { side: 1, iso: 1 });
-E('bulgarian', 'סקוואט בולגרי', 'legs', '', 2, 3, 'r', 'quads', 'glutes,hamstrings', 'רגל אחורית על כיסא ורגל קדמית רחוקה מספיק. רדו אנכית עד שהירך הקדמית מקבילה לרצפה ודחפו למעלה.', { side: 1 });
-E('cossack', 'סקוואט קוזאק', 'legs', '', 2, 3, 'r', 'adductors', 'quads,glutes,hamstrings', 'עמידה רחבה מאוד. רדו לצד אחד לישיבה עמוקה כשהרגל השנייה ישרה ובהונותיה כלפי מעלה. עברו לצד השני.', { side: 1 });
-E('ham_slide', 'כפיפות ברך בהחלקה', 'legs', '', 2, 3, 'r', 'hamstrings', 'glutes,calves', 'שכבו על הגב עם העקבים על מגבת על רצפה חלקה. הרימו אגן והחליקו את העקבים לכיוון הישבן וחזרה.');
-E('broad_jump', 'קפיצה לרוחק', 'legs', '', 2, 3, 'r', 'quads', 'glutes,hamstrings,calves', 'עמדו ברוחב אגן, הניפו ידיים וקפצו קדימה רחוק ככל האפשר. נחתו רך בסקוואט, התייצבו וחזרו.');
-E('shrimp', 'שרימפ סקוואט', 'legs', '', 3, 4, 'r', 'quads', 'glutes', 'על רגל אחת, אחזו את הרגל השנייה מאחור. רדו עד שהברך האחורית נוגעת ברצפה ועלו חזרה.', { side: 1 });
-E('sissy', 'סיסי סקוואט', 'legs', '', 3, 4, 'r', 'quads', 'abs', 'עמדו על קצות האצבעות ונטו לאחור בזמן שהברכיים נעות קדימה. הגוף ישר מהברכיים ועד הראש. החזיקו משהו לאיזון.');
-E('nordic', 'נורדיק קרל (שלילי)', 'legs', '', 3, 4, 'r', 'hamstrings', 'glutes,calves', 'ברכיים על כרית ועקבים מקובעים (מתחת לספה). רדו קדימה לאט ככל האפשר עם גוף ישר ובלמו עם הידיים.');
-E('skater', 'סקייטר סקוואט', 'legs', '', 3, 4, 'r', 'quads', 'glutes,hamstrings', 'על רגל אחת, הרגל השנייה כפופה מאחור. רדו עד שהברך האחורית נוגעת ברצפה, גו נוטה מעט קדימה.', { side: 1 });
-E('pistol_box', 'פיסטול סקוואט לכיסא', 'legs', '', 2, 4, 'r', 'quads', 'glutes,abs', 'על רגל אחת, הרגל השנייה קדימה. רדו בשליטה עד שהישבן נוגע בכיסא ועלו בלי להיעזר בתנופה.', { f: 'pistol', s: 1, side: 1 });
-E('pistol', 'פיסטול סקוואט', 'legs', '', 3, 4, 'r', 'quads', 'glutes,hamstrings,abs', 'סקוואט מלא על רגל אחת כשהרגל השנייה ישרה קדימה. עקב על הרצפה וידיים קדימה לאיזון.', { f: 'pistol', s: 1, side: 1 });
-E('pistol_jump', 'פיסטול סקוואט מתפוצץ', 'legs', '', 4, 4, 'r', 'quads', 'glutes,calves,abs', 'רדו לפיסטול מלא ועלו בפיצוץ עד קפיצה קטנה על אותה רגל. נחתו רך ועברו לחזרה הבאה.', { f: 'pistol', s: 1, side: 1 });
+E('squat', 'Squats', 'legs', '', 1, 2, 'r', 'quads', 'glutes,hamstrings', 'Feet shoulder-width, chest up. Lower as if sitting in a chair until your thighs are parallel to the floor, then drive up through your heels.');
+E('jump_squat', 'Jump squats', 'legs', '', 1, 3, 'r', 'quads', 'glutes,calves', 'Drop into a squat and jump up explosively. Land softly on the balls of your feet and flow straight into the next rep.');
+E('lunge', 'Forward lunges', 'legs', '', 1, 2, 'r', 'quads', 'glutes,hamstrings', 'Take a big step forward and lower until your back knee nearly touches the floor. Front knee over the ankle. Alternate legs.', { side: 1 });
+E('rev_lunge', 'Reverse lunges', 'legs', '', 1, 3, 'r', 'glutes', 'quads,hamstrings', 'Take a big step back and lower with control. Push through your front heel to return to standing.', { side: 1 });
+E('lat_lunge', 'Lateral lunges', 'legs', '', 1, 2, 'r', 'adductors', 'quads,glutes', 'Take a wide step to the side and sit back onto the bent leg while the other stays straight. Push back to center.', { side: 1 });
+E('step_up', 'Step-ups', 'legs', '', 1, 2, 'r', 'quads', 'glutes', 'Step onto a sturdy chair or high step using only the top leg, without pushing off the bottom leg.', { side: 1 });
+E('wall_sit', 'Wall sit', 'legs', '', 1, 2, 'h', 'quads', 'glutes', 'Back flat against the wall, knees at 90° and thighs parallel to the floor. Hold the position and breathe steadily.', { iso: 1 });
+E('glute_bridge', 'Glute bridge', 'legs', '', 1, 2, 'r', 'glutes', 'hamstrings,lowerBack', 'Lie on your back with knees bent. Drive through your heels and lift your hips until there\'s a straight line from knees to shoulders. Squeeze your glutes at the top.', { iso: 1 });
+E('sl_bridge', 'Single-leg glute bridge', 'legs', '', 2, 3, 'r', 'glutes', 'hamstrings', 'Like a glute bridge, but with one leg straight in the air. Lift your hips without letting them rotate.', { side: 1, iso: 1 });
+E('calf_raise', 'Calf raises', 'legs', '', 1, 3, 'r', 'calves', '', 'Stand on the edge of a step, drop your heels into a stretch and rise as high as possible onto your toes. Hold a second at the top.', { iso: 1 });
+E('sl_calf', 'Single-leg calf raises', 'legs', '', 2, 4, 'r', 'calves', '', 'On one leg on the edge of a step. Full range – a deep stretch at the bottom and a full rise at the top, at a slow tempo.', { side: 1, iso: 1 });
+E('bulgarian', 'Bulgarian split squats', 'legs', '', 2, 3, 'r', 'quads', 'glutes,hamstrings', 'Back foot on a chair, front foot far enough forward. Lower straight down until your front thigh is parallel to the floor, then drive up.', { side: 1 });
+E('cossack', 'Cossack squats', 'legs', '', 2, 3, 'r', 'adductors', 'quads,glutes,hamstrings', 'Very wide stance. Sink deep to one side while the other leg stays straight with toes pointing up. Switch sides.', { side: 1 });
+E('ham_slide', 'Sliding hamstring curls', 'legs', '', 2, 3, 'r', 'hamstrings', 'glutes,calves', 'Lie on your back with heels on a towel on a smooth floor. Lift your hips and slide your heels toward your glutes and back.');
+E('broad_jump', 'Broad jumps', 'legs', '', 2, 3, 'r', 'quads', 'glutes,hamstrings,calves', 'Stand hip-width, swing your arms and jump forward as far as possible. Land softly in a squat, reset and go again.');
+E('shrimp', 'Shrimp squats', 'legs', '', 3, 4, 'r', 'quads', 'glutes', 'On one leg, hold your other foot behind you. Lower until your back knee touches the floor and stand back up.', { side: 1 });
+E('sissy', 'Sissy squats', 'legs', '', 3, 4, 'r', 'quads', 'abs', 'Rise onto your toes and lean back as your knees travel forward. Body straight from knees to head. Hold something for balance.');
+E('nordic', 'Nordic curls (negative)', 'legs', '', 3, 4, 'r', 'hamstrings', 'glutes,calves', 'Knees on a pad, heels anchored (under a couch). Lower forward as slowly as possible with a straight body and catch yourself with your hands.');
+E('skater', 'Skater squats', 'legs', '', 3, 4, 'r', 'quads', 'glutes,hamstrings', 'On one leg, other leg bent behind you. Lower until your back knee touches the floor, torso leaning slightly forward.', { side: 1 });
+E('pistol_box', 'Box pistol squats', 'legs', '', 2, 4, 'r', 'quads', 'glutes,abs', 'On one leg, the other leg forward. Lower with control until your glutes touch a chair and stand up without using momentum.', { f: 'pistol', s: 1, side: 1 });
+E('pistol', 'Pistol squats', 'legs', '', 3, 4, 'r', 'quads', 'glutes,hamstrings,abs', 'A full squat on one leg with the other leg straight out front. Heel on the floor, arms forward for balance.', { f: 'pistol', s: 1, side: 1 });
+E('pistol_jump', 'Jumping pistol squats', 'legs', '', 4, 4, 'r', 'quads', 'glutes,calves,abs', 'Lower into a full pistol and drive up explosively into a small hop on the same leg. Land softly and flow into the next rep.', { f: 'pistol', s: 1, side: 1 });
 
 // ---------- CORE ----------
-E('plank', 'פלאנק', 'core', '', 1, 3, 'h', 'abs', 'shoulders,obliques', 'על האמות והבהונות, גוף בקו ישר. כווצו בטן וישבן ואל תתנו לאגן לשקוע.');
-E('side_plank', 'פלאנק צידי', 'core', '', 1, 3, 'h', 'obliques', 'abs,glutes', 'על אמה אחת, גוף בקו ישר מהראש ועד כפות הרגליים. הרימו את האגן ואל תתנו לו לשקוע.', { side: 1 });
-E('crunch', 'כפיפות בטן', 'core', '', 1, 1, 'r', 'abs', '', 'על הגב עם ברכיים כפופות. הרימו את השכמות מהרצפה תוך כיווץ בטן, בלי למשוך את הצוואר.');
-E('dead_bug', 'דד באג', 'core', '', 1, 2, 'r', 'abs', 'hipFlexors', 'על הגב, ידיים למעלה וברכיים ב־90°. הורידו יד ורגל נגדיות לאט, כשהגב התחתון צמוד לרצפה.');
-E('hollow', 'הולו הולד', 'core', '', 1, 3, 'h', 'abs', 'hipFlexors', 'על הגב, גב תחתון צמוד לרצפה. הרימו כתפיים ורגליים ישרות לגובה נמוך – הגוף בצורת סירה.');
-E('leg_raise', 'הרמות רגליים בשכיבה', 'core', '', 1, 2, 'r', 'abs', 'hipFlexors', 'על הגב, רגליים ישרות. הרימו עד 90° והורידו לאט בלי לגעת ברצפה, גב תחתון צמוד.');
-E('mountain', 'מטפסי הרים', 'core', '', 1, 2, 'r', 'abs', 'hipFlexors,shoulders,quads', 'במצב שכיבת סמיכה, הביאו ברכיים לחזה לסירוגין בקצב מהיר. אגן נמוך ויציב.');
-E('bicycle', 'בטן אופניים', 'core', '', 1, 2, 'r', 'obliques', 'abs,hipFlexors', 'על הגב, ידיים מאחורי הראש. קרבו מרפק לברך הנגדית לסירוגין תוך יישור הרגל השנייה.');
-E('russian_twist', 'סיבובים רוסיים', 'core', '', 1, 2, 'r', 'obliques', 'abs', 'ישיבה עם גב נוטה לאחור ורגליים מורמות. סובבו את הגו מצד לצד וגעו ברצפה ליד הירך.');
-E('shoulder_tap', 'פלאנק עם נגיעה בכתף', 'core', '', 1, 2, 'r', 'abs', 'obliques,shoulders', 'במצב שכיבת סמיכה, רגליים מעט פשוקות. געו ביד בכתף הנגדית לסירוגין בלי לסובב את האגן.');
-E('arch_hold', 'החזקת קשת', 'core', '', 1, 3, 'h', 'lowerBack', 'glutes,rhomboids', 'על הבטן, הרימו ידיים ורגליים ישרות מהרצפה – הגוף בצורת קשת – והחזיקו. ההפך של הולו הולד.');
-E('v_up', 'V־אפ', 'core', '', 2, 3, 'r', 'abs', 'hipFlexors', 'ממצב הולו, הרימו בו־זמנית ידיים ורגליים ישרות ונגעו בבהונות למעלה. רדו לאט חזרה.');
-E('hang_knee', 'הרמות ברכיים בתלייה', 'core', 'bar|rings', 1, 2, 'r', 'abs', 'hipFlexors,forearms', 'בתלייה מהמוט, הרימו ברכיים לחזה בלי תנופה ורדו לאט.');
-E('hang_leg', 'הרמות רגליים בתלייה', 'core', 'bar|rings', 2, 3, 'r', 'abs', 'hipFlexors,forearms', 'בתלייה, הרימו רגליים ישרות לפחות לגובה המותניים – בשליטה ובלי נדנוד.');
-E('ttb', 'בהונות למוט', 'core', 'bar', 3, 4, 'r', 'abs', 'hipFlexors,lats,forearms', 'בתלייה, הרימו רגליים ישרות עד שהבהונות נוגעות במוט. רדו לאט בלי להתנדנד.');
-E('windshield', 'מגבים (ווינדשילד וייפרס)', 'core', 'bar', 4, 4, 'r', 'obliques', 'abs,lats,forearms', 'בתלייה עם רגליים מורמות עד המוט, סובבו את הרגליים מצד לצד כמו מגבים של רכב.');
-E('ring_rollout', 'גלגול בטן בטבעות', 'core', 'rings', 3, 4, 'r', 'abs', 'lats,shoulders', 'טבעות נמוכות, על הברכיים או הרגליים. גלגלו את הידיים קדימה עד מתיחה מלאה ומשכו חזרה עם הבטן בלי לקשת גב.');
+E('plank', 'Plank', 'core', '', 1, 3, 'h', 'abs', 'shoulders,obliques', 'On forearms and toes, body in a straight line. Squeeze your abs and glutes and don\'t let your hips sag.');
+E('side_plank', 'Side plank', 'core', '', 1, 3, 'h', 'obliques', 'abs,glutes', 'On one forearm, body in a straight line from head to feet. Lift your hips and don\'t let them drop.', { side: 1 });
+E('crunch', 'Crunches', 'core', '', 1, 1, 'r', 'abs', '', 'On your back with knees bent. Lift your shoulder blades off the floor by contracting your abs, without pulling on your neck.');
+E('dead_bug', 'Dead bug', 'core', '', 1, 2, 'r', 'abs', 'hipFlexors', 'On your back, arms up and knees at 90°. Slowly lower the opposite arm and leg while keeping your lower back pressed to the floor.');
+E('hollow', 'Hollow body hold', 'core', '', 1, 3, 'h', 'abs', 'hipFlexors', 'On your back, lower back pressed to the floor. Lift your shoulders and straight legs a little – your body forms a banana shape.');
+E('leg_raise', 'Lying leg raises', 'core', '', 1, 2, 'r', 'abs', 'hipFlexors', 'On your back, legs straight. Raise them to 90° and lower slowly without touching the floor, lower back flat.');
+E('mountain', 'Mountain climbers', 'core', '', 1, 2, 'r', 'abs', 'hipFlexors,shoulders,quads', 'In a push-up position, drive your knees to your chest alternately at a fast pace. Hips low and stable.');
+E('bicycle', 'Bicycle crunches', 'core', '', 1, 2, 'r', 'obliques', 'abs,hipFlexors', 'On your back, hands behind your head. Bring each elbow toward the opposite knee in turn while extending the other leg.');
+E('russian_twist', 'Russian twists', 'core', '', 1, 2, 'r', 'obliques', 'abs', 'Sit leaning back with your feet raised. Rotate your torso side to side and touch the floor beside your hip.');
+E('shoulder_tap', 'Plank shoulder taps', 'core', '', 1, 2, 'r', 'abs', 'obliques,shoulders', 'In a push-up position, feet slightly apart. Tap each hand to the opposite shoulder in turn without rotating your hips.');
+E('arch_hold', 'Arch hold', 'core', '', 1, 3, 'h', 'lowerBack', 'glutes,rhomboids', 'On your stomach, lift your straight arms and legs off the floor into an arch and hold. The opposite of the hollow hold.');
+E('v_up', 'V-ups', 'core', '', 2, 3, 'r', 'abs', 'hipFlexors', 'From a hollow position, lift your straight arms and legs at the same time and touch your toes at the top. Lower slowly.');
+E('hang_knee', 'Hanging knee raises', 'core', 'bar|rings', 1, 2, 'r', 'abs', 'hipFlexors,forearms', 'Hanging from the bar, raise your knees to your chest without swinging and lower slowly.');
+E('hang_leg', 'Hanging leg raises', 'core', 'bar|rings', 2, 3, 'r', 'abs', 'hipFlexors,forearms', 'Hanging, raise straight legs at least to hip height – controlled and without swinging.');
+E('ttb', 'Toes to bar', 'core', 'bar', 3, 4, 'r', 'abs', 'hipFlexors,lats,forearms', 'Hanging, raise straight legs until your toes touch the bar. Lower slowly without swinging.');
+E('windshield', 'Windshield wipers', 'core', 'bar', 4, 4, 'r', 'obliques', 'abs,lats,forearms', 'Hanging with legs raised to the bar, rotate your legs side to side like car windshield wipers.');
+E('ring_rollout', 'Ring rollouts', 'core', 'rings', 3, 4, 'r', 'abs', 'lats,shoulders', 'Rings set low, on your knees or feet. Roll your arms forward to a full stretch and pull back with your abs without arching your back.');
 // L-sit progression
-E('lsit_tuck', 'טאק סיט', 'core', '', 1, 4, 'h', 'abs', 'hipFlexors,triceps', 'ידיים על הרצפה ליד הירכיים. דחפו למטה והרימו ישבן ורגליים מקופלות מהרצפה.', { f: 'lsit', s: 1 });
-E('lsit_one', 'L־סיט על רגל אחת', 'core', '', 2, 4, 'h', 'abs', 'hipFlexors,triceps,quads', 'כמו טאק סיט, אך רגל אחת ישרה קדימה. החליפו רגל בכל סט או באמצע ההחזקה.', { f: 'lsit', s: 1 });
-E('lsit', 'L־סיט', 'core', '', 3, 4, 'h', 'abs', 'hipFlexors,triceps,quads', 'בתמיכה על ידיים ישרות, רגליים ישרות קדימה ומקבילות לרצפה. כתפיים לחוצות למטה.', { f: 'lsit', s: 1 });
-E('vsit', 'V־סיט', 'core', '', 4, 4, 'h', 'abs', 'hipFlexors,triceps,shoulders', 'מ־L־סיט, הרימו את הרגליים גבוה מעל המותניים תוך דחיפת הרצפה והטיית הכתפיים לאחור.', { f: 'lsit', s: 1 });
+E('lsit_tuck', 'Tuck sit', 'core', '', 1, 4, 'h', 'abs', 'hipFlexors,triceps', 'Hands on the floor beside your hips. Push down and lift your glutes and tucked legs off the floor.', { f: 'lsit', s: 1 });
+E('lsit_one', 'One-leg L-sit', 'core', '', 2, 4, 'h', 'abs', 'hipFlexors,triceps,quads', 'Like a tuck sit, but with one leg straight out front. Switch legs each set or midway through the hold.', { f: 'lsit', s: 1 });
+E('lsit', 'L-sit', 'core', '', 3, 4, 'h', 'abs', 'hipFlexors,triceps,quads', 'In support on straight arms, legs straight out front and parallel to the floor. Shoulders pressed down.', { f: 'lsit', s: 1 });
+E('vsit', 'V-sit', 'core', '', 4, 4, 'h', 'abs', 'hipFlexors,triceps,shoulders', 'From an L-sit, lift your legs high above your hips while pushing the floor away and leaning your shoulders back.', { f: 'lsit', s: 1 });
 // Dragon flag
-E('df_neg', 'דרגון פלאג שלילי', 'core', '', 3, 4, 'r', 'abs', 'obliques,lats', 'על ספסל, אחזו במשהו יציב מאחורי הראש. עלו לגוף ישר על השכמות ורדו לאט מאוד כגוש אחד.', { f: 'df', s: 1 });
-E('df', 'דרגון פלאג', 'core', '', 4, 4, 'r', 'abs', 'obliques,lats,lowerBack', 'גוף ישר לחלוטין שנשען על השכמות. רדו ועלו בשליטה מלאה בלי לכופף את הירכיים.', { f: 'df', s: 1 });
+E('df_neg', 'Negative dragon flags', 'core', '', 3, 4, 'r', 'abs', 'obliques,lats', 'On a bench, hold something solid behind your head. Rise to a straight body on your shoulder blades and lower very slowly as one piece.', { f: 'df', s: 1 });
+E('df', 'Dragon flags', 'core', '', 4, 4, 'r', 'abs', 'obliques,lats,lowerBack', 'A fully straight body resting on your shoulder blades. Lower and raise with full control without bending at the hips.', { f: 'df', s: 1 });
 // Human flag
-E('flag_tuck', 'טאק הומן פלאג', 'core', 'bar', 3, 4, 'h', 'obliques', 'lats,shoulders,abs', 'אחזו בעמוד אנכי – יד עליונה מושכת ויד תחתונה דוחפת. הרימו את הגוף לצד עם ברכיים מקופלות.', { f: 'flag', s: 1 });
-E('flag', 'הומן פלאג', 'core', 'bar', 4, 4, 'h', 'obliques', 'lats,shoulders,abs,triceps', 'גוף ישר ואופקי לצד העמוד, ידיים נעולות. יד עליונה מושכת, יד תחתונה דוחפת בכוח.', { f: 'flag', s: 1 });
+E('flag_tuck', 'Tuck human flag', 'core', 'bar', 3, 4, 'h', 'obliques', 'lats,shoulders,abs', 'Grip a vertical pole – top hand pulls, bottom hand pushes. Lift your body sideways with knees tucked.', { f: 'flag', s: 1 });
+E('flag', 'Human flag', 'core', 'bar', 4, 4, 'h', 'obliques', 'lats,shoulders,abs,triceps', 'Body straight and horizontal beside the pole, arms locked. Top hand pulls, bottom hand pushes hard.', { f: 'flag', s: 1 });
 
 // ---------- FULL BODY ----------
-E('burpee', 'ברפי', 'full', '', 1, 3, 'r', 'quads', 'chest,shoulders,abs', 'רדו לסקוואט, ידיים לרצפה, קפצו לשכיבת סמיכה, חזרו לסקוואט וקפצו למעלה עם ידיים מעל הראש.');
-E('bear_crawl', 'זחילת דוב', 'full', '', 1, 2, 'h', 'shoulders', 'abs,quads', 'על ידיים וכפות רגליים, ברכיים מעט מעל הרצפה. זחלו קדימה ואחורה בצעדים קטנים, גב שטוח.');
-E('inchworm', 'תולעת עם שכיבת סמיכה', 'full', '', 1, 2, 'r', 'shoulders', 'chest,hamstrings,abs', 'מעמידה, התכופפו וידיים לרצפה, "הלכו" עם הידיים קדימה לשכיבת סמיכה, בצעו אחת וחזרו לעמידה.');
-E('burpee_pullup', 'ברפי עם מתח', 'full', 'bar', 2, 4, 'r', 'lats', 'chest,quads,biceps', 'בצעו ברפי, ובקפיצה תפסו את המוט ובצעו מתח. רדו וחזרו מיד לחזרה הבאה.');
+E('burpee', 'Burpees', 'full', '', 1, 3, 'r', 'quads', 'chest,shoulders,abs', 'Squat down, hands to the floor, jump back to a push-up position, return to the squat and jump up with your hands overhead.');
+E('bear_crawl', 'Bear crawl', 'full', '', 1, 2, 'h', 'shoulders', 'abs,quads', 'On hands and feet with knees just off the floor. Crawl forward and back in small steps, back flat.');
+E('inchworm', 'Inchworm push-ups', 'full', '', 1, 2, 'r', 'shoulders', 'chest,hamstrings,abs', 'From standing, bend down with hands to the floor, walk your hands out to a push-up, do one rep and walk back to standing.');
+E('burpee_pullup', 'Burpee pull-ups', 'full', 'bar', 2, 4, 'r', 'lats', 'chest,quads,biceps', 'Do a burpee, jump to catch the bar and do a pull-up. Drop down and go straight into the next rep.');
 
 const EXM = Object.fromEntries(EX.map(e => [e.id, e]));
 
 // Warm-up & stretches. areas: '*' = all
 const WARM = [
-  ['קפיצות כוכב', '45 שניות', '*', '', 'קפיצות קלות עם פתיחת ידיים ורגליים להעלאת הדופק.', 1],
-  ['ריצה במקום עם ברכיים גבוהות', '45 שניות', '*', '', 'הרימו ברכיים לגובה המותניים והניעו את הידיים בקצב.', 1],
-  ['סיבובי ידיים', '15 קדימה + 15 אחורה', 'upper,push,pull,full', '', 'ידיים ישרות לצדדים, סיבובים מקטנים לגדולים.'],
-  ['סיבובי שורש כף יד', '30 שניות', 'upper,push,pull,full,core', '', 'שלבו אצבעות וסובבו את פרקי הידיים לשני הכיוונים. חשוב במיוחד לפני עמידות ידיים.'],
-  ['שכיבות סמיכה לשכמות', '10 חזרות', 'upper,push,full', '', 'במצב שכיבת סמיכה עם ידיים ישרות, קרבו ורחקו את השכמות.'],
-  ['משיכות שכמות בתלייה', '10 חזרות', 'upper,pull', 'bar', 'בתלייה, משכו כתפיים למטה ושחררו, בלי לכופף מרפקים.'],
-  ['תלייה פסיבית', '20 שניות', 'upper,pull', 'bar', 'תלייה רגועה מהמוט לפתיחת הכתפיים והגב.'],
-  ['פתיחת חזה דינמית', '15 חזרות', 'upper,push', '', 'פתחו ידיים לצדדים לאחור וחבקו קדימה בקצב.'],
-  ['חתול־פרה', '8 חזרות', 'core,legs,full,pull', '', 'על ארבע, עגלו את הגב למעלה ואז קשתו אותו למטה עם הנשימה.'],
-  ['נדנודי רגליים', '10 לכל רגל', 'legs,full,core', '', 'אחזו בקיר והניפו רגל קדימה-אחורה ואז הצידה.'],
-  ['סיבובי אגן', '10 לכל כיוון', 'legs,core', '', 'ידיים על המותניים, סיבובים רחבים של האגן.'],
-  ['סקוואט איטי לחימום', '10 חזרות', 'legs,full', '', 'סקוואט עמוק ואיטי, השהו שנייה בתחתית.'],
-  ['מכרע עם סיבוב גו', '5 לכל צד', 'legs,full,core', '', 'צעד מכרע וסובבו את הגו לכיוון הרגל הקדמית.'],
-  ['דד באג איטי', '6 לכל צד', 'core', '', 'תנועות איטיות ומבוקרות להפעלת שרירי הליבה.'],
-  ['הרמות עקבים מהירות', '20 חזרות', 'legs', '', 'הרמות עקבים קלות ומהירות לחימום השוקיים והקרסוליים.']
+  ['Jumping jacks', '45 seconds', '*', '', 'Light jumps opening your arms and legs to raise your heart rate.', 1],
+  ['High knees in place', '45 seconds', '*', '', 'Drive your knees to hip height and pump your arms in rhythm.', 1],
+  ['Arm circles', '15 forward + 15 back', 'upper,push,pull,full', '', 'Arms straight out to the sides, circles from small to large.'],
+  ['Wrist circles', '30 seconds', 'upper,push,pull,full,core', '', 'Interlace your fingers and rotate your wrists both ways. Especially important before handstands.'],
+  ['Scapular push-ups', '10 reps', 'upper,push,full', '', 'In a push-up position with straight arms, squeeze and spread your shoulder blades.'],
+  ['Scapular pulls', '10 reps', 'upper,pull', 'bar', 'Hanging, pull your shoulders down and release, without bending your elbows.'],
+  ['Passive hang', '20 seconds', 'upper,pull', 'bar', 'A relaxed hang from the bar to open up your shoulders and back.'],
+  ['Dynamic chest openers', '15 reps', 'upper,push', '', 'Open your arms wide behind you and hug forward in rhythm.'],
+  ['Cat-cow', '8 reps', 'core,legs,full,pull', '', 'On all fours, round your back up then arch it down with your breath.'],
+  ['Leg swings', '10 per leg', 'legs,full,core', '', 'Hold a wall and swing one leg forward and back, then side to side.'],
+  ['Hip circles', '10 each way', 'legs,core', '', 'Hands on hips, make wide circles with your pelvis.'],
+  ['Slow warm-up squats', '10 reps', 'legs,full', '', 'Deep, slow squats, pausing a second at the bottom.'],
+  ['Lunge with twist', '5 per side', 'legs,full,core', '', 'Step into a lunge and rotate your torso toward the front leg.'],
+  ['Slow dead bugs', '6 per side', 'core', '', 'Slow, controlled movements to switch on your core.'],
+  ['Quick calf raises', '20 reps', 'legs', '', 'Light, quick calf raises to warm up your calves and ankles.']
 ].map(([n, a, ar, eq, d, cardio]) => ({ n, a, ar: ar.split(','), eq, d, cardio: !!cardio }));
 
 const STRETCH = [
-  ['מתיחת חזה בפתח דלת', '30 שניות לכל צד', 'push,upper,full', '', 'אמה על משקוף הדלת, צעדו קדימה עד מתיחה בחזה.'],
-  ['מתיחת יד אחורית מעל הראש', '30 שניות לכל צד', 'push,upper', '', 'כופפו מרפק מעל הראש ומשכו אותו עדין ביד השנייה.'],
-  ['מתיחת כתף על החזה', '30 שניות לכל צד', 'push,pull,upper,full', '', 'משכו יד ישרה על פני החזה בעזרת היד השנייה.'],
-  ['תנוחת ילד', '45 שניות', 'pull,core,upper,full,legs', '', 'ישבו על העקבים, מתחו ידיים קדימה והניחו מצח על הרצפה.'],
-  ['מתיחת גב רחב בתלייה', '30 שניות', 'pull,upper', 'bar', 'תלייה רפויה מהמוט, נשמו עמוק לתוך הצלעות.'],
-  ['מתיחת אמות ושורש כף יד', '30 שניות', 'push,pull,upper,full', '', 'יד ישרה קדימה, משכו את האצבעות לאחור ואז קדימה.'],
-  ['מתיחת דו־ראשי על הקיר', '30 שניות לכל צד', 'pull,upper', '', 'כף יד על הקיר מאחור, סובבו את הגוף הרחק מהקיר.'],
-  ['מתיחת צוואר וטרפזים', '30 שניות לכל צד', 'push,pull,upper', '', 'הטו את הראש לצד ומשכו בעדינות ביד.'],
-  ['מתיחת ארבע־ראשי בעמידה', '30 שניות לכל צד', 'legs,full', '', 'אחזו בכף הרגל מאחור וקרבו את העקב לישבן.'],
-  ['מתיחת המסטרינג בישיבה', '45 שניות', 'legs,full,core', '', 'ישיבה עם רגליים ישרות, הושיטו ידיים לבהונות עם גב ארוך.'],
-  ['מתיחת יונה', '30 שניות לכל צד', 'legs,full', '', 'רגל קדמית מקופלת לפניכם, רגל אחורית ישרה. נטו קדימה.'],
-  ['מתיחת שוקיים על הקיר', '30 שניות לכל צד', 'legs', '', 'ידיים על הקיר, רגל אחורית ישרה ועקב לרצפה.'],
-  ['תנוחת קוברה', '30 שניות', 'core,full', '', 'על הבטן, דחפו עם הידיים והרימו את החזה תוך מתיחת הבטן.'],
-  ['פיתול גב בשכיבה', '30 שניות לכל צד', 'core,legs,full,pull', '', 'על הגב, העבירו ברך לצד הנגדי וסובבו את הראש לצד השני.'],
-  ['מתיחת מכופפי ירך במכרע', '30 שניות לכל צד', 'legs,core,full', '', 'ברך אחורית על הרצפה, דחפו את האגן קדימה.']
+  ['Doorway chest stretch', '30 seconds per side', 'push,upper,full', '', 'Forearm on the door frame, step forward until you feel a stretch in your chest.'],
+  ['Overhead triceps stretch', '30 seconds per side', 'push,upper', '', 'Bend one elbow overhead and gently pull it with the other hand.'],
+  ['Cross-body shoulder stretch', '30 seconds per side', 'push,pull,upper,full', '', 'Pull a straight arm across your chest with the other hand.'],
+  ['Child\'s pose', '45 seconds', 'pull,core,upper,full,legs', '', 'Sit back on your heels, reach your arms forward and rest your forehead on the floor.'],
+  ['Hanging lat stretch', '30 seconds', 'pull,upper', 'bar', 'Hang loosely from the bar and breathe deep into your ribs.'],
+  ['Forearm & wrist stretch', '30 seconds', 'push,pull,upper,full', '', 'Arm straight out front, pull your fingers back, then forward.'],
+  ['Wall biceps stretch', '30 seconds per side', 'pull,upper', '', 'Palm on the wall behind you, turn your body away from the wall.'],
+  ['Neck & traps stretch', '30 seconds per side', 'push,pull,upper', '', 'Tilt your head to the side and gently pull with your hand.'],
+  ['Standing quad stretch', '30 seconds per side', 'legs,full', '', 'Hold your foot behind you and bring your heel toward your glutes.'],
+  ['Seated hamstring stretch', '45 seconds', 'legs,full,core', '', 'Sit with legs straight and reach for your toes with a long back.'],
+  ['Pigeon stretch', '30 seconds per side', 'legs,full', '', 'Front leg folded in front of you, back leg straight. Lean forward.'],
+  ['Wall calf stretch', '30 seconds per side', 'legs', '', 'Hands on the wall, back leg straight and heel down.'],
+  ['Cobra pose', '30 seconds', 'core,full', '', 'On your stomach, push up with your hands and lift your chest to stretch your abs.'],
+  ['Lying spinal twist', '30 seconds per side', 'core,legs,full,pull', '', 'On your back, bring one knee across your body and turn your head the other way.'],
+  ['Kneeling hip flexor stretch', '30 seconds per side', 'legs,core,full', '', 'Back knee on the floor, push your hips forward.']
 ].map(([n, a, ar, eq, d]) => ({ n, a, ar: ar.split(','), eq, d }));
 
 /* =========================================================
@@ -733,9 +732,8 @@ function shapeEl(s, cls) {
 function bodySVG(pri, sec, labels) {
   const cls = m => pri.has(m) ? 'mp' : sec.has(m) ? 'ms' : 'mb';
   const fig = (side, ox) => `<g transform="translate(${ox},0)">${SIL}${SHAPES[side].map(s => shapeEl(s, cls(s[0]))).join('')}</g>`;
-  // RTL: front figure on the right, back on the left
-  const lab = labels ? '<text x="190" y="262">מקדימה</text><text x="60" y="262">מאחורה</text>' : '';
-  return `<svg class="body-svg" viewBox="0 0 250 ${labels ? 266 : 250}" role="img" aria-label="מפת שרירים: מקדימה ומאחורה">${fig('b', 0)}${fig('f', 130)}${lab}</svg>`;
+  const lab = labels ? '<text x="60" y="262">Front</text><text x="190" y="262">Back</text>' : '';
+  return `<svg class="body-svg" viewBox="0 0 250 ${labels ? 266 : 250}" role="img" aria-label="Muscle map: front and back">${fig('f', 0)}${fig('b', 130)}${lab}</svg>`;
 }
 
 /* =========================================================
@@ -796,7 +794,7 @@ function prescribe(e, k, s) {
   const key = e.s ? 'strength' : k;          // skills are always trained in a strength scheme
   const sc = SCHEMES[key];
   const val = e.t === 'h' ? (e.s ? sc.skillHold || '5–10' : sc.hold) : sc.reps;
-  return { k: key, sets: setsFor(key, s), val, unit: e.t === 'h' ? 'שניות' : 'חזרות', rest: sc.rest };
+  return { k: key, sets: setsFor(key, s), val, unit: e.t === 'h' ? 'seconds' : 'reps', rest: sc.rest };
 }
 function slotScheme(goal, i, n) {
   if (goal !== 'mixed') return goal;
@@ -872,7 +870,7 @@ function swapExercise(i) {
     cands.filter(e => e.cat === cur.cat)
   ];
   const list = tiers.find(t => t.length);
-  if (!list) { toast('לא נמצא תרגיל חלופי מתאים 🤔'); return false; }
+  if (!list) { toast('No suitable replacement found 🤔'); return false; }
   const inRange = list.filter(e => e.max >= s.level);
   const next = rand(inRange.length ? inRange : list);
   const schemeKey = s.goal === 'mixed' ? slotScheme('mixed', i, w.main.length) : s.goal;
@@ -907,7 +905,7 @@ function estMinutes(w) {
   w.main.forEach(m => { sec += slotSeconds(m); });
   return Math.round(sec / 60);
 }
-function wName(s) { return `${GOALS[s.goal]} · ${AREAS[s.area].name} · ${s.duration} דק׳`; }
+function wName(s) { return `${GOALS[s.goal]} · ${AREAS[s.area].name} · ${s.duration} min`; }
 
 function checkRow(x, phase, i) {
   return `<div class="check-row ${x.done ? 'done' : ''}" data-act="check" data-phase="${phase}" data-i="${i}">
@@ -920,28 +918,28 @@ function exCard(m, i, cls = '') {
   const e = EXM[m.id];
   const goal = state.w.s.goal;
   const tags = [];
-  if (e.s) tags.push('<span class="tag skill">סקיל</span>');
+  if (e.s) tags.push('<span class="tag skill">Skill</span>');
   if (goal === 'mixed' || m.k !== goal) tags.push(`<span class="tag k-${m.k}">${SCHEMES[m.k].name}</span>`);
-  tags.push(`<span class="tag">${e.t === 'h' ? 'סטטי' : 'דינמי'}</span>`);
+  tags.push(`<span class="tag">${e.t === 'h' ? 'Static' : 'Dynamic'}</span>`);
   const complete = m.done.every(Boolean);
   const secTxt = e.sec.length ? e.sec.map(x => MUSCLES[x]).join(', ') : '—';
-  const sets = m.done.map((d, j) => `<button class="set ${d ? 'done' : ''}" data-act="set" data-i="${i}" data-j="${j}">${ICON.check}סט ${j + 1}</button>`).join('');
+  const sets = m.done.map((d, j) => `<button class="set ${d ? 'done' : ''}" data-act="set" data-i="${i}" data-j="${j}">${ICON.check}Set ${j + 1}</button>`).join('');
   return `<article class="card ex ${complete ? 'complete' : ''} ${cls}" data-card="${i}" style="--d:${120 + i * 70}ms">
     <div class="ex-head">
       <div class="ex-num">${i + 1}</div>
       <div class="ex-title"><h3>${esc(e.name)}</h3><div class="tags">${tags.join('')}</div></div>
-      <button class="swap-btn" data-act="swap" data-i="${i}" aria-label="החלף תרגיל">${ICON.swap}החלף</button>
+      <button class="swap-btn" data-act="swap" data-i="${i}" aria-label="Swap exercise">${ICON.swap}Swap</button>
     </div>
     <div class="stats">
-      <div class="stat"><b>${m.sets}</b><span>סטים</span></div>
-      <div class="stat"><b>${m.val}</b><span>${m.unit}${e.side ? ' לכל צד' : ''}</span></div>
-      <button class="stat" data-act="rest" data-i="${i}" title="הפעל טיימר מנוחה"><b>${fmt(m.rest)}</b><span>מנוחה</span></button>
+      <div class="stat"><b>${m.sets}</b><span>sets</span></div>
+      <div class="stat"><b>${m.val}</b><span>${m.unit}${e.side ? ' per side' : ''}</span></div>
+      <button class="stat" data-act="rest" data-i="${i}" title="Start rest timer"><b>${fmt(m.rest)}</b><span>rest</span></button>
     </div>
     <p class="desc">${esc(e.desc)}</p>
     <div class="muscles">
       <div>
-        <div class="mus-line"><span class="dot pri"></span><span class="k">שריר ראשי:</span><b>${MUSCLES[e.pri]}</b></div>
-        <div class="mus-line"><span class="dot sec"></span><span class="k">משניים:</span><span>${secTxt}</span></div>
+        <div class="mus-line"><span class="dot pri"></span><span class="k">Primary:</span><b>${MUSCLES[e.pri]}</b></div>
+        <div class="mus-line"><span class="dot sec"></span><span class="k">Secondary:</span><span>${secTxt}</span></div>
       </div>
       <div>${bodySVG(new Set([e.pri]), new Set(e.sec))}</div>
     </div>
@@ -963,24 +961,24 @@ function summaryCard() {
     .concat([...secSet].sort((a, b) => sec[b] - sec[a]).map(m => `<span class="mchip"><span class="dot sec"></span>${MUSCLES[m]}</span>`)).join('');
   const missing = Object.keys(MUSCLES).filter(m => !all.has(m)).map(m => MUSCLES[m]);
   return `<div class="card enter" style="--d:${200 + state.w.main.length * 70}ms">
-    <div class="h2" style="margin-bottom:12px">📊 סיכום שרירים</div>
+    <div class="h2" style="margin-bottom:12px">📊 Muscle summary</div>
     <div class="sum-grid">
       <div class="sum-map">${bodySVG(priSet, secSet, true)}</div>
       <div>
         <div class="big-num">${all.size}<span style="font-size:16px;color:var(--muted);font-weight:600"> / ${Object.keys(MUSCLES).length}</span></div>
-        <div style="color:var(--muted);font-size:13.5px;margin-bottom:10px">קבוצות שרירים באימון</div>
+        <div style="color:var(--muted);font-size:13.5px;margin-bottom:10px">muscle groups in this workout</div>
         <div class="mchips">${chips}</div>
       </div>
     </div>
-    <div class="legend"><span><span class="dot pri"></span>שריר ראשי (מספר תרגילים)</span><span><span class="dot sec"></span>שריר משני</span></div>
-    ${missing.length && missing.length < 10 ? `<p class="note" style="text-align:right">לא עובדים היום: ${missing.join(', ')}</p>` : ''}
+    <div class="legend"><span><span class="dot pri"></span>Primary muscle (exercise count)</span><span><span class="dot sec"></span>Secondary muscle</span></div>
+    ${missing.length && missing.length < 10 ? `<p class="note" style="text-align:left">Not trained today: ${missing.join(', ')}</p>` : ''}
   </div>`;
 }
 
 function renderWorkout(animate) {
   const el = $('#workout'), w = state.w;
   if (!w) {
-    el.innerHTML = `<div class="card empty"><div class="em">🤸‍♂️</div><h3>מוכן להתאמן?</h3><p>בחר הגדרות ולחץ על "צור אימון" כדי לקבל אימון מותאם אישית.</p></div>`;
+    el.innerHTML = `<div class="card empty"><div class="em">🤸‍♂️</div><h3>Ready to train?</h3><p>Pick your settings and tap "Build workout" to get a workout made for you.</p></div>`;
     return;
   }
   const a = animate ? 'enter' : '';
@@ -990,25 +988,25 @@ function renderWorkout(animate) {
   <div class="wk-head ${a}">
     <div class="wk-top">
       <div class="wk-title">
-        <h2>האימון שלך</h2>
+        <h2>Your workout</h2>
         <div class="meta">
           <span class="pill">🎯 ${GOALS[w.s.goal]}</span><span class="pill">📈 ${LEVELS[w.s.level]}</span>
-          <span class="pill">💪 ${AREAS[w.s.area].name}</span><span class="pill">⏱️ ≈${estMinutes(w)} דק׳</span>
+          <span class="pill">💪 ${AREAS[w.s.area].name}</span><span class="pill">⏱️ ≈${estMinutes(w)} min</span>
         </div>
       </div>
-      <button class="icon-btn fav-btn ${isFav ? 'on' : ''}" data-act="fav" aria-label="שמור במועדפים">${ICON.star}</button>
+      <button class="icon-btn fav-btn ${isFav ? 'on' : ''}" data-act="fav" aria-label="Save to favorites">${ICON.star}</button>
     </div>
     <div class="wk-actions">
-      <button class="btn" data-act="finish">${ICON.flag}סיים אימון</button>
+      <button class="btn" data-act="finish">${ICON.flag}Finish workout</button>
     </div>
   </div>
   <div class="progress ${a}"><div class="bar"><i id="pbar"></i></div><div class="pct" id="pct">0%</div></div>
-  ${w.short ? `<p class="note">💡 לא נמצאו מספיק תרגילים מתאימים לציוד שבחרת – נסה להוסיף ציוד או לבחור אזור אחר.</p>` : ''}
-  <div class="phase ${a}" style="--d:60ms"><span class="em">🔥</span>חימום<small>${w.warm.length} תרגילים</small></div>
+  ${w.short ? `<p class="note">💡 Not enough exercises match your equipment. Try adding equipment or picking another body area.</p>` : ''}
+  <div class="phase ${a}" style="--d:60ms"><span class="em">🔥</span>Warm-up<small>${w.warm.length} exercises</small></div>
   <div class="card ${a}" style="--d:90ms">${w.warm.map((x, i) => checkRow(x, 'warm', i)).join('')}</div>
-  <div class="phase ${a}" style="--d:110ms"><span class="em">💪</span>האימון<small>${w.main.length} תרגילים</small></div>
+  <div class="phase ${a}" style="--d:110ms"><span class="em">💪</span>Workout<small>${w.main.length} exercises</small></div>
   <div id="mainList">${w.main.map((m, i) => exCard(m, i, a)).join('')}</div>
-  <div class="phase ${a}" style="--d:${150 + w.main.length * 70}ms"><span class="em">🧘</span>מתיחות<small>${w.cool.length} תרגילים</small></div>
+  <div class="phase ${a}" style="--d:${150 + w.main.length * 70}ms"><span class="em">🧘</span>Stretches<small>${w.cool.length} exercises</small></div>
   <div class="card ${a}" style="--d:${170 + w.main.length * 70}ms">${w.cool.map((x, i) => checkRow(x, 'cool', i)).join('')}</div>
   ${summaryCard().replace('class="card enter"', `class="card ${a}"`)}`;
   updateProgress(t);
@@ -1057,7 +1055,7 @@ $('#workout').addEventListener('click', async e => {
       old.replaceWith(tmp.firstElementChild);
       refreshSummary();
       updateProgress();
-      toast('התרגיל הוחלף ✨');
+      toast('Exercise swapped ✨');
     }
   } else if (act === 'rest') {
     const m = w.main[+b.dataset.i];
@@ -1066,8 +1064,8 @@ $('#workout').addEventListener('click', async e => {
     toggleFav(b);
   } else if (act === 'finish') {
     const t = totals();
-    if (t.done === 0) { if (await ask('עוד לא סימנת אף סט. למחוק את האימון?', { yes: 'מחק' })) { state.w = null; saveW(); renderWorkout(); } return; }
-    if (await ask('לסיים את האימון עכשיו ולשמור אותו בהיסטוריה?', { yes: 'סיים ושמור' })) finishWorkout(false);
+    if (t.done === 0) { if (await ask('You haven\'t marked any sets yet. Delete this workout?', { yes: 'Delete' })) { state.w = null; saveW(); renderWorkout(); } return; }
+    if (await ask('Finish the workout now and save it to your history?', { yes: 'Finish & save' })) finishWorkout(false);
   }
 });
 
@@ -1082,9 +1080,9 @@ function refreshSummary() {
 function nextLabel(i, j) {
   const w = state.w, m = w.main[i];
   const nextSet = m.done.findIndex(d => !d);
-  if (nextSet !== -1) return `הבא: סט ${nextSet + 1} · ${EXM[m.id].name}`;
+  if (nextSet !== -1) return `Next: set ${nextSet + 1} · ${EXM[m.id].name}`;
   const nx = w.main.findIndex(mm => mm.done.some(d => !d));
-  return nx !== -1 ? `הבא: ${EXM[w.main[nx].id].name}` : 'הבא: מתיחות 🧘';
+  return nx !== -1 ? `Next: ${EXM[w.main[nx].id].name}` : 'Next: stretches 🧘';
 }
 
 function finishWorkout(full) {
@@ -1106,8 +1104,8 @@ function finishWorkout(full) {
   renderStreak();
   renderHistory();
   const st = streakInfo();
-  $('#doneMsg').textContent = full ? 'סיימת את כל האימון! הגוף שלך מודה לך 💪' : `השלמת ${pct}% מהאימון – כל אימון נחשב!`;
-  $('#doneStats').innerHTML = `<div><b>${mins}</b><span>דקות</span></div><div><b>${setsDone}</b><span>סטים</span></div><div><b>🔥 ${st.cur}</b><span>ימים ברצף</span></div>`;
+  $('#doneMsg').textContent = full ? 'You finished the whole workout! Your body thanks you 💪' : `You completed ${pct}% of the workout. Every session counts!`;
+  $('#doneStats').innerHTML = `<div><b>${mins}</b><span>minutes</span></div><div><b>${setsDone}</b><span>sets</span></div><div><b>🔥 ${st.cur}</b><span>day streak</span></div>`;
   $('#doneModal').classList.add('show');
   confetti();
   playTone([523, 659, 784, 1047], 0.13);
@@ -1125,7 +1123,7 @@ function toggleFav(btn) {
     state.favs.splice(idx, 1);
     w.favId = null;
     btn.classList.remove('on');
-    toast('הוסר מהמועדפים');
+    toast('Removed from favorites');
   } else {
     const id = uid();
     state.favs.unshift({
@@ -1140,7 +1138,7 @@ function toggleFav(btn) {
     w.favId = id;
     btn.classList.add('on');
     btn.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.35) rotate(20deg)' }, { transform: 'scale(1)' }], { duration: 400 });
-    toast('נשמר במועדפים ⭐');
+    toast('Saved to favorites ⭐');
   }
   store.set('cg.favs', state.favs);
   saveW();
@@ -1149,7 +1147,7 @@ function toggleFav(btn) {
 async function loadFav(id) {
   const f = state.favs.find(f => f.id === id);
   if (!f) return;
-  if (state.w && !state.w.logged && totals().done > 0 && !(await ask('יש אימון פעיל. להחליף אותו באימון המועדף?', { yes: 'החלף' }))) return;
+  if (state.w && !state.w.logged && totals().done > 0 && !(await ask('You have a workout in progress. Replace it with this favorite?', { yes: 'Replace' }))) return;
   const d = f.data;
   state.w = {
     id: uid(), created: Date.now(), s: d.s,
@@ -1166,7 +1164,7 @@ async function loadFav(id) {
 function renderFavs() {
   const el = $('#favList');
   if (!state.favs.length) {
-    el.innerHTML = `<div class="card empty"><div class="em">⭐</div><h3>אין עדיין מועדפים</h3><p>לחץ על הכוכב באימון שאהבת כדי לשמור אותו כאן.</p></div>`;
+    el.innerHTML = `<div class="card empty"><div class="em">⭐</div><h3>No favorites yet</h3><p>Tap the star on a workout you like to save it here.</p></div>`;
     return;
   }
   el.innerHTML = state.favs.map(f => {
@@ -1175,19 +1173,19 @@ function renderFavs() {
       <div class="item-ic">⭐</div>
       <div class="item-body">
         <div class="item-title">${esc(f.name)}</div>
-        <div class="item-sub">${LEVELS[f.data.s.level]} · ${f.data.main.length} תרגילים · נשמר ${new Date(f.savedAt).toLocaleDateString('he-IL')}</div>
+        <div class="item-sub">${LEVELS[f.data.s.level]} · ${f.data.main.length} exercises · saved ${new Date(f.savedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</div>
         <div class="item-sub" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(names)}</div>
       </div>
       <div class="list-actions">
-        <button class="btn primary" data-load="${f.id}">טען</button>
-        <button class="btn ghost danger" data-del="${f.id}" aria-label="מחק">✕</button>
+        <button class="btn primary" data-load="${f.id}">Load</button>
+        <button class="btn ghost danger" data-del="${f.id}" aria-label="Delete">✕</button>
       </div></div>`;
   }).join('');
 }
 $('#favList').addEventListener('click', async e => {
   const l = e.target.closest('[data-load]'), d = e.target.closest('[data-del]');
   if (l) loadFav(l.dataset.load);
-  if (d && await ask('למחוק את האימון מהמועדפים?', { yes: 'מחק' })) {
+  if (d && await ask('Remove this workout from favorites?', { yes: 'Remove' })) {
     state.favs = state.favs.filter(f => f.id !== d.dataset.del);
     store.set('cg.favs', state.favs);
     if (state.w && state.w.favId === d.dataset.del) { state.w.favId = null; saveW(); }
@@ -1217,38 +1215,38 @@ function streakInfo() {
 function renderStreak() {
   const st = streakInfo();
   $('#streakNum').textContent = st.cur;
-  $('#streakPill').title = `${st.cur} ימי אימון ברצף`;
+  $('#streakPill').title = `${st.cur}-day workout streak`;
 }
 function renderHistory() {
   const st = streakInfo();
   $('#histStats').innerHTML = `
-    <div class="kpi"><b>🔥 ${st.cur}</b><span>ימים ברצף</span></div>
-    <div class="kpi"><b>${st.best}</b><span>שיא רצף</span></div>
-    <div class="kpi"><b>${state.hist.length}</b><span>סה״כ אימונים</span></div>`;
+    <div class="kpi"><b>🔥 ${st.cur}</b><span>day streak</span></div>
+    <div class="kpi"><b>${st.best}</b><span>best streak</span></div>
+    <div class="kpi"><b>${state.hist.length}</b><span>total workouts</span></div>`;
   const el = $('#histList');
   $('#clearHist').hidden = !state.hist.length;
   if (!state.hist.length) {
-    el.innerHTML = `<div class="card empty"><div class="em">📅</div><h3>עדיין אין אימונים</h3><p>כל אימון שתסיים יופיע כאן, יחד עם מונה ימי הרצף שלך.</p></div>`;
+    el.innerHTML = `<div class="card empty"><div class="em">📅</div><h3>No workouts yet</h3><p>Every workout you finish shows up here, along with your day streak.</p></div>`;
     return;
   }
   el.innerHTML = state.hist.map(h => {
     const d = new Date(h.date);
-    const date = d.toLocaleDateString('he-IL', { weekday: 'short', day: 'numeric', month: 'short' });
-    const time = d.toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' });
+    const date = d.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short' });
+    const time = d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
     const em = { strength: '🏋️', hypertrophy: '💪', endurance: '🏃', mixed: '⚡' }[h.goal] || '💪';
     return `<div class="card item">
       <div class="item-ic">${em}</div>
       <div class="item-body">
         <div class="item-title">${GOALS[h.goal]} · ${AREAS[h.area] ? AREAS[h.area].name : ''}</div>
         <div class="item-sub">${date} · ${time}</div>
-        <div class="item-sub">${LEVELS[h.level]} · ${h.duration} דק׳ מתוכנן${h.actual ? ` · ${h.actual} דק׳ בפועל` : ''}</div>
+        <div class="item-sub">${LEVELS[h.level]} · ${h.duration} min planned${h.actual ? ` · ${h.actual} min actual` : ''}</div>
       </div>
-      <span class="badge ${h.pct < 100 ? 'part' : ''}">${h.pct >= 100 ? '✓ הושלם' : h.pct + '%'}</span>
+      <span class="badge ${h.pct < 100 ? 'part' : ''}">${h.pct >= 100 ? '✓ Done' : h.pct + '%'}</span>
     </div>`;
   }).join('');
 }
 $('#clearHist').addEventListener('click', async () => {
-  if (!(await ask('למחוק את כל היסטוריית האימונים? גם מונה הרצף יתאפס.', { yes: 'מחק הכל' }))) return;
+  if (!(await ask('Delete your whole workout history? Your streak will reset too.', { yes: 'Delete all' }))) return;
   state.hist = [];
   store.set('cg.history', state.hist);
   renderHistory(); renderStreak();
@@ -1263,7 +1261,7 @@ function startTimer(sec, next) {
   ensureAudio();
   clearInterval(T.iv);
   Object.assign(T, { total: sec, end: Date.now() + sec * 1000, paused: false, ended: false, lastBeep: null });
-  $('#tLabel').textContent = 'מנוחה';
+  $('#tLabel').textContent = 'Rest';
   $('#tNext').textContent = next || '';
   $('#tPause').textContent = '⏸';
   $('#timer').classList.remove('ended');
@@ -1282,7 +1280,7 @@ function tick() {
   if (left <= 0 && !T.ended) {
     T.ended = true;
     clearInterval(T.iv);
-    $('#tLabel').textContent = 'יאללה, לסט הבא! 💪';
+    $('#tLabel').textContent = 'Time for the next set! 💪';
     $('#timer').classList.add('ended');
     playTone([880, 880, 1320], 0.22, 0.4);
     try { if (navigator.vibrate) navigator.vibrate([250, 120, 250, 120, 400]); } catch (e) {}
@@ -1318,13 +1316,13 @@ $('#timer').addEventListener('click', e => {
   }
 });
 $('#tTime').addEventListener('click', async () => {
-  const v = await ask('כמה שניות מנוחה?', { input: true, value: Math.round(remaining()) || 90, yes: 'הפעל' });
+  const v = await ask('How many seconds of rest?', { input: true, value: Math.round(remaining()) || 90, yes: 'Start' });
   const n = parseInt(v, 10);
   if (n > 0) startTimer(Math.min(n, 3600), $('#tNext').textContent);
 });
 $('#timerFab').addEventListener('click', () => {
   const k = state.w ? (state.w.s.goal === 'mixed' ? 'hypertrophy' : state.w.s.goal) : (state.s.goal === 'mixed' ? 'hypertrophy' : state.s.goal);
-  startTimer(SCHEMES[k].rest, 'טיימר ידני – אפשר לשנות עם ‎+15/−15‎ או בהקשה על הזמן');
+  startTimer(SCHEMES[k].rest, 'Manual timer – adjust with +15/−15 or tap the time');
 });
 
 /* Audio */
@@ -1382,7 +1380,7 @@ $('#settings').addEventListener('click', e => {
   renderSettings();
 });
 $('#genBtn').addEventListener('click', async () => {
-  if (state.w && !state.w.logged && totals().done > 0 && !(await ask('יש אימון בתהליך. ליצור אימון חדש במקומו?', { yes: 'צור חדש' }))) return;
+  if (state.w && !state.w.logged && totals().done > 0 && !(await ask('You have a workout in progress. Build a new one instead?', { yes: 'Build new' }))) return;
   stopTimer();
   const b = $('#genBtn');
   b.classList.remove('spin'); void b.offsetWidth; b.classList.add('spin');
