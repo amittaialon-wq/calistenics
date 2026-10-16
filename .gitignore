@@ -1,0 +1,7 @@
+# Screenshots and test output must never be committed
+*.png
+*.jpg
+*.jpeg
+screenshots/
+test-results/
+playwright-report/
