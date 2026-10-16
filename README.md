@@ -1,4 +1,4 @@
-# calistenics
+# calisthenics
 
 Calisthenics Workout Builder – a web app in a single file (`index.html`).
 
